@@ -56,6 +56,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface {
         accounts.put(user.getName(), user);
         this.save();
     }
+    public User get(String username) {
+        return accounts.get(username);
+    }
 
     private void save() {
         BufferedWriter writer;
