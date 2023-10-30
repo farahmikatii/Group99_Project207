@@ -2,6 +2,7 @@ package data_access;
 
 import entity.User;
 import entity.UserFactory;
+import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
 //import java.time.LocalDateTime;
@@ -44,7 +45,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface {
                     String password = String.valueOf(col[headers.get("password")]);
                     //String creationTimeText = String.valueOf(col[headers.get("creation_time")]);
                     //LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
-                    User user = userFactory.create(username, password, ldt);
+                    User user = userFactory.create(username, password);
                     accounts.put(username, user);
                 }
             }

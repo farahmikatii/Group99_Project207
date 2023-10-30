@@ -1,10 +1,10 @@
 package use_case.signup;
 
-import use_case.signup.SignupOuputData;
+import use_case.signup.SignupOutputData;
 
 public interface SignupOutputBoundary {
 
-    void prepareSuccessView(SignupOuputData user);
+    void prepareSuccessView(SignupOutputData user);
 
     void prepareFailView(String error);
 }
