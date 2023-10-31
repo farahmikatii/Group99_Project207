@@ -1,10 +1,8 @@
-package interface_adapter;
+package interface_adapter.signup;
 
+import interface_adapter.ViewManagerModel;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupOutputData;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class SignupPresenter implements SignupOutputBoundary {
 
