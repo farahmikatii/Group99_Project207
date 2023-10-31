@@ -1,4 +1,4 @@
-package interface_adapter;
+package interface_adapter.signup;
 
 public class SignupState {
     private String username = "";
