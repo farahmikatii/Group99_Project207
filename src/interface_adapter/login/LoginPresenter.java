@@ -1,19 +1,20 @@
-package interface_adapter.signup;
+package interface_adapter.login;
 
-import interface_adapter.ViewManagerModel;
-import use_case.signup.SignupOutputBoundary;
-import use_case.signup.SignupOutputData;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.signup.SignupViewModel;
 import interface_adapter.ViewManagerModel;
+import use_case.login.LoginOutputBoundary;
+import use_case.login.LoginOutputData;
+import interface_adapter.signup.SignupState;
 
-public class SignupPresenter implements SignupOutputBoundary {
+public class LoginPresenter implements LoginOutputBoundary {
 
     private final SignupViewModel signupViewModel;
     private final LoginViewModel loginViewModel;
     private ViewManagerModel viewManagerModel;
 
-    public SignupPresenter(ViewManagerModel viewManagerModel,
+    public LoginPresenter(ViewManagerModel viewManagerModel,
                            SignupViewModel signupViewModel,
                            LoginViewModel loginViewModel) {
         this.viewManagerModel = viewManagerModel;
@@ -22,7 +23,7 @@ public class SignupPresenter implements SignupOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(SignupOutputData response) {
+    public void prepareSuccessView(LoginOutputData response) {
         // On success, switch to the login view.
         //LocalDateTime responseTime = LocalDateTime.parse(response.getCreationTime());
         //response.setCreationTime(responseTime.format(DateTimeFormatter.ofPattern("hh:mm:ss")));
