@@ -6,17 +6,15 @@ class CommonUser implements User {
 
     private final String name;
     private final String password;
-    private final LocalDateTime creationTime;
 
     /**
      * Requires: password is valid.
      * @param name
      * @param password
      */
-    CommonUser(String name, String password, LocalDateTime creationTime) {
+    CommonUser(String name, String password) {
         this.name = name;
         this.password = password;
-        this.creationTime = creationTime;
     }
 
     @Override
@@ -29,8 +27,4 @@ class CommonUser implements User {
         return password;
     }
 
-    @Override
-    public LocalDateTime getCreationTime() {
-        return creationTime;
-    }
 }
