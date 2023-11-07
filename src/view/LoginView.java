@@ -1,7 +1,5 @@
 package view;
-import interface_adapter.signup.SignupController;
-import interface_adapter.signup.SignupState;
-import interface_adapter.signup.SignupViewModel;
+
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
@@ -15,12 +13,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "login";
-
     private final LoginViewModel loginViewModel;
-    private final JTextField usernameInputField = new JTextField(15);
-    private final JPasswordField passwordInputField = new JPasswordField(15);
+
+    final JTextField usernameInputField = new JTextField(15);
+    private final JLabel usernameErrorField = new JLabel();
+
+    final JPasswordField passwordInputField = new JPasswordField(15);
+    private final JLabel passwordErrorField = new JLabel();
+
     private final LoginController loginController;
 
     private final JButton login;
@@ -30,15 +33,15 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
         this.loginController = controller;
         this.loginViewModel = loginViewModel;
-        loginViewModel.addPropertyChangeListener(this);
+        this.loginViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel(LoginViewModel.TITLE_LABEL);
+        JLabel title = new JLabel("Login Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         LabelTextPanel usernameInfo = new LabelTextPanel(
-                new JLabel(LoginViewModel.USERNAME_LABEL), usernameInputField);
+                new JLabel("Username"), usernameInputField);
         LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel(LoginViewModel.PASSWORD_LABEL), passwordInputField);
+                new JLabel("Password"), passwordInputField);
 
         JPanel buttons = new JPanel();
         login = new JButton(LoginViewModel.LOGIN_BUTTON_LABEL);
@@ -62,6 +65,8 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 }
         );
 
+        cancel.addActionListener(this);
+
         usernameInputField.addKeyListener(
                 new KeyListener() {
                     @Override
@@ -80,6 +85,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     public void keyReleased(KeyEvent e) {
                     }
                 });
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         passwordInputField.addKeyListener(
                 new KeyListener() {
@@ -99,15 +105,14 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     public void keyReleased(KeyEvent e) {
 
                     }
-                }
-        );
+                });
 
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
         this.add(usernameInfo);
+        this.add(usernameErrorField);
         this.add(passwordInfo);
+        this.add(passwordErrorField);
         this.add(buttons);
     }
 
@@ -115,14 +120,16 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
      * React to a button click that results in evt.
      */
     public void actionPerformed(ActionEvent evt) {
-        JOptionPane.showConfirmDialog(this, "Cancel not implemented yet.");
+        System.out.println("Click " + evt.getActionCommand());
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         LoginState state = (LoginState) evt.getNewValue();
-        if (state.getUsernameError() != null) {
-            JOptionPane.showMessageDialog(this, state.getUsernameError());
-        }
+        setFields(state);
+    }
+
+    private void setFields(LoginState state){
+        usernameInputField.setText(state.getUsername());
     }
 }

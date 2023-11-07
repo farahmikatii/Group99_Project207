@@ -3,6 +3,7 @@ package app;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -24,7 +25,7 @@ public class SignupUseCaseFactory {
 
         try{
             SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject);
-            return new SignupView(signupController, signupViewModel)
+            return new SignupView(signupController, signupViewModel);
         }
         catch (IOException e){
             JOptionPane.showMessageDialog(null, "Could not open user data file.");

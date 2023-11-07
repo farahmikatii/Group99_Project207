@@ -1,24 +1,21 @@
 package interface_adapter.login;
 
-import interface_adapter.login.LoginState;
-import interface_adapter.login.LoginViewModel;
-import interface_adapter.signup.SignupViewModel;
+
 import interface_adapter.ViewManagerModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
-import interface_adapter.signup.SignupState;
 
 public class LoginPresenter implements LoginOutputBoundary {
 
-    private final SignupViewModel signupViewModel;
     private final LoginViewModel loginViewModel;
+    private final LoggedInViewModel loggedInViewModel;
     private ViewManagerModel viewManagerModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
-                           SignupViewModel signupViewModel,
-                           LoginViewModel loginViewModel) {
+                          LoggedInViewModel loggedInViewModel,
+                          LoginViewModel loginViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.signupViewModel = signupViewModel;
+        this.loggedInViewModel = loggedInViewModel;
         this.loginViewModel = loginViewModel;
     }
 
@@ -28,19 +25,19 @@ public class LoginPresenter implements LoginOutputBoundary {
         //LocalDateTime responseTime = LocalDateTime.parse(response.getCreationTime());
         //response.setCreationTime(responseTime.format(DateTimeFormatter.ofPattern("hh:mm:ss")));
 
-        SignupState signupState = signupViewModel.getState();
-        LoginState loginState = loginViewModel.getState();
-        loginState.setUsername(response.getUsername());
-        this.loginViewModel.setState(loginState);
-        loginViewModel.firePropertyChanged();
-        viewManagerModel.setActiveView(loginViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
+        LoggedInState loggedInState = loggedInViewModel.getstate();
+        loggedInState.setUsername(response.getUsername());
+        this.loggedInViewModel.setState(loggedInState);
+        this.loggedInViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setActiveView(loggedInViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void prepareFailView(String error) {
-        SignupState signupState = signupViewModel.getState();
-        signupState.setUsernameError(error);
-        signupViewModel.firePropertyChanged();
+        LoginState loginState = loginViewModel.getState();
+        loginState.setUsernameError(error);
+        loginViewModel.firePropertyChanged();
     }
 }
