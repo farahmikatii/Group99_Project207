@@ -27,7 +27,7 @@ public class LoginPresenter implements LoginOutputBoundary {
         //LocalDateTime responseTime = LocalDateTime.parse(response.getCreationTime());
         //response.setCreationTime(responseTime.format(DateTimeFormatter.ofPattern("hh:mm:ss")));
 
-        LoggedInState loggedInState = loggedInViewModel.getstate();
+        LoggedInState loggedInState = loggedInViewModel.getState();
         loggedInState.setUsername(response.getUsername());
         this.loggedInViewModel.setState(loggedInState);
         this.loggedInViewModel.firePropertyChanged();
