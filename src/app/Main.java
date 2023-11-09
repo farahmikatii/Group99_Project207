@@ -1,6 +1,7 @@
 package app;
 
 import data_access.FileUserDataAccessObject;
+import data_access.APICallDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -10,6 +11,7 @@ import view.SignupView;
 import view.ViewManager;
 import view.LoginView;
 import interface_adapter.login.LoginViewModel;
+
 
 import okhttp3.*;
 import okio.BufferedSink;
@@ -22,7 +24,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         JFrame application = new JFrame("Reciepe Flow");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,6 +62,9 @@ public class Main {
         application.pack();
         application.setVisible(true);
 
+        //API STUFF
+        // Notes for running: first run the try catch and comment out the code below it,
+        // then when you get the file from the try catch run the code below with the proper path
         try{
             OkHttpClient client = new OkHttpClient();
 
@@ -71,7 +76,7 @@ public class Main {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 assert response.body() != null;
-                String filePath = "response_output.csv"; // Change the file extension or name as needed
+                String filePath = "response_output.json"; // Change the file extension or name as needed
 
                 // Write the response to a file
                 try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
@@ -86,6 +91,12 @@ public class Main {
         } catch(IOException e) {
             throw new IOException("error");
         }
+
+        //To comment out and change path after runing try catch
+        String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.json";
+        String file = APICallDataAccessObject.readFileAsString(jsonFile);
+        APICallDataAccessObject.jsonToCsv(file);
+
 
 
 
