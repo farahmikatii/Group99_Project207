@@ -11,6 +11,12 @@ import view.ViewManager;
 import view.LoginView;
 import interface_adapter.login.LoginViewModel;
 
+import okhttp3.*;
+import okio.BufferedSink;
+import okio.Okio;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -53,6 +59,37 @@ public class Main {
 
         application.pack();
         application.setVisible(true);
+
+        try{
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .url("https://api.edamam.com/api/recipes/v2?app_id=0e94da52&app_key=%20a1c655a3813bf3c3fc6362ee953aa8e3&type=public&mealType=breakfast&mealType=brunch&mealType=lunch&mealType=dinner&mealType=snack&mealType=teatime")
+                    .get()
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                assert response.body() != null;
+                String filePath = "response_output.csv"; // Change the file extension or name as needed
+
+                // Write the response to a file
+                try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
+                    sink.writeAll(response.body().source());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println("API response saved to file: " + filePath);
+            }
+            response.close();
+        } catch(IOException e) {
+            throw new IOException("error");
+        }
+
+
+
+
 
     }
 }
