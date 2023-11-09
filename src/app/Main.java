@@ -63,6 +63,8 @@ public class Main {
         application.setVisible(true);
 
         //API STUFF
+        // Notes for running: first run the try catch and comment out the code below it,
+        // then when you get the file from the try catch run the code below with the proper path
         try{
             OkHttpClient client = new OkHttpClient();
 
@@ -89,6 +91,8 @@ public class Main {
         } catch(IOException e) {
             throw new IOException("error");
         }
+
+        //To comment out and change path after runing try catch
         String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.json";
         String file = APICallDataAccessObject.readFileAsString(jsonFile);
         APICallDataAccessObject.jsonToCsv(file);
