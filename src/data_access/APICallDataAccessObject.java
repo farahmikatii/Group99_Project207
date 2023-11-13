@@ -24,12 +24,17 @@ public class APICallDataAccessObject {
                 JSONObject recipe = hits.getJSONObject(i).getJSONObject("recipe");
                 String name = recipe.getString("label");
                 String source = recipe.getString("source");
-//                String dietLabels = recipe.getString("dietLabels");
-//                String healthLabels = recipe.getString("healthLabels");
-//                String cuisine = recipe.getString("cuisineType");
-//                String mealType = recipe.getString("mealType");
-//                String dishType = recipe.getString("dishType");
-                String[] data = {name, source};
+                JSONArray dietLabelsArray = recipe.getJSONArray("dietLabels");
+                String dietLabels = dietLabelsArray.toString();
+                JSONArray healthLabelsArray = recipe.getJSONArray("healthLabels");
+                String healthLabels = healthLabelsArray.toString();
+                JSONArray cuisineArray = recipe.getJSONArray("cuisineType");
+                String cuisine = cuisineArray.toString();
+                JSONArray mealArray = recipe.getJSONArray("mealType");
+                String mealType = mealArray.toString();
+                JSONArray dishArray = recipe.getJSONArray("dishType");
+                String dishType = dishArray.toString();
+                String[] data = {name, source, dietLabels, healthLabels, cuisine, mealType, dishType};
                 writer.writeNext(data);
 
             }
