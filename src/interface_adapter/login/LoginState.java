@@ -1,6 +1,5 @@
 package interface_adapter.login;
 
-import interface_adapter.login.LoginState;
 
 public class LoginState {
     private String username = "";
