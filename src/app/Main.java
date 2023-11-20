@@ -22,6 +22,7 @@ import java.io.IOException;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -93,9 +94,14 @@ public class Main {
         }
 
         //To comment out and change path after runing try catch
-        String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.json";
-        String file = APICallDataAccessObject.readFileAsString(jsonFile);
-        APICallDataAccessObject.jsonToCsv(file);
+        try{
+            String jsonFile = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json";
+            String file = APICallDataAccessObject.readFileAsString(jsonFile);
+            APICallDataAccessObject.jsonToCsv(file);
+        }
+        catch(IOException e){
+            throw new NoSuchFileException("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json");
+        }
 
 
 
