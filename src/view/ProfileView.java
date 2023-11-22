@@ -1,26 +1,36 @@
 package view;
-
-
-
-import interface_adapter.profile_page.ProfileViewModel;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.uploading.UploadingState;
+import interface_adapter.uploading.UploadingViewModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 
-public class ProfileView extends JPanel implements ActionListener{
+public class ProfileView extends JPanel implements ActionListener, PropertyChangeListener{
 
    // public final String viewName
 
+    private final UploadingViewModel uploadingViewModel;
+
+    private final ViewManagerModel viewManagerModel;
+
     private final JButton saved;
 
-    private final JButton upload;
+    private final JButton uploads;
 
-    private final JButton upload_new;
+    private final JButton uploadNew;
 
-    public ProfileView() {
+    public ProfileView(UploadingViewModel uploadingViewModel, ViewManagerModel viewManagerModel) {
+
+        this.uploadingViewModel = uploadingViewModel;
+        this.viewManagerModel = viewManagerModel;
+        uploadingViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(ProfileViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -28,14 +38,55 @@ public class ProfileView extends JPanel implements ActionListener{
         JPanel buttons = new JPanel();
         saved = new JButton(ProfileViewModel.SAVED_BUTTON_LABEL);
         buttons.add(saved);
-        upload = new JButton(ProfileViewModel.UPLOAD_BUTTON_LABEL);
-        buttons.add(upload);
-        upload_new = new JButton(ProfileViewModel.UPLOAD_NEW_BUTTON_LABEL);
-        buttons.add(upload_new);
+        uploads = new JButton(ProfileViewModel.UPLOAD_BUTTON_LABEL);
+        buttons.add(uploads);
+        uploadNew = new JButton(ProfileViewModel.UPLOAD_NEW_BUTTON_LABEL);
+        buttons.add(uploadNew);
+
+        uploadNew.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(uploadNew)){
+                            UploadingState currentState = uploadingViewModel.getState();
+                            uploadingViewModel.setState(currentState);
+                            uploadingViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(uploadingViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+                        }
+                    }
+
+        }
+        );
+
+        saved.addActionListener(
+                // takes the user to its saved recipes
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                }
+        );
+
+        uploads.addActionListener(
+                // takes the user to its personal uploaded recipes
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                }
+        );
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
 
     }
 }

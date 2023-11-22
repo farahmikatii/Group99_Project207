@@ -6,7 +6,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryUserDataAccessObject implements gotSignupUserDataAccessInterface {
+public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 

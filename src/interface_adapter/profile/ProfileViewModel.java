@@ -1,7 +1,6 @@
-package interface_adapter.profile_page;
+package interface_adapter.profile;
 import interface_adapter.ViewModel;
 import interface_adapter.logged_in.LoggedInState;
-import interface_adapter.profile_page.ProfileState;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -9,7 +8,7 @@ import java.beans.PropertyChangeSupport;
 public class ProfileViewModel extends ViewModel{
     private static final LoggedInState loggedin_state = new LoggedInState();
     public static final String SAVED_BUTTON_LABEL = "Saved Recipes";
-    public static final String UPLOAD_BUTTON_LABEL = "Personal Recipes";
+    public static final String UPLOAD_BUTTON_LABEL = "Uploaded Recipes";
     public static final String UPLOAD_NEW_BUTTON_LABEL = "Upload New Recipe";
 
     public static final String TITLE_LABEL = loggedin_state.getUsername();
