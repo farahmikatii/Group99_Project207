@@ -68,9 +68,37 @@ public class Main {
         // then when you get the file from the try catch run the code below with the proper path
         try{
             OkHttpClient client = new OkHttpClient();
+            String query = "&q=" + "";
+            String cuisine = "&cuisineType=" + "italian";
+            String diet = "&Diet=" + "";
+            String health = "&Health=" + "";
+            String meal = "&mealType=" + "Dinner";
+            String dish = "&dishType=" + "";
+
+            String input = "";
+
+            if (!query.equals("&q=")) {
+                input += query;
+            }
+            if (!cuisine.equals("&cuisineType=")) {
+                input += cuisine;
+            }
+            if (!diet.equals("&Diet=")) {
+                input += diet;
+            }
+            if (!health.equals("&Health=")) {
+                input += health;
+            }
+            if (!meal.equals("&mealType=")) {
+                input += meal;
+            }
+            if (!dish.equals("&dishType=")) {
+                input += dish;
+            }
+
 
             Request request = new Request.Builder()
-                    .url("https://api.edamam.com/api/recipes/v2?app_id=0e94da52&app_key=%20a1c655a3813bf3c3fc6362ee953aa8e3&type=public&mealType=breakfast&mealType=brunch&mealType=lunch&mealType=dinner&mealType=snack&mealType=teatime")
+                    .url("https://api.edamam.com/api/recipes/v2?app_id=0e94da52&app_key=%20a1c655a3813bf3c3fc6362ee953aa8e3&type=public&" + input)
                     .get()
                     .build();
 
@@ -93,15 +121,15 @@ public class Main {
             throw new IOException("error");
         }
 
-        //To comment out and change path after runing try catch
-        try{
-            String jsonFile = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json";
-            String file = APICallDataAccessObject.readFileAsString(jsonFile);
-            APICallDataAccessObject.jsonToCsv(file);
-        }
-        catch(IOException e){
-            throw new NoSuchFileException("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json");
-        }
+//        //To comment out and change path after running try catch
+//        try{
+//            String jsonFile = "C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/response_output.json";
+//            String file = APICallDataAccessObject.readFileAsString(jsonFile);
+//            APICallDataAccessObject.jsonToCsv(file);
+//        }
+//        catch(IOException e){
+//            throw new NoSuchFileException("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json");
+//        }
 
 
 
