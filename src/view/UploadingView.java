@@ -117,7 +117,7 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
         );
 
         back.addActionListener(
-                // takes user back to the profile page
+                // takes user back to the profile view
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(back)){

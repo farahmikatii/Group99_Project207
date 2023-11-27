@@ -1,17 +1,19 @@
 package data_access;
 
+import entity.UploadedRecipe;
 import entity.User;
 import entity.UserFactory;
+import entity.UploadedRecipeFactory;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.uploading.UploadingDataAccessInterface;
 
 import java.io.*;
-//import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface {
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, UploadingDataAccessInterface {
 
     private final File csvFile;
 
@@ -19,7 +21,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     private final Map<String, User> accounts = new HashMap<>();
 
+    private final Map<String, UploadedRecipe> uploadedRecipeMap = new HashMap<>();
+
     private UserFactory userFactory;
+
+    private UploadedRecipeFactory uploadedRecipeFactory;
 
     public FileUserDataAccessObject(String csvPath, UserFactory userFactory) throws IOException {
         this.userFactory = userFactory;
@@ -84,6 +90,42 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
     }
 
+    public void saveUploadedRecipe(UploadedRecipe uploadedRecipe) {
+        uploadedRecipeMap.put(uploadedRecipe.getUploadedRecipeName(), uploadedRecipe);
+        this.saveUploadedRecipe();
+    }
+
+    private void saveUploadedRecipe(){
+        BufferedWriter writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(csvFile));
+            writer.write(String.join(",", headers.keySet()));
+            writer.newLine();
+
+            for (UploadedRecipe uploadedRecipe: uploadedRecipeMap.values()){
+                HashMap<String, Object> uploadedrecipeDataMap = new HashMap<>();
+
+                uploadedrecipeDataMap.put("Name", uploadedRecipe.getUploadedRecipeName());
+                uploadedrecipeDataMap.put("Ingredients", uploadedRecipe.getIngredients());
+                uploadedrecipeDataMap.put("Instructions", uploadedRecipe.getUploadedRecipeName());
+                uploadedrecipeDataMap.put("Image", uploadedRecipe.getImage());
+
+                StringBuilder lineBuilder = new StringBuilder();
+                for (Map.Entry<String, UploadedRecipe> entry : uploadedRecipeMap.entrySet()){
+                    lineBuilder.append(String.format("%s=%s,", entry.getKey(), entry.getValue()));
+                }
+
+                String line = lineBuilder.toString().replaceAll(",$", "");
+                writer.write(line);
+                writer.newLine();
+            }
+            writer.close();
+
+
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+        }
 
     /**
      * Return whether a user exists with username identifier.

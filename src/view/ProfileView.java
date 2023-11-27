@@ -1,6 +1,8 @@
 package view;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.saved.SavedState;
+import interface_adapter.saved.SavedViewModel;
 import interface_adapter.uploading.UploadingState;
 import interface_adapter.uploading.UploadingViewModel;
 
@@ -20,16 +22,18 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     private final ViewManagerModel viewManagerModel;
 
+    private final SavedViewModel savedViewModel;
     private final JButton saved;
 
     private final JButton uploads;
 
     private final JButton uploadNew;
 
-    public ProfileView(UploadingViewModel uploadingViewModel, ViewManagerModel viewManagerModel) {
+    public ProfileView(UploadingViewModel uploadingViewModel, ViewManagerModel viewManagerModel, SavedViewModel savedViewModel) {
 
         this.uploadingViewModel = uploadingViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.savedViewModel = savedViewModel;
         uploadingViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(ProfileViewModel.TITLE_LABEL);
@@ -64,6 +68,13 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(saved)){
+                            SavedState currentState = savedViewModel.getState();
+                            savedViewModel.setState(currentState);
+                            savedViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(savedViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+                        }
 
                     }
                 }
@@ -75,6 +86,7 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
+
                     }
                 }
         );
@@ -82,11 +94,12 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        //TODO: implement
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        //TODO: implement
 
     }
 }
