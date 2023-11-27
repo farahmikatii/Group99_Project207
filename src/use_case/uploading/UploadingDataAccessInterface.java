@@ -1,5 +1,7 @@
 package use_case.uploading;
 
-public interface UploadingDataAccessInterface {
+import entity.UploadedRecipe;
 
+public interface UploadingDataAccessInterface {
+    void saveUploadedRecipe(UploadedRecipe uploadedRecipe);
 }

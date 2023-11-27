@@ -28,7 +28,7 @@ public class UploadingInteractor implements UploadingInputBoundary {
 
             UploadedRecipe uploadedRecipe = uploadedRecipeFactory.create(uploadingInputData.getRecipeName(), uploadingInputData.getRecipeIngredients(), uploadingInputData.getRecipeInstructions(), uploadingInputData.getRecipeImage());
 
-            //TODO: save the uploaded recipe as a data access object
+            uploadingDataAccessInterface.saveUploadedRecipe(uploadedRecipe);
 
             UploadingOutputData uploadingOutputData = new UploadingOutputData(uploadedRecipe.getUploadedRecipeName(), uploadedRecipe.getIngredients(), uploadedRecipe.getInstructions(), uploadedRecipe.getImage());
             uploadingPresenter.prepareSuccessView(uploadingOutputData);
