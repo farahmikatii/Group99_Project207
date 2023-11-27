@@ -5,11 +5,11 @@ import data_access.APICallDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
-import view.LoggedInView;
-import view.SignupView;
-import view.ViewManager;
-import view.LoginView;
+import interface_adapter.uploading.UploadingViewModel;
+import view.*;
 import interface_adapter.login.LoginViewModel;
 
 
@@ -40,10 +40,13 @@ public class Main {
         LoginViewModel loginViewModel = new LoginViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
+        ProfileViewModel profileViewModel = new ProfileViewModel();
+        UploadingViewModel uploadingViewModel = new UploadingViewModel();
+        SavedViewModel savedViewModel = new SavedViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("/Users/duahussain/IdeaProjects/Group99_Project207/users.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -54,8 +57,11 @@ public class Main {
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = new LoggedInView(loggedInViewModel);
+        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel);
         views.add(loggedInView, loggedInView.viewName);
+
+        ProfileView profileView = new ProfileView(uploadingViewModel, viewManagerModel,savedViewModel);
+        views.add(profileView, profileView.viewName);
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
@@ -105,7 +111,7 @@ public class Main {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 assert response.body() != null;
-                String filePath = "response_output.json"; // Change the file extension or name as needed
+                String filePath = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
 
                 // Write the response to a file
                 try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
