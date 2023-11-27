@@ -13,7 +13,7 @@ public class CommonRecipe implements Recipe{
      * @param image
      * @param recipeUrl
      */
-    CommonRecipe(String name, String image, String recipeUrl) {
+    public CommonRecipe(String name, String image, String recipeUrl) {
         this.name = name;
         this.image = image;
         this.recipeUrl = recipeUrl;
