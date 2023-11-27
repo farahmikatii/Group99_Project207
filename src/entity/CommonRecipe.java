@@ -4,18 +4,18 @@ import java.util.List;
 
 public class CommonRecipe implements Recipe{
     private final String name;
-    private final String image;
+    private final String imagePath;
     private final String recipeUrl;
 
     /**
      *
      * @param name
-     * @param image
+     * @param imagePath
      * @param recipeUrl
      */
-    public CommonRecipe(String name, String image, String recipeUrl) {
+    public CommonRecipe(String name, String imagePath, String recipeUrl) {
         this.name = name;
-        this.image = image;
+        this.imagePath = imagePath;
         this.recipeUrl = recipeUrl;
     }
 
@@ -26,7 +26,7 @@ public class CommonRecipe implements Recipe{
 
     @Override
     public String getImage() {
-        return image;
+        return imagePath;
     }
 
     @Override
