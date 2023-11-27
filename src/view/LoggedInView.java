@@ -69,7 +69,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         //Panel topRightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         searchButton.setLayout(null);
         accountButton.setLayout(null);
-        recipes.setLayout(new GridLayout(0,2));
+        recipes.setLayout(new GridLayout(4,5,5,5));
 
 
 
@@ -77,6 +77,33 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         searchButton.add(search);
         searchButton.add(account);
         recipes.add(recipeImage);
+
+        for (CommonRecipe recipe : recipesList){
+            ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
+            recipeImage = new JButton(recipe.getRecipeName(), saveRecipeImage);
+            //setting position of label of recipe
+            recipeImage.setVerticalTextPosition(SwingConstants.TOP);
+            recipeImage.setHorizontalTextPosition(SwingConstants.CENTER);
+            recipeImage.addActionListener(
+                    // This creates an anonymous subclass of ActionListener and instantiates it.
+                    new ActionListener() {
+                        public void actionPerformed(ActionEvent evt) {
+                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                                try {
+                                    URI uri = new URI(recipe.getRecipeUrl());
+                                    Desktop.getDesktop().browse(uri);
+                                } catch (IOException | URISyntaxException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                System.out.println("Opening a link is not supported on this platform.");
+                            }
+                        }
+                    }
+            );
+            recipes.add(recipeImage);
+        }
+        
         //accountButton.add(account);
         accountButton.setLocation(0,0);
         //buttons.add(account);
