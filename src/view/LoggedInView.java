@@ -1,10 +1,12 @@
 package view;
 
-import data_access.APICallDataAccessObject;
 import data_access.CommonRecipeDataAccessObject;
 import entity.CommonRecipe;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.profile.ProfileState;
+import interface_adapter.profile.ProfileViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -20,20 +21,27 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     public final String viewName = "logged in";
     private final LoggedInViewModel loggedInViewModel;
 
+    private final ViewManagerModel viewManagerModel;
+
+    private final ProfileViewModel profileViewModel;
+
     JLabel username;
 
     final JButton logOut;
     final JButton search;
     final JButton account;
     JButton recipeImage;
-    public LoggedInView(LoggedInViewModel loggedInViewModel) throws Exception {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel) throws Exception {
         this.loggedInViewModel = loggedInViewModel;
+        this.viewManagerModel = viewManagerModel;
+        this.profileViewModel = profileViewModel;
         this.loggedInViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Recipe Flow");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
+        //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
+        String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
         String file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
         CommonRecipeDataAccessObject commonRecipeDAO = new CommonRecipeDataAccessObject(file); // replace jsonFile with the actual JSON file content or path
 
@@ -53,8 +61,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         search = new JButton(loggedInViewModel.SEARCH_BUTTON_LABEL);
         account = new JButton(loggedInViewModel.ACCOUNT_BUTTON_LABEL);
         //recipesList.get(0).getImage()
-        ImageIcon saveRecipeImage = new ImageIcon(recipesList.get(0).getImage());
-        recipeImage = new JButton(saveRecipeImage);
+        //ImageIcon saveRecipeImage = new ImageIcon(recipesList.get(0).getImage());
+        recipeImage = new JButton(recipesList.get(0).getRecipeName());
 
 
 
@@ -78,7 +86,20 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         logOut.addActionListener(this);
         search.addActionListener(this);
-        account.addActionListener(this);
+        account.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(account)){
+                            ProfileState currentState = profileViewModel.getState();
+                            profileViewModel.setState(currentState);
+                            profileViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(profileViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+                        }
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
