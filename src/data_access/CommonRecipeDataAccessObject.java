@@ -4,8 +4,13 @@ import entity.CommonRecipe;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +31,8 @@ public class CommonRecipeDataAccessObject {
             // Extract recipe information
 //            int id = recipeJson.getInt("id");
             String label = recipeJson.getString("label");
-            String image = recipeJson.getString("image");
-
+            String image_path = downloadImage(recipeJson.getString("image"), label, "C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/src/images").toString();
+            //String image_path = recipeJson.getString("image");
 
             // Assuming ingredients is an array, extract it
 //            JSONArray ingredientsJsonArray = recipeJson.getJSONArray("ingredients");
@@ -39,7 +44,7 @@ public class CommonRecipeDataAccessObject {
             String url = recipeJson.getString("url");
 
             // Create a CommonRecipe object
-            CommonRecipe commonRecipe = new CommonRecipe(label, image, url);
+            CommonRecipe commonRecipe = new CommonRecipe(label, image_path, url);
             commonRecipeList.add(commonRecipe);
         }
         return commonRecipeList;
@@ -48,5 +53,26 @@ public class CommonRecipeDataAccessObject {
     {
         return new String(Files.readAllBytes(Paths.get(file)));
     }
-}
 
+    public static Path downloadImage(String imageUrl, String recipeName, String targetDirectory) {
+        // Returns path of image which is downloaded under 'images' package in src
+        try {
+            URL url = new URL(imageUrl);
+
+            try (InputStream in = url.openStream()) {
+                String fileName = recipeName.replaceAll("\\s", "_") + ".png";
+                Path destination = Paths.get(targetDirectory, fileName);
+
+                // Creation of target directory if non-existent
+                Files.createDirectories(destination.getParent());
+
+                Files.copy(in, destination, StandardCopyOption.REPLACE_EXISTING);
+
+                return destination;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}

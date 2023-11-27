@@ -26,7 +26,7 @@ import java.nio.file.NoSuchFileException;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        JFrame application = new JFrame("Reciepe Flow");
+        JFrame application = new JFrame("Recipe Flow");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -68,7 +68,7 @@ public class Main {
         // then when you get the file from the try catch run the code below with the proper path
         try{
             OkHttpClient client = new OkHttpClient();
-            String query = "&q=" + "";
+            String query = "&q=" + "pasta";
             String cuisine = "&cuisineType=" + "italian";
             String diet = "&Diet=" + "";
             String health = "&Health=" + "";
@@ -128,7 +128,7 @@ public class Main {
 //            APICallDataAccessObject.jsonToCsv(file);
 //        }
 //        catch(IOException e){
-//            throw new NoSuchFileException("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json");
+//            throw new NoSuchFileException("C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/response_output.json");
 //        }
 
 
