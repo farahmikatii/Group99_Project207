@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
 
 public class ProfileView extends JPanel implements ActionListener, PropertyChangeListener{
 
-   // public final String viewName
+    public final String viewName = "User Profile";
 
     private final UploadingViewModel uploadingViewModel;
 
