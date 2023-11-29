@@ -16,9 +16,11 @@ import java.beans.PropertyChangeListener;
 
 public class ProfileView extends JPanel implements ActionListener, PropertyChangeListener{
 
-   // public final String viewName
+   public final String viewName = "User Profile";
 
     private final UploadingViewModel uploadingViewModel;
+
+    private final ProfileViewModel profileViewModel;
 
     private final ViewManagerModel viewManagerModel;
 
@@ -29,12 +31,14 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     private final JButton uploadNew;
 
-    public ProfileView(UploadingViewModel uploadingViewModel, ViewManagerModel viewManagerModel, SavedViewModel savedViewModel) {
+    public ProfileView(UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, SavedViewModel savedViewModel) {
 
         this.uploadingViewModel = uploadingViewModel;
+        this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
         this.savedViewModel = savedViewModel;
         uploadingViewModel.addPropertyChangeListener(this);
+        profileViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(ProfileViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -90,16 +94,24 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
                     }
                 }
         );
+
+        this.add(title);
+        this.add(buttons);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         //TODO: implement
+        System.out.println("Click" + e.getActionCommand());
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //TODO: implement
+//        ProfileState profileState = (ProfileState) evt.getNewValue();
+//        setFields(profileState);
 
     }
+//
+//    private void setFields(ProfileState profileState){
+//    }
 }

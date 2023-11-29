@@ -6,28 +6,33 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class ProfileViewModel extends ViewModel{
-    private static final LoggedInState loggedin_state = new LoggedInState();
+
+   // private static final LoggedInState loggedinstate = new LoggedInState();
     public static final String SAVED_BUTTON_LABEL = "Saved Recipes";
     public static final String UPLOAD_BUTTON_LABEL = "Uploaded Recipes";
     public static final String UPLOAD_NEW_BUTTON_LABEL = "Upload New Recipe";
 
-    public static final String TITLE_LABEL = loggedin_state.getUsername();
+    public static final String TITLE_LABEL = "Account";
 
     private ProfileState state = new ProfileState();
 
-    public ProfileViewModel(){super(loggedin_state.getUsername());}
+
+//TODO: change this so that it is the user's username, Loggedinstate is defaulting to ""
+    public ProfileViewModel(){super("profile");}
 
     public void setState(ProfileState state) {this.state = state;}
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public void firePropertyChanged(){support.firePropertyChange("state", null, this.state);}
+    public void firePropertyChanged(){
+        support.firePropertyChange("state", null, this.state);}
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
         support.addPropertyChangeListener(listener);
     }
 
-    public ProfileState getState(){return state;}
+    public ProfileState getState(){
+        return state;}
 }
 
 

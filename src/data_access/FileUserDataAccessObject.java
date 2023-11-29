@@ -9,9 +9,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 import use_case.uploading.UploadingDataAccessInterface;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, UploadingDataAccessInterface {
 
@@ -95,11 +93,27 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         this.saveUploadedRecipe();
     }
 
+    @Override
+    public List<Map<String, Object>> readUploadedRecipesFromCSV() {
+        List<Map<String, Object>> recipesList = new ArrayList<>();
+
+        for (UploadedRecipe uploadedRecipe : uploadedRecipeMap.values()) {
+            Map<String, Object> uploadedRecipeDataMap = new HashMap<>();
+            uploadedRecipeDataMap.put("Name", uploadedRecipe.getUploadedRecipeName());
+            uploadedRecipeDataMap.put("Ingredients", uploadedRecipe.getIngredients());
+            uploadedRecipeDataMap.put("Instructions", uploadedRecipe.getInstructions());
+            uploadedRecipeDataMap.put("Image", uploadedRecipe.getImage());
+
+            recipesList.add(uploadedRecipeDataMap);
+        }
+
+        return recipesList;
+    }
+
     private void saveUploadedRecipe(){
         BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter(csvFile));
-            writer.write(String.join(",", headers.keySet()));
             writer.newLine();
 
             for (UploadedRecipe uploadedRecipe: uploadedRecipeMap.values()){

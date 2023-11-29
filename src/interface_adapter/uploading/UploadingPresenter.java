@@ -3,14 +3,16 @@ package interface_adapter.uploading;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.uploadedRecipe.UploadedRecipeState;
+import interface_adapter.uploadedRecipe.UploadedRecipeViewModel;
 import use_case.uploading.UploadingOutputBoundary;
 import use_case.uploading.UploadingOutputData;
+import view.UploadedRecipeView;
 
 public class UploadingPresenter implements UploadingOutputBoundary {
 
     private final UploadingViewModel uploadingViewModel;
     private final ProfileViewModel profileViewModel;
-
     private ViewManagerModel viewManagerModel;
 
     public UploadingPresenter(ViewManagerModel viewManagerModel,
@@ -26,7 +28,7 @@ public class UploadingPresenter implements UploadingOutputBoundary {
         UploadingState uploadingState = uploadingViewModel.getState();
         ProfileState profileState = profileViewModel.getState();
         profileState.setUsername(recipe.getRecipeName());
-        this.profileViewModel.setState(profileState);
+        profileViewModel.setState(profileState);
         profileViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(profileViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
@@ -38,5 +40,20 @@ public class UploadingPresenter implements UploadingOutputBoundary {
         UploadingState uploadingState = uploadingViewModel.getState();
         uploadingState.setRecipeError(error);
         uploadingViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareUploadedRecipeView(UploadingOutputData uploadedRecipe){
+        // when a user clicks on an uploaded recipe in UploadsView, creates a new page for that recipe
+
+        UploadedRecipeView uploadedRecipeView = new UploadedRecipeView(uploadingViewModel, uploadedRecipe.getRecipeName(), uploadedRecipe.getRecipeIngredients(), uploadedRecipe.getRecipeInstructions(), uploadedRecipe.getRecipeImage());
+        UploadedRecipeViewModel uploadedRecipeViewModel = new UploadedRecipeViewModel();
+
+        UploadedRecipeState uploadedRecipeState = uploadedRecipeViewModel.getState();
+        uploadedRecipeViewModel.setState(uploadedRecipeState);
+        uploadedRecipeViewModel.firePropertyChanged();
+        viewManagerModel.setActiveView(uploadedRecipeView.getViewName());
+        viewManagerModel.firePropertyChanged();
+
     }
 }

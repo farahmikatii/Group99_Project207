@@ -31,8 +31,8 @@ public class CommonRecipeDataAccessObject {
             // Extract recipe information
 //            int id = recipeJson.getInt("id");
             String label = recipeJson.getString("label");
-            String image_path = downloadImage(recipeJson.getString("image"), label, "C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/src/images").toString();
-
+            //String image_path = downloadImage(recipeJson.getString("image"), label, "C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/src/images").toString();
+            String image_path = recipeJson.getString("image");
 
             // Assuming ingredients is an array, extract it
 //            JSONArray ingredientsJsonArray = recipeJson.getJSONArray("ingredients");

@@ -24,9 +24,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final ViewManagerModel viewManagerModel;
 
     private final ProfileViewModel profileViewModel;
-
-    JLabel username;
-
     final JButton logOut;
     final JButton search;
     final JButton account;
@@ -35,7 +32,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.loggedInViewModel = loggedInViewModel;
         this.viewManagerModel = viewManagerModel;
         this.profileViewModel = profileViewModel;
-        this.loggedInViewModel.addPropertyChangeListener(this);
+        loggedInViewModel.addPropertyChangeListener(this);
+        profileViewModel.addPropertyChangeListener(this);
+        viewManagerModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Recipe Flow");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -84,8 +83,23 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         account.setBounds(10, 10, 100, 30);
         //account.setBounds(10, -20, 100, 30);
 
-        logOut.addActionListener(this);
-        search.addActionListener(this);
+        logOut.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                }
+        );
+        search.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                }
+        );
+
         account.addActionListener(
                 new ActionListener() {
                     @Override
@@ -120,7 +134,18 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        LoggedInState state = (LoggedInState) evt.getNewValue();
-        //username.setText(state.getUsername());
+//        try {
+//            LoggedInState loggedInState = (LoggedInState) evt.getNewValue();
+//            if (loggedInState.getUsernameError() != null) {
+//                JOptionPane.showMessageDialog(this, LoggedInState.getUsernameError());
+//            }
+//        }
+//        catch(ClassCastException e){
+//            ProfileState profilestate = (ProfileState) evt.getNewValue();
+//            if (profilestate.getUsernameError() != null){
+//                JOptionPane.showMessageDialog(this, profilestate.getUsernameError());
+//            }
+//
+//        }
     }
 }
