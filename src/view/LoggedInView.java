@@ -14,6 +14,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+<<<<<<< HEAD
+=======
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+>>>>>>> main
 import java.util.List;
 
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -41,7 +47,12 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
+<<<<<<< HEAD
         String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
+=======
+        //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
+        String jsonFile = "C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/response_output.json";
+>>>>>>> main
         String file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
         CommonRecipeDataAccessObject commonRecipeDAO = new CommonRecipeDataAccessObject(file); // replace jsonFile with the actual JSON file content or path
 
@@ -69,14 +80,41 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         //Panel topRightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         searchButton.setLayout(null);
         accountButton.setLayout(null);
-        recipes.setLayout(new GridLayout(0,2));
+        recipes.setLayout(new GridLayout(4,5,5,5));
 
 
 
         //buttons.add(logOut);
         searchButton.add(search);
         searchButton.add(account);
-        recipes.add(recipeImage);
+        //recipes.add(recipeImage);
+
+        for (CommonRecipe recipe : recipesList){
+            ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
+            recipeImage = new JButton(recipe.getRecipeName(), saveRecipeImage);
+            //setting position of label of recipe
+            recipeImage.setVerticalTextPosition(SwingConstants.TOP);
+            recipeImage.setHorizontalTextPosition(SwingConstants.CENTER);
+            recipeImage.addActionListener(
+                    // This creates an anonymous subclass of ActionListener and instantiates it.
+                    new ActionListener() {
+                        public void actionPerformed(ActionEvent evt) {
+                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                                try {
+                                    URI uri = new URI(recipe.getRecipeUrl());
+                                    Desktop.getDesktop().browse(uri);
+                                } catch (IOException | URISyntaxException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                System.out.println("Opening a link is not supported on this platform.");
+                            }
+                        }
+                    }
+            );
+            recipes.add(recipeImage);
+        }
+        
         //accountButton.add(account);
         accountButton.setLocation(0,0);
         //buttons.add(account);
