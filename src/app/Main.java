@@ -7,8 +7,6 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
 
-import interface_adapter.saved.SavedViewModel;
-
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
 import view.*;
@@ -29,48 +27,6 @@ import java.nio.file.NoSuchFileException;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        JFrame application = new JFrame("Reciepe Flow");
-        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        CardLayout cardLayout = new CardLayout();
-
-        JPanel views = new JPanel(cardLayout);
-        application.add(views);
-
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        new ViewManager(views, cardLayout, viewManagerModel);
-
-        LoginViewModel loginViewModel = new LoginViewModel();
-        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
-        SignupViewModel signupViewModel = new SignupViewModel();
-        ProfileViewModel profileViewModel = new ProfileViewModel();
-        UploadingViewModel uploadingViewModel = new UploadingViewModel();
-        SavedViewModel savedViewModel = new SavedViewModel();
-
-        FileUserDataAccessObject userDataAccessObject;
-        try {
-            userDataAccessObject = new FileUserDataAccessObject("/Users/duahussain/IdeaProjects/Group99_Project207/users.csv", new CommonUserFactory());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
-        views.add(signupView, signupView.viewName);
-
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
-        views.add(loginView, loginView.viewName);
-
-        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel);
-        views.add(loggedInView, loggedInView.viewName);
-
-        ProfileView profileView = new ProfileView(uploadingViewModel, viewManagerModel,savedViewModel);
-        views.add(profileView, profileView.viewName);
-
-        viewManagerModel.setActiveView(signupView.viewName);
-        viewManagerModel.firePropertyChanged();
-
-        application.pack();
-        application.setVisible(true);
 
 
         //API STUFF
