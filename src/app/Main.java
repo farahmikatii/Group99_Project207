@@ -1,16 +1,15 @@
 package app;
 
 import data_access.FileUserDataAccessObject;
-import data_access.APICallDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
+
+import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
-import view.LoggedInView;
-import view.SignupView;
-import view.ViewManager;
-import view.LoginView;
+import interface_adapter.uploading.UploadingViewModel;
+import view.*;
 import interface_adapter.login.LoginViewModel;
 
 
@@ -22,11 +21,11 @@ import java.io.IOException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.nio.file.NoSuchFileException;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+
+
 
         //API STUFF
         // Notes for running: first run the try catch and comment out the code below it,
@@ -70,7 +69,7 @@ public class Main {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 assert response.body() != null;
-                String filePath = "response_output.json"; // Change the file extension or name as needed
+                String filePath = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
 
                 // Write the response to a file
                 try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
@@ -101,6 +100,9 @@ public class Main {
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         ProfileViewModel profileViewModel = new ProfileViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
+        UploadingViewModel uploadingViewModel = new UploadingViewModel();
+        SavedViewModel savedViewModel = new SavedViewModel();
+
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -117,6 +119,9 @@ public class Main {
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel);
         views.add(loggedInView, loggedInView.viewName);
+
+        ProfileView profileView = new ProfileView(uploadingViewModel, viewManagerModel, savedViewModel);
+        views.add(profileView, profileView.viewName);
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
