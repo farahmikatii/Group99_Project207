@@ -1,9 +1,9 @@
 package view;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.logged_in.LoggedInViewModel;
-import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.profile.ProfileState;
+import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
@@ -88,6 +88,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     }
                 }
         );
+
 
         usernameInputField.addKeyListener(
                 new KeyListener() {

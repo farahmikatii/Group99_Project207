@@ -1,7 +1,9 @@
 package view;
 
-import interface_adapter.uploading.UploadingController;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.uploading.UploadingViewModel;
+import interface_adapter.uploads.UploadsState;
+import interface_adapter.uploads.UploadsViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +15,12 @@ import java.beans.PropertyChangeListener;
 public class UploadedRecipeView extends JPanel implements ActionListener, PropertyChangeListener {
 
     //TODO: change viewName to the actual recipe name
-    public final String viewName = "Uploaded Recipe";
+    public final String viewName = "Uploaded Recipes";
     private final UploadingViewModel uploadingViewModel;
+
+    private final UploadsViewModel uploadsViewModel;
+
+    private ViewManagerModel viewManagerModel;
 
     final JTextArea recipeNameArea;
 
@@ -24,8 +30,9 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
 
     final JButton back;
 
-    public UploadedRecipeView(UploadingViewModel uploadingViewModel, String recipeName, String recipeIngredients, String recipeInstructions, Image recipeImage) {
+    public UploadedRecipeView(UploadingViewModel uploadingViewModel, String recipeName, String recipeIngredients, String recipeInstructions, Image recipeImage, UploadsViewModel uploadsViewModel) {
         this.uploadingViewModel = uploadingViewModel;
+        this.uploadsViewModel = uploadsViewModel;
         uploadingViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Uploaded Recipe");
@@ -57,7 +64,12 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        //TODO: implement
+                        if (e.getSource().equals(back)){
+                            UploadsState uploadsState = uploadsViewModel.getState();
+                            uploadsViewModel.setState(uploadsState);
+                            uploadsViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(uploadsViewModel.getViewName());
+                        }
                     }
                 }
         );

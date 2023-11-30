@@ -13,7 +13,7 @@ public class UploadsViewModel extends ViewModel {
 
     public final String BACK_BUTTON_LABEL = "back";
 
-    public UploadsViewModel(){super("uploaded recipes");}
+    public UploadsViewModel(){super("Uploaded Recipes");}
 
     public void setState(UploadsState state){this.state = state;}
 

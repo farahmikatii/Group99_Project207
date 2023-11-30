@@ -23,7 +23,7 @@ public class UploadingViewModel extends ViewModel {
 
     private UploadingState state = new UploadingState();
 
-    public UploadingViewModel(){super("uploading");}
+    public UploadingViewModel(){super("Uploading New Recipe");}
 
     public void setState(UploadingState copy){this.state = state;}
 

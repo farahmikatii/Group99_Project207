@@ -12,7 +12,7 @@ public class UploadedRecipeViewModel extends ViewModel {
 
     //TODO: change to actual recipe name
     public UploadedRecipeViewModel() {
-        super("uploaded recipe");
+        super("Uploaded Recipe");
     }
 
     public UploadedRecipeState getState() { return state;}

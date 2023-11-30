@@ -18,7 +18,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
 
-public class UploadsView extends JFrame implements ActionListener, PropertyChangeListener{
+public class UploadsView extends JPanel implements ActionListener, PropertyChangeListener{
 
     public final String viewName = "Uploaded Recipes";
 
@@ -35,8 +35,6 @@ public class UploadsView extends JFrame implements ActionListener, PropertyChang
     private JList<Object> uploadedRecipeList;
 
     final JButton back;
-
-    //private JButton viewUploadedRecipeButton;
 
     public UploadsView(UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, UploadingController uploadingController) {
         this.uploadsViewModel = uploadsViewModel;
@@ -88,13 +86,10 @@ public class UploadsView extends JFrame implements ActionListener, PropertyChang
 
         JScrollPane scrollPane = new JScrollPane(uploadedRecipeList);
 
-       // viewUploadedRecipeButton = new JButton("View Recipe");
-
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(scrollPane, BorderLayout.CENTER);
-       // mainPanel.add(viewUploadedRecipeButton, BorderLayout.SOUTH);
 
-        setContentPane(mainPanel);
+        //setContentPane(mainPanel);
 
         JLabel title = new JLabel(uploadsViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);

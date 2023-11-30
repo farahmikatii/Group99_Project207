@@ -5,6 +5,8 @@ import interface_adapter.saved.SavedState;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.uploading.UploadingState;
 import interface_adapter.uploading.UploadingViewModel;
+import interface_adapter.uploads.UploadsState;
+import interface_adapter.uploads.UploadsViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +18,11 @@ import java.beans.PropertyChangeListener;
 
 public class ProfileView extends JPanel implements ActionListener, PropertyChangeListener{
 
-   public final String viewName = "User Profile";
+   public final String viewName = "profile";
 
     private final UploadingViewModel uploadingViewModel;
+
+    private final UploadsViewModel uploadsViewModel;
 
     private final ProfileViewModel profileViewModel;
 
@@ -31,9 +35,10 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     private final JButton uploadNew;
 
-    public ProfileView(UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, SavedViewModel savedViewModel) {
+    public ProfileView(UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, SavedViewModel savedViewModel, UploadsViewModel uploadsViewModel) {
 
         this.uploadingViewModel = uploadingViewModel;
+        this.uploadsViewModel = uploadsViewModel;
         this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
         this.savedViewModel = savedViewModel;
@@ -89,6 +94,13 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(uploads)){
+                            UploadsState uploadsState = uploadsViewModel.getState();
+                            uploadsViewModel.setState(uploadsState);
+                            uploadsViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(uploadsViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+                        }
 
 
                     }
