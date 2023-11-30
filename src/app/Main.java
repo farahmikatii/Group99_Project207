@@ -1,12 +1,12 @@
 package app;
 
 import data_access.FileUserDataAccessObject;
-import data_access.APICallDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
 
+import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
 import view.*;
@@ -21,8 +21,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.nio.file.NoSuchFileException;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -102,6 +100,9 @@ public class Main {
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         ProfileViewModel profileViewModel = new ProfileViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
+        UploadingViewModel uploadingViewModel = new UploadingViewModel();
+        SavedViewModel savedViewModel = new SavedViewModel();
+
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -118,6 +119,9 @@ public class Main {
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel);
         views.add(loggedInView, loggedInView.viewName);
+
+        ProfileView profileView = new ProfileView(uploadingViewModel, viewManagerModel, savedViewModel);
+        views.add(profileView, profileView.viewName);
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
