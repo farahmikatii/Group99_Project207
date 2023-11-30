@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CommonRecipeDataAccessObject {
@@ -58,9 +59,10 @@ public class CommonRecipeDataAccessObject {
         // Returns path of image which is downloaded under 'images' package in src
         try {
             URL url = new URL(imageUrl);
+            String[] illegal = {"#", "%", "&", "}", "{", "\\", ">", "<", "*", "?", "/", "$", "!", "'", "\"", ":", "@", "+", "`", "|", "=", ""};
 
             try (InputStream in = url.openStream()) {
-                String fileName = recipeName.replaceAll("\\s", "_") + ".png";
+                String fileName = recipeName.replaceAll(Arrays.toString(illegal), "_") + ".png";
                 Path destination = Paths.get(targetDirectory, fileName);
 
                 // Creation of target directory if non-existent
