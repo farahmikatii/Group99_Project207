@@ -11,9 +11,9 @@ public class SavedViewModel extends ViewModel {
 
     private SavedState state = new SavedState();
 
-    public final String BACK_BUTTON_LABEL = "back";
+    public final String BACK_BUTTON_LABEL = "Back";
 
-    public SavedViewModel(){super("saved recipes");}
+    public SavedViewModel(){super("Saved Recipes");}
 
     public void setState(SavedState state){this.state = state;}
 
