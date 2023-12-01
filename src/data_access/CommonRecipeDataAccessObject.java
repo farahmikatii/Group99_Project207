@@ -3,6 +3,8 @@ package data_access;
 import entity.CommonRecipe;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import use_case.loggedIn.LoggedInDataAccessInterface;
+import use_case.recipePopup.RecipePopupDataAccessInterface;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +16,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommonRecipeDataAccessObject {
+public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface, RecipePopupDataAccessInterface {
     private final List<CommonRecipe> commonRecipeList = new ArrayList<>();
     private final String jsonFile;
 
@@ -74,5 +76,13 @@ public class CommonRecipeDataAccessObject {
             e.printStackTrace();
         }
         return null;
+    }
+    public CommonRecipe findRecipe(String label) {
+        for (CommonRecipe recipe : commonRecipeList) {
+            if (recipe.getRecipeName().equalsIgnoreCase(label)) {
+                return recipe;
+            }
+        }
+        return null;  // Recipe not found
     }
 }

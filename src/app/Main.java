@@ -6,6 +6,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
 
+import interface_adapter.recipePopup.RecipePopupViewModel;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
@@ -102,6 +103,7 @@ public class Main {
         SignupViewModel signupViewModel = new SignupViewModel();
         UploadingViewModel uploadingViewModel = new UploadingViewModel();
         SavedViewModel savedViewModel = new SavedViewModel();
+        RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
 
 
         FileUserDataAccessObject userDataAccessObject;
@@ -117,11 +119,16 @@ public class Main {
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel);
+        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel);
         views.add(loggedInView, loggedInView.viewName);
 
         ProfileView profileView = new ProfileView(uploadingViewModel, viewManagerModel, savedViewModel);
         views.add(profileView, profileView.viewName);
+
+        RecipePopupView recipePopupView = new RecipePopupView();
+        views.add(recipePopupView, recipePopupView.viewName);
+
+
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();

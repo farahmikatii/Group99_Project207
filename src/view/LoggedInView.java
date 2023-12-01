@@ -5,10 +5,10 @@ import entity.CommonRecipe;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
-import interface_adapter.login.LoginState;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.recipePopup.RecipePopupState;
+import interface_adapter.recipePopup.RecipePopupViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,10 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import java.util.List;
 
@@ -32,6 +28,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     private final ProfileViewModel profileViewModel;
 
+    private final RecipePopupViewModel recipePopupViewModel;
+
 
     JLabel username;
 
@@ -39,10 +37,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     final JButton search;
     final JButton account;
     JButton recipeImage;
-    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel) throws Exception {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, RecipePopupViewModel recipePopupViewModel) throws Exception {
         this.loggedInViewModel = loggedInViewModel;
         this.viewManagerModel = viewManagerModel;
         this.profileViewModel = profileViewModel;
+        this.recipePopupViewModel = recipePopupViewModel;
 
         this.loggedInViewModel.addPropertyChangeListener(this);
 
@@ -104,16 +103,33 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     // This creates an anonymous subclass of ActionListener and instantiates it.
                     new ActionListener() {
                         public void actionPerformed(ActionEvent evt) {
-                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                                try {
-                                    URI uri = new URI(recipe.getRecipeUrl());
-                                    Desktop.getDesktop().browse(uri);
-                                } catch (IOException | URISyntaxException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                System.out.println("Opening a link is not supported on this platform.");
+//                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+//                                try {
+//                                    URI uri = new URI(recipe.getRecipeUrl());
+//                                    Desktop.getDesktop().browse(uri);
+//                                } catch (IOException | URISyntaxException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            } else {
+//                                System.out.println("Opening a link is not supported on this platform.");
+//                            }
+                            if (evt.getSource().equals(recipeImage)) {
+
+                                RecipePopupState currentPopupState = recipePopupViewModel.getState();
+                                System.out.println(currentPopupState);
+
+                                recipePopupViewModel.setState(currentPopupState);
+                                System.out.println(recipePopupViewModel.getState());
+
+                                recipePopupViewModel.firePropertyChanged();
+
+                                viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
+                                System.out.println(viewManagerModel.getActiveView());
+                                viewManagerModel.firePropertyChanged();
+
                             }
+
+
                         }
                     }
             );
