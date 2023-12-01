@@ -14,14 +14,14 @@ public class SearchController {
     }
 
     public void execute(String query, String dietLabel, String healthLabel, String cuisine, String mealType, String dishType){
-        HashMap<StringBuilder, StringBuilder> filterDict = new HashMap<>();
+        HashMap<String, String> filterDict = new HashMap<>();
 
-        filterDict.put(new StringBuilder("q"), new StringBuilder(query));
-        filterDict.put(new StringBuilder("diet"), new StringBuilder(dietLabel));
-        filterDict.put(new StringBuilder("health"), new StringBuilder(healthLabel));
-        filterDict.put(new StringBuilder("cuisineType"), new StringBuilder(cuisine));
-        filterDict.put(new StringBuilder("mealType"), new StringBuilder(mealType));
-        filterDict.put(new StringBuilder("dishType"), new StringBuilder(dishType));
+        filterDict.put(new String("q"), query);
+        filterDict.put(new String("diet"), dietLabel);
+        filterDict.put(new String("health"), healthLabel);
+        filterDict.put(new String("cuisineType"), cuisine);
+        filterDict.put(new String("mealType"), mealType);
+        filterDict.put(new String("dishType"), dishType);
 
         SearchInputData searchInputData = new SearchInputData(filterDict);
         userSearchInteractor.execute(searchInputData);

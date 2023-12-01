@@ -5,6 +5,7 @@ import data_access.FilterAPICallDataAccessObject;
 import entity.CommonRecipe;
 import entity.RecipeFactory;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,8 +24,13 @@ public class SearchInteractor implements SearchInputBoundary{
 
     @Override
     public void execute(SearchInputData searchInputData) {
-        HashMap<StringBuilder, StringBuilder> filterDict = searchInputData.getFilterDict();
-        String jsonFile = recipeDataAccessObject.searchApiCall(filterDict);
+        HashMap<String, String> filterDict = searchInputData.getFilterDict();
+        String jsonFile = null;
+        try {
+            jsonFile = recipeDataAccessObject.searchApiCall(filterDict);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         String file = null;
         try {
             file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
@@ -34,7 +40,7 @@ public class SearchInteractor implements SearchInputBoundary{
 
         CommonRecipeDataAccessObject commonRecipeDAO = new CommonRecipeDataAccessObject(file);
 
-        List<CommonRecipe> recipesList = commonRecipeDAO.returnRecipeList();
+        List<CommonRecipe> recipesList = commonRecipeDAO.returnRecipeList(2);
 
         SearchOutputData searchOutputData = new SearchOutputData(recipesList);
         searchPresenter.prepareSuccessView(searchOutputData);
