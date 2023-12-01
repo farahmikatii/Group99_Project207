@@ -69,7 +69,7 @@ public class Main {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 assert response.body() != null;
-                String filePath = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
+                String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json"; // Change the file extension or name as needed
 
                 // Write the response to a file
                 try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
@@ -114,7 +114,7 @@ public class Main {
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.viewName);
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel);
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel);
