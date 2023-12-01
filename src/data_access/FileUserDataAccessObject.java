@@ -1,5 +1,6 @@
 package data_access;
 
+import app.UploadsUseCaseFactory;
 import entity.UploadedRecipe;
 import entity.User;
 import entity.UserFactory;
@@ -126,6 +127,33 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
     private void saveUploadedRecipe() {
+// need to find logged in user first and add the uploaded recipe to the list
+        String targetUsername = "farah1";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));
+             FileWriter writer = new FileWriter("output.csv")) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 3 && parts[0].equals(targetUsername)) {
+                    String currentUploadedRecipes = parts[2].trim();
+                    for (UploadedRecipe uploadedRecipe : uploadedRecipeMap.values()) {
+                        HashMap<String, Object> uploadedrecipeDataMap = new HashMap<>();
+
+                        uploadedrecipeDataMap.put("Name", uploadedRecipe.getUploadedRecipeName());
+                        uploadedrecipeDataMap.put("Ingredients", uploadedRecipe.getIngredients());
+                        uploadedrecipeDataMap.put("Instructions", uploadedRecipe.getUploadedRecipeName());
+                        uploadedrecipeDataMap.put("Image", uploadedRecipe.getImage());
+
+                    }
+                }
+            }
+        } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
 
 
 /*        BufferedWriter writer;
@@ -159,5 +187,4 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }*/
 
 
-    }
 }

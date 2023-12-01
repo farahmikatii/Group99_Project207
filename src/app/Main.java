@@ -12,12 +12,9 @@ import interface_adapter.uploading.UploadingViewModel;
 import interface_adapter.uploads.UploadsViewModel;
 import use_case.uploading.UploadingInputBoundary;
 import use_case.uploading.UploadingInputData;
-=======
-
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
->>>>>>> main
 import view.*;
 import interface_adapter.login.LoginViewModel;
 
@@ -35,7 +32,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
 
-<<<<<<< HEAD
         JPanel views = new JPanel(cardLayout);
         application.add(views);
 
@@ -89,8 +85,7 @@ public class Main {
 
         application.pack();
         application.setVisible(true);
-=======
->>>>>>> main
+
 
         //API STUFF
         // Notes for running: first run the try catch and comment out the code below it,
