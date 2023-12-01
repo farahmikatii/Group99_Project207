@@ -3,10 +3,13 @@ package app;
 import data_access.FileUserDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
 
 import interface_adapter.saved.SavedViewModel;
+import interface_adapter.search.SearchViewModel;
+import interface_adapter.search.SearchController;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
 import view.*;
@@ -100,10 +103,13 @@ public class Main {
 
         LoginViewModel loginViewModel = new LoginViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+        LoggedInState loggedInState = new LoggedInState();
         ProfileViewModel profileViewModel = new ProfileViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
         UploadingViewModel uploadingViewModel = new UploadingViewModel();
         SavedViewModel savedViewModel = new SavedViewModel();
+        SearchViewModel searchViewModel = new SearchViewModel();
+        SearchController searchController = new SearchController();
 
 
         FileUserDataAccessObject userDataAccessObject;
@@ -119,11 +125,16 @@ public class Main {
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel);
+        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, searchViewModel);
         views.add(loggedInView, loggedInView.viewName);
 
         ProfileView profileView = new ProfileView(uploadingViewModel, viewManagerModel, savedViewModel);
         views.add(profileView, profileView.viewName);
+
+        SearchView searchView = new SearchView(searchController, searchViewModel, viewManagerModel, loggedInViewModel,
+                loggedInState);
+        views.add(searchView, searchView.viewName);
+        //this is likely to be needed to change after the searchfactory is made
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();

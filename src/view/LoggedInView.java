@@ -5,10 +5,10 @@ import entity.CommonRecipe;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
-import interface_adapter.login.LoginState;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.search.SearchState;
+import interface_adapter.search.SearchViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,6 +32,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     private final ProfileViewModel profileViewModel;
 
+    private final SearchViewModel searchViewModel;
 
     JLabel username;
 
@@ -39,10 +40,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     final JButton search;
     final JButton account;
     JButton recipeImage;
-    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel) throws Exception {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, SearchViewModel searchViewModel) throws Exception {
         this.loggedInViewModel = loggedInViewModel;
         this.viewManagerModel = viewManagerModel;
         this.profileViewModel = profileViewModel;
+        this.searchViewModel = searchViewModel;
 
         this.loggedInViewModel.addPropertyChangeListener(this);
 
@@ -131,7 +133,24 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         //account.setBounds(10, -20, 100, 30);
 
         logOut.addActionListener(this);
-        search.addActionListener(this);
+        search.addActionListener(
+                new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    if (evt.getSource().equals(search)) {
+                        SearchState currentLoginState = searchViewModel.getState();
+                        System.out.println(currentLoginState);
+                        searchViewModel.setState(currentLoginState);
+                        System.out.println(searchViewModel.getState());
+                        searchViewModel.firePropertyChanged();
+                        viewManagerModel.setActiveView(searchViewModel
+                            .getViewName());
+                        System.out.println(viewManagerModel.getActiveView());
+                        viewManagerModel.firePropertyChanged();
+
+                }
+            }
+        });
         account.addActionListener(
                 new ActionListener() {
                     @Override

@@ -9,7 +9,7 @@ import java.beans.PropertyChangeSupport;
 
 public class SearchViewModel extends ViewModel {
 
-    public final String TITLE_LABEL = "Search";
+    public final String TITLE_LABEL = "search";
 
     private SearchState state = new SearchState();
 
