@@ -3,6 +3,7 @@ package app;
 import entity.CommonUploadedRecipeFactory;
 import entity.UploadedRecipeFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.uploading.UploadingController;
 import interface_adapter.uploading.UploadingPresenter;
@@ -12,16 +13,19 @@ import use_case.uploading.UploadingDataAccessInterface;
 import use_case.uploading.UploadingInputBoundary;
 import use_case.uploading.UploadingInteractor;
 import use_case.uploading.UploadingOutputBoundary;
-import view.UploadedRecipeView;
 import view.UploadingView;
+import view.UploadsView;
 
-public class UploadingUseCaseFactory {
-    public static UploadingView create(ViewManagerModel viewManagerModel, UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, UploadsViewModel uploadsViewModel, UploadingDataAccessInterface uploadingDataAccessInterface){
-        UploadingController uploadingController = createUploadsUseCase(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, uploadingDataAccessInterface);
-        return new UploadingView(uploadingController, uploadingViewModel, profileViewModel, viewManagerModel);
+public class UploadsUseCaseFactory {
+
+    private UploadsUseCaseFactory() {}
+
+    public static UploadsView create(ViewManagerModel viewManagerModel, UploadingViewModel uploadingViewModel, UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, UploadingDataAccessInterface uploadingDataAccessInterface){
+        UploadingController uploadingController = createUploadsUseCase(viewManagerModel, uploadingViewModel, uploadsViewModel, profileViewModel, uploadingDataAccessInterface);
+        return new UploadsView(uploadsViewModel,profileViewModel,viewManagerModel, uploadingController);
     }
 
-    private static UploadingController createUploadsUseCase(ViewManagerModel viewManagerModel, UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, UploadsViewModel uploadsViewModel, UploadingDataAccessInterface uploadingDataAccessInterface) {
+    private static UploadingController createUploadsUseCase(ViewManagerModel viewManagerModel,UploadingViewModel uploadingViewModel, UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, UploadingDataAccessInterface uploadingDataAccessInterface){
         UploadingOutputBoundary uploadingOutputBoundary = new UploadingPresenter(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel);
 
         UploadedRecipeFactory uploadedRecipeFactory = new CommonUploadedRecipeFactory();
@@ -35,5 +39,3 @@ public class UploadingUseCaseFactory {
         return new UploadingController(uploadingInteractor);
     }
 }
-
-

@@ -5,4 +5,6 @@ public interface UploadingOutputBoundary {
     void prepareSuccessView(UploadingOutputData recipe);
 
     void prepareFailView(String error);
+
+   void  prepareUploadedRecipeView(UploadingOutputData uploadedRecipe);
 }

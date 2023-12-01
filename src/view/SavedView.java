@@ -1,6 +1,8 @@
 package view;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.profile.ProfileState;
+import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.saved.SavedState;
 import interface_adapter.saved.SavedViewModel;
 
@@ -14,15 +16,17 @@ import java.beans.PropertyChangeListener;
 public class SavedView extends JPanel implements ActionListener,PropertyChangeListener {
     public final String viewName = "Saved Recipes";
 
-    private final SavedViewModel savedViewModel;
+    private final ProfileViewModel profileViewModel;
     private final ViewManagerModel viewManagerModel;
+
+    private final SavedViewModel savedViewModel;
 
     final JButton back;
 
-    public SavedView(SavedViewModel savedViewModel, ViewManagerModel viewManagerModel) {
+    public SavedView(SavedViewModel savedViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel) {
+        this.profileViewModel = profileViewModel;
         this.savedViewModel = savedViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.savedViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(savedViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -42,10 +46,10 @@ public class SavedView extends JPanel implements ActionListener,PropertyChangeLi
                   @Override
                   public void actionPerformed(ActionEvent e) {
                       if (e.getSource().equals(back)){
-                          SavedState currentState = savedViewModel.getState();
-                          savedViewModel.setState(currentState);
-                          savedViewModel.firePropertyChanged();
-                          viewManagerModel.setActiveView(savedViewModel.getViewName());
+                          ProfileState currentState = profileViewModel.getState();
+                          profileViewModel.setState(currentState);
+                          profileViewModel.firePropertyChanged();
+                          viewManagerModel.setActiveView(profileViewModel.getViewName());
                           viewManagerModel.firePropertyChanged();
                       }
                   }

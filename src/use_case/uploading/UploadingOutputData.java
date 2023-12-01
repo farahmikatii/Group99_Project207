@@ -19,4 +19,13 @@ public class UploadingOutputData {
 
     public String getRecipeName(){return recipeName;}
 
+    public String getRecipeIngredients(){return recipeIngredients;}
+
+    public String getRecipeInstructions() {
+        return recipeInstructions;
+    }
+
+    public Image getRecipeImage() {
+        return recipeImage;
+    }
 }

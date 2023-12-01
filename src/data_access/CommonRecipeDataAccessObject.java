@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface, RecipePopupDataAccessInterface {
@@ -33,8 +34,10 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
             // Extract recipe information
 //            int id = recipeJson.getInt("id");
             String label = recipeJson.getString("label");
+
             String image_path = downloadImage(recipeJson.getString("image"), label, "C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/src/images").toString();
             //String image_path = recipeJson.getString("image");
+
 
             // Assuming ingredients is an array, extract it
 //            JSONArray ingredientsJsonArray = recipeJson.getJSONArray("ingredients");
@@ -60,9 +63,10 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
         // Returns path of image which is downloaded under 'images' package in src
         try {
             URL url = new URL(imageUrl);
+            String[] illegal = {"#", "%", "&", "}", "{", "\\", ">", "<", "*", "?", "/", "$", "!", "'", "\"", ":", "@", "+", "`", "|", "=", ""};
 
             try (InputStream in = url.openStream()) {
-                String fileName = recipeName.replaceAll("\\s", "_") + ".png";
+                String fileName = recipeName.replaceAll(Arrays.toString(illegal), "_") + ".png";
                 Path destination = Paths.get(targetDirectory, fileName);
 
                 // Creation of target directory if non-existent
