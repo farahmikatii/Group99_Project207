@@ -5,6 +5,8 @@ import entity.CommonRecipe;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.login.LoginState;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
 
@@ -14,6 +16,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import java.util.List;
 
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -24,6 +31,13 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final ViewManagerModel viewManagerModel;
 
     private final ProfileViewModel profileViewModel;
+<<<<<<< HEAD
+=======
+
+
+    JLabel username;
+
+>>>>>>> main
     final JButton logOut;
     final JButton search;
     final JButton account;
@@ -32,15 +46,24 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.loggedInViewModel = loggedInViewModel;
         this.viewManagerModel = viewManagerModel;
         this.profileViewModel = profileViewModel;
+<<<<<<< HEAD
         loggedInViewModel.addPropertyChangeListener(this);
         profileViewModel.addPropertyChangeListener(this);
         viewManagerModel.addPropertyChangeListener(this);
+=======
+
+        this.loggedInViewModel.addPropertyChangeListener(this);
+>>>>>>> main
 
         JLabel title = new JLabel("Recipe Flow");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
-        String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
+
+        //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
+        //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
+        //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
+        String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.json";
         String file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
         CommonRecipeDataAccessObject commonRecipeDAO = new CommonRecipeDataAccessObject(file); // replace jsonFile with the actual JSON file content or path
 
@@ -56,6 +79,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         JPanel searchButton = new JPanel();
         JPanel accountButton = new JPanel();
         JPanel recipes = new JPanel();
+        JScrollPane scroll = new JScrollPane(recipes);
+        //JPanel divider = new JPanel();
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         search = new JButton(loggedInViewModel.SEARCH_BUTTON_LABEL);
         account = new JButton(loggedInViewModel.ACCOUNT_BUTTON_LABEL);
@@ -66,21 +91,49 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
 
         //Panel topRightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        searchButton.setLayout(null);
-        accountButton.setLayout(null);
-        recipes.setLayout(new GridLayout(0,2));
+        //searchButton.setLayout(null);
+        //accountButton.setLayout(null);
+        recipes.setLayout(new GridLayout(5,4,5,5));
 
 
 
         //buttons.add(logOut);
         searchButton.add(search);
         searchButton.add(account);
-        recipes.add(recipeImage);
+        //divider.add(logOut);
+        //recipes.add(recipeImage);
+
+        for (CommonRecipe recipe : recipesList){
+            ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
+            recipeImage = new JButton(recipe.getRecipeName(), saveRecipeImage);
+            //setting position of label of recipe
+            recipeImage.setVerticalTextPosition(SwingConstants.TOP);
+            recipeImage.setHorizontalTextPosition(SwingConstants.CENTER);
+            recipeImage.addActionListener(
+                    // This creates an anonymous subclass of ActionListener and instantiates it.
+                    new ActionListener() {
+                        public void actionPerformed(ActionEvent evt) {
+                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                                try {
+                                    URI uri = new URI(recipe.getRecipeUrl());
+                                    Desktop.getDesktop().browse(uri);
+                                } catch (IOException | URISyntaxException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                System.out.println("Opening a link is not supported on this platform.");
+                            }
+                        }
+                    }
+            );
+            recipes.add(recipeImage);
+        }
+        
         //accountButton.add(account);
         accountButton.setLocation(0,0);
         //buttons.add(account);
-        search.setBounds(500, 10, 100, 30);
-        account.setBounds(10, 10, 100, 30);
+        //search.setBounds(500, 10, 100, 30);
+        //account.setBounds(10, 10, 100, 30);
         //account.setBounds(10, -20, 100, 30);
 
         logOut.addActionListener(
@@ -103,13 +156,18 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         account.addActionListener(
                 new ActionListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (e.getSource().equals(account)){
-                            ProfileState currentState = profileViewModel.getState();
-                            profileViewModel.setState(currentState);
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(account)) {
+                            ProfileState currentLoginState = profileViewModel.getState();
+                            System.out.println(currentLoginState);
+                            profileViewModel.setState(currentLoginState);
+                            System.out.println(profileViewModel.getState());
                             profileViewModel.firePropertyChanged();
-                            viewManagerModel.setActiveView(profileViewModel.getViewName());
+                            viewManagerModel.setActiveView(profileViewModel
+                                    .getViewName());
+                            System.out.println(viewManagerModel.getActiveView());
                             viewManagerModel.firePropertyChanged();
+
                         }
                     }
                 }
@@ -123,7 +181,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         //this.add(buttons);
         this.add(searchButton);
         //this.add(accountButton);
-        this.add(recipes);
+        //this.add(divider);
+        //this.add(recipes);
+        this.add(scroll);
+
 
         searchButton.setLocation(0,0);
         //accountButton.setLocation(200,200);
