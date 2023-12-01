@@ -5,10 +5,20 @@ import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.saved.SavedViewModel;
+import interface_adapter.signup.SignupViewModel;
+import interface_adapter.uploading.UploadingController;
+import interface_adapter.uploading.UploadingViewModel;
+import interface_adapter.uploads.UploadsViewModel;
+import use_case.uploading.UploadingInputBoundary;
+import use_case.uploading.UploadingInputData;
 
+
+import interface_adapter.recipePopup.RecipePopupViewModel;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
+
 import view.*;
 import interface_adapter.login.LoginViewModel;
 
@@ -67,7 +77,7 @@ public class Main {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 assert response.body() != null;
-                String filePath = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
+                String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json"; // Change the file extension or name as needed
 
                 // Write the response to a file
                 try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
@@ -96,15 +106,16 @@ public class Main {
 
         LoginViewModel loginViewModel = new LoginViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
-        ProfileViewModel profileViewModel = new ProfileViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
-        UploadingViewModel uploadingViewModel = new UploadingViewModel();
+        ProfileViewModel profileViewModel = new ProfileViewModel();
         SavedViewModel savedViewModel = new SavedViewModel();
-
+        UploadsViewModel uploadsViewModel = new UploadsViewModel();
+        UploadingViewModel uploadingViewModel = new UploadingViewModel();
+        RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -112,14 +123,29 @@ public class Main {
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.viewName);
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel);
+        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel);
         views.add(loggedInView, loggedInView.viewName);
 
-        ProfileView profileView = new ProfileView(uploadingViewModel, viewManagerModel, savedViewModel);
+        ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel);
         views.add(profileView, profileView.viewName);
+
+        SavedView savedView = new SavedView(savedViewModel, viewManagerModel, profileViewModel);
+        views.add(savedView, savedView.viewName);
+
+        UploadingView uploadingView = UploadingUseCaseFactory.create(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, userDataAccessObject);
+        views.add(uploadingView, uploadingView.viewName);
+
+        UploadsView uploadsView = UploadsUseCaseFactory.create(
+                viewManagerModel,
+                uploadingViewModel,
+                uploadsViewModel,
+                profileViewModel,
+                userDataAccessObject
+        );
+        views.add(uploadsView, uploadsView.viewName);
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();

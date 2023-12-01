@@ -13,7 +13,7 @@ public class LoggedInViewModel extends ViewModel {
 
     public static final String LOGOUT_BUTTON_LABEL = "log out";
     public final String SEARCH_BUTTON_LABEL = "Search";
-    public final String ACCOUNT_BUTTON_LABEL = "Account Settings";
+    public final String ACCOUNT_BUTTON_LABEL = "Account";
     private String loggedInUser;
 
     public LoggedInViewModel(){super("logged in");}

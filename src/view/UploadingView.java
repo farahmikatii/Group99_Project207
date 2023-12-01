@@ -19,15 +19,15 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class UploadingView extends JPanel implements ActionListener, PropertyChangeListener{
+public class UploadingView extends JPanel implements ActionListener, PropertyChangeListener {
 
     public final String viewName = "Uploading New Recipe";
 
     private final JTextField recipenameInputField = new JTextField(15);
 
-    private final JTextField ingredientsInputField = new JTextField(15);
+    private final JTextArea ingredientsInputField = new JTextArea(20, 20);
 
-    private final JTextField instructionsInputField = new JTextField(15);
+    private final JTextArea instructionsInputField = new JTextArea(50, 50);
 
     private final UploadingController uploadingController;
 
@@ -43,7 +43,7 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
 
     private final JButton uploadRecipePhoto;
 
-    public UploadingView(UploadingController uploadingController, UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel){
+    public UploadingView(UploadingController uploadingController, UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel) {
 
         this.uploadingController = uploadingController;
         this.uploadingViewModel = uploadingViewModel;
@@ -58,10 +58,11 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
 
         LabelTextPanel recipeTitle = new LabelTextPanel(
                 new JLabel(UploadingViewModel.RECIPE_LABEL), recipenameInputField);
-        LabelTextPanel ingredientsInfo = new LabelTextPanel(
+        LabelTextAreaPanel ingredientsInfo = new LabelTextAreaPanel(
                 new JLabel(UploadingViewModel.INGREDIENTS_LABEL), ingredientsInputField);
-        LabelTextPanel instructionsInfo = new LabelTextPanel(
+        LabelTextAreaPanel instructionsInfo = new LabelTextAreaPanel(
                 new JLabel(UploadingViewModel.INSTRUCTIONS_LABEL), instructionsInputField);
+
 
         JPanel buttons = new JPanel();
         upload = new JButton(UploadingViewModel.UPLOAD_BUTTON_LABEL);
@@ -69,6 +70,7 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
         back = new JButton(UploadingViewModel.BACK_BUTTON_LABEL);
         buttons.add(back);
         uploadRecipePhoto = new JButton(UploadingViewModel.RECIPE_PHOTO_LABEL);
+        buttons.add(uploadRecipePhoto);
 
 
         uploadRecipePhoto.addActionListener(
@@ -102,7 +104,7 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
                 // also adds the uploaded recipe as a data access object
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        if (e.getSource().equals(upload)){
+                        if (e.getSource().equals(upload)) {
                             UploadingState currentState = uploadingViewModel.getState();
 
                             uploadingController.execute(
@@ -110,7 +112,11 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
                                     currentState.getIngredients(),
                                     currentState.getInstructions(),
                                     currentState.getRecipeImage());
-                    }
+
+                        }
+                        recipenameInputField.setText("");
+                        ingredientsInputField.setText("");
+                        instructionsInputField.setText("");
 
                     }
                 }
@@ -120,7 +126,7 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
                 // takes user back to the profile view
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        if (e.getSource().equals(back)){
+                        if (e.getSource().equals(back)) {
                             ProfileState currentState = profileViewModel.getState();
                             profileViewModel.setState(currentState);
                             profileViewModel.firePropertyChanged();
@@ -207,7 +213,8 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
         this.add(ingredientsInfo);
         this.add(instructionsInfo);
         this.add(buttons);
-                }
+
+    }
 
 
     @Override
@@ -220,5 +227,13 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
 
     }
 
+    class LabelTextAreaPanel extends JPanel {
+        public LabelTextAreaPanel(JLabel label, JTextArea textArea) {
+            setLayout(new BorderLayout());
+            add(label, BorderLayout.NORTH);
+            add(new JScrollPane(textArea), BorderLayout.CENTER);
+        }
+
     }
+}
 
