@@ -5,10 +5,19 @@ import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.saved.SavedViewModel;
+import interface_adapter.signup.SignupViewModel;
+import interface_adapter.uploading.UploadingController;
+import interface_adapter.uploading.UploadingViewModel;
+import interface_adapter.uploads.UploadsViewModel;
+import use_case.uploading.UploadingInputBoundary;
+import use_case.uploading.UploadingInputData;
+=======
 
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
+>>>>>>> main
 import view.*;
 import interface_adapter.login.LoginViewModel;
 
@@ -26,6 +35,62 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
 
+<<<<<<< HEAD
+        JPanel views = new JPanel(cardLayout);
+        application.add(views);
+
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        new ViewManager(views, cardLayout, viewManagerModel);
+
+        LoginViewModel loginViewModel = new LoginViewModel();
+        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+        SignupViewModel signupViewModel = new SignupViewModel();
+        ProfileViewModel profileViewModel = new ProfileViewModel();
+        SavedViewModel savedViewModel = new SavedViewModel();
+        UploadsViewModel uploadsViewModel = new UploadsViewModel();
+        UploadingViewModel uploadingViewModel = new UploadingViewModel();
+
+        FileUserDataAccessObject userDataAccessObject;
+        try {
+            userDataAccessObject = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv", new CommonUserFactory());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
+        views.add(signupView, signupView.viewName);
+
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
+        views.add(loginView, loginView.viewName);
+
+        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel);
+        views.add(loggedInView, loggedInView.viewName);
+
+        ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel);
+        views.add(profileView, profileView.viewName);
+
+        SavedView savedView = new SavedView(savedViewModel, viewManagerModel, profileViewModel);
+        views.add(savedView, savedView.viewName);
+
+        UploadingView uploadingView = UploadingUseCaseFactory.create(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, userDataAccessObject);
+        views.add(uploadingView, uploadingView.viewName);
+
+        UploadsView uploadsView = UploadsUseCaseFactory.create(
+                viewManagerModel,
+                uploadingViewModel,
+                uploadsViewModel,
+                profileViewModel,
+                userDataAccessObject
+        );
+        views.add(uploadsView, uploadsView.viewName);
+
+        viewManagerModel.setActiveView(signupView.viewName);
+        viewManagerModel.firePropertyChanged();
+
+        application.pack();
+        application.setVisible(true);
+=======
+>>>>>>> main
 
         //API STUFF
         // Notes for running: first run the try catch and comment out the code below it,
