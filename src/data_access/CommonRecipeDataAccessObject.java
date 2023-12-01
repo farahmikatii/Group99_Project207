@@ -25,7 +25,14 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
         this.jsonFile = jsonFile;
     }
 
-    public List<CommonRecipe> returnRecipeList(){
+    public List<CommonRecipe> returnRecipeList(int diff){
+        String targetDictionary;
+        if (diff == 1){
+            targetDictionary = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/src/images";
+        }
+        else{
+            targetDictionary = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/src/filter/images";
+        }
         JSONObject jsonObject = new JSONObject(jsonFile);
         JSONArray hits = jsonObject.getJSONArray("hits");
         for (int i = 0; i < hits.length(); i++) {
@@ -35,7 +42,8 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
 //            int id = recipeJson.getInt("id");
             String label = recipeJson.getString("label");
 
-            String image_path = downloadImage(recipeJson.getString("image"), label, "C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/src/images").toString();
+            String image_path = downloadImage(recipeJson.getString("image"), label, targetDictionary).toString();
+
             //String image_path = recipeJson.getString("image");
 
 
@@ -54,6 +62,7 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
         }
         return commonRecipeList;
     }
+
     public static String readFileAsString(String file)throws Exception
     {
         return new String(Files.readAllBytes(Paths.get(file)));
