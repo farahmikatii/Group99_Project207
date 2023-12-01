@@ -5,18 +5,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
+import use_case.search.SearchUserDataAccessInterface;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class FilterAPICallDataAccessObject {
+public class FilterAPICallDataAccessObject implements SearchUserDataAccessInterface {
 
     private final String key_id = "https://api.edamam.com/api/recipes/v2?app_id=0e94da52&app_key=%20a1c655a3813bf3c3fc6362ee953aa8e3&type=public&random=true";
 
     public String getKey_id(){return key_id;}
 
-    public String searchApiCall(HashMap<String, String> filterDict) throws IOException {
+    public String searchApiCall(HashMap<String, String> filterDict) {
         StringBuilder returnString = new StringBuilder(getKey_id());
         for (HashMap.Entry<String, String> entry : filterDict.entrySet()) {
             String key = entry.getKey();
@@ -50,7 +51,11 @@ public class FilterAPICallDataAccessObject {
             }
             response.close();
         } catch(IOException e) {
-            throw new IOException("error");
+            try {
+                throw new IOException("error");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         return filePath;
     }
