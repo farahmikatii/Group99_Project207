@@ -121,23 +121,25 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 //                            } else {
 //                                System.out.println("Opening a link is not supported on this platform.");
 //                            }
-                            if (evt.getSource().equals(recipeImage)) {
+                            if (evt.getSource() instanceof JButton sourceButton) {
+                                if (evt.getSource().equals(sourceButton)) {
 
-                                RecipePopupState currentPopupState = recipePopupViewModel.getState();
-                                System.out.println(currentPopupState);
+                                    RecipePopupState currentPopupState = recipePopupViewModel.getState();
+                                    System.out.println(currentPopupState);
 
-                                recipePopupViewModel.setState(currentPopupState);
-                                System.out.println(recipePopupViewModel.getState());
+                                    recipePopupViewModel.setState(currentPopupState);
+                                    System.out.println(recipePopupViewModel.getState());
 
-                                recipePopupViewModel.firePropertyChanged();
+                                    recipePopupViewModel.firePropertyChanged();
 
-                                viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
-                                System.out.println(viewManagerModel.getActiveView());
-                                viewManagerModel.firePropertyChanged();
+                                    viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
+                                    System.out.println(viewManagerModel.getActiveView());
+                                    viewManagerModel.firePropertyChanged();
+
+                                }
+
 
                             }
-
-
                         }
                     }
             );
