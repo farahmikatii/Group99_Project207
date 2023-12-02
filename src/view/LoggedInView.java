@@ -3,7 +3,6 @@ package view;
 import data_access.CommonRecipeDataAccessObject;
 import entity.CommonRecipe;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
@@ -15,6 +14,7 @@ import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
 import org.json.JSONObject;
+import use_case.recipePopup.RecipePopupOutputData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,6 +50,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final RecipePopupViewModel recipePopupViewModel;
 
 
+
+
     JLabel username;
 
 
@@ -67,6 +69,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
 
         this.recipePopupViewModel = recipePopupViewModel;
+
 
         loggedInViewModel.addPropertyChangeListener(this);
         profileViewModel.addPropertyChangeListener(this);
@@ -145,9 +148,13 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 //                            }
                             if (evt.getSource() instanceof JButton sourceButton) {
                                 if (evt.getSource().equals(sourceButton)) {
+                                    //recipePopupViewModel.setSelectedRecipeName(selectedRecipeName);
+                                    recipePopupViewModel.setRecipeLabel(recipe.getRecipeName());
 
                                     RecipePopupState currentPopupState = recipePopupViewModel.getState();
+                                    currentPopupState.setRecipeLabel(recipe.getRecipeName());
                                     System.out.println(currentPopupState);
+
 
                                     recipePopupViewModel.setState(currentPopupState);
                                     System.out.println(recipePopupViewModel.getState());
