@@ -31,6 +31,8 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) throws Exception {
 
+
+
         //API STUFF
         // Notes for running: first run the try catch and comment out the code below it,
         // then when you get the file from the try catch run the code below with the proper path
@@ -73,6 +75,9 @@ public class Main {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 assert response.body() != null;
+                //String filePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
+                //String filePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
+                //String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json"; // Change the file extension or name as needed
                 String filePath = "./response_output.json"; // Change the file extension or name as needed
 
                 // Write the response to a file
@@ -128,7 +133,7 @@ public class Main {
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel);
         views.add(loggedInView, loggedInView.viewName);
 
-        ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel);
+        ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel, loggedInViewModel);
         views.add(profileView, profileView.viewName);
 
         SavedView savedView = new SavedView(savedViewModel, viewManagerModel, profileViewModel);

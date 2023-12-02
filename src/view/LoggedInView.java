@@ -84,10 +84,12 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
         //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
+
         //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
         String jsonFile = "./response_output.json";
         file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
         final CommonRecipeDataAccessObject[] commonRecipeDAO = {new CommonRecipeDataAccessObject(file)}; // replace jsonFile with the actual JSON file content or path
+
 
         // Call returnRecipeList method
         final List<CommonRecipe>[][][] recipesList = new List[][][]{new List[][]{new List[]{commonRecipeDAO[0].returnRecipeList(1)}}};
