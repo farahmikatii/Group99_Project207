@@ -109,6 +109,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     public void saveUploadedRecipe(UploadedRecipe uploadedRecipe) {
         uploadedRecipeMap.put(uploadedRecipe.getUploadedRecipeName(), uploadedRecipe);
+        System.out.println(uploadedRecipeMap);
         this.saveUploadedRecipe();
     }
 
@@ -131,7 +132,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     private void saveUploadedRecipe() {
 // need to find logged in user first and add the uploaded recipe to the list
-        String targetUsername = this.loggedInUsername;
+        String targetUsername = loggedInUsername;
         List<String> updatedLines = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));) {
@@ -178,9 +179,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                         }
 
                         copyArray[startIndex] = updatedUploadedRecipes;
+                        updatedLines.add(String.join(",", copyArray));
                     }
+                } else if (!parts[0].equals(targetUsername)){
+                    updatedLines.add(String.join(",", parts));
                 }
-                updatedLines.add(String.join(",", copyArray));
             }
 
         } catch (IOException e) {
