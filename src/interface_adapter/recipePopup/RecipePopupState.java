@@ -6,9 +6,9 @@ public class RecipePopupState {
     private String imageUrl;
 
 
-    public RecipePopupState(RecipePopupState copy, String imageUrl){
+    public RecipePopupState(RecipePopupState copy){
         recipeLabel = copy.recipeLabel;
-        this.imageUrl = imageUrl;
+        imageUrl = copy.imageUrl;
     }
     public RecipePopupState(){}
 
