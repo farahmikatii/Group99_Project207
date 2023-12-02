@@ -31,4 +31,9 @@ public class LoginInteractor implements LoginInputBoundary {
             }
         }
     }
+
+    @Override
+    public void setUsername(LoginInputData loginInputData) {
+        userDataAccessObject.setUsername(loginInputData.getUsername());
+    }
 }

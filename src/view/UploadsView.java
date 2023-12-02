@@ -52,6 +52,7 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 // for loop is where uploaded recipes are added from the controller
 
         for (Map<String, Object> recipesList : uploadingController.uploadedRecipes()){
+            System.out.println("its working :3");
             String recipeName = (String) recipesList.get("Name");
             uploadedRecipeListModel.addElement(recipeName);
             // Create a button for each recipe and add an action listener
@@ -89,7 +90,7 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
-        //setContentPane(mainPanel);
+        add(mainPanel);
 
         JLabel title = new JLabel(uploadsViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);

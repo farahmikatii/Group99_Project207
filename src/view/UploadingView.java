@@ -117,7 +117,6 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
                         recipenameInputField.setText("");
                         ingredientsInputField.setText("");
                         instructionsInputField.setText("");
-
                     }
                 }
         );
@@ -133,8 +132,9 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
                             viewManagerModel.setActiveView(profileViewModel.getViewName());
                             viewManagerModel.firePropertyChanged();
                         }
-
-
+                        recipenameInputField.setText("");
+                        ingredientsInputField.setText("");
+                        instructionsInputField.setText("");
                     }
                 }
         );
