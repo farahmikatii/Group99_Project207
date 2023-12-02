@@ -87,7 +87,7 @@ public class Main {
             throw new IOException("error");
         }
 
-        JFrame application = new JFrame("Reciepe Flow");
+        JFrame application = new JFrame("Recipe Flow");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
