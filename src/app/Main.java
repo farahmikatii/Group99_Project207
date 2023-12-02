@@ -5,6 +5,7 @@ import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
@@ -13,6 +14,7 @@ import interface_adapter.uploads.UploadsViewModel;
 
 import interface_adapter.recipePopup.RecipePopupViewModel;
 
+import use_case.recipePopup.RecipePopupOutputData;
 import view.*;
 import interface_adapter.login.LoginViewModel;
 
@@ -106,6 +108,8 @@ public class Main {
         UploadsViewModel uploadsViewModel = new UploadsViewModel();
         UploadingViewModel uploadingViewModel = new UploadingViewModel();
         RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
+        RecipePopupState recipePopupState = new RecipePopupState();
+
 
 
         FileUserDataAccessObject userDataAccessObject;
@@ -132,7 +136,7 @@ public class Main {
 
         //RecipePopupView recipePopupView = RecipePopupUseCaseFactory.create(viewManagerModel,recipePopupViewModel, userDataAccessObject, loggedInViewModel)
 
-        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel);
+        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel, recipePopupState, recipePopupViewModel);
         views.add(recipePopupView, recipePopupView.viewName);
 
         UploadingView uploadingView = UploadingUseCaseFactory.create(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, userDataAccessObject);

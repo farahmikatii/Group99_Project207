@@ -10,7 +10,7 @@ import java.beans.PropertyChangeSupport;
 public class RecipePopupViewModel extends ViewModel {
 
     private RecipePopupState state = new RecipePopupState();
-    private String recipeLabel;
+    public String recipeLabel;
 
     public  final String RECIPE_LABEL = recipeLabel;
 
