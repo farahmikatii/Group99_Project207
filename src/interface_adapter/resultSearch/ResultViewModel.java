@@ -1,19 +1,19 @@
-package interface_adapter.search;
+package interface_adapter.resultSearch;
 
 import interface_adapter.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class SearchViewModel extends ViewModel {
-    public final String TITLE_LABEL = "Search Recipes";
+public class ResultViewModel extends ViewModel {
+    public final String TITLE_LABEL = "Filtered Results";
 
-    private SearchState state = new SearchState();
+    private ResultState state = new ResultState();
     public static final String BACK_BUTTON_LABEL = "Back";
 
-    public SearchViewModel(){super("Filtered Search");}
+    public ResultViewModel() {super("Filtered Results");}
 
-    public void setState(SearchState state) {
+    public void setState(ResultState state) {
         this.state = state;
     }
 
@@ -26,7 +26,7 @@ public class SearchViewModel extends ViewModel {
         support.addPropertyChangeListener(listener);
     }
 
-    public SearchState getState() {
+    public ResultState getState() {
         return state;
     }
 }

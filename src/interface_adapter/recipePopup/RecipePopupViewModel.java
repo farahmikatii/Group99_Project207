@@ -10,7 +10,7 @@ import java.beans.PropertyChangeSupport;
 public class RecipePopupViewModel extends ViewModel {
 
     private RecipePopupState state = new RecipePopupState();
-    private String recipeLabel;
+    public String recipeLabel;
 
     public  final String RECIPE_LABEL = recipeLabel;
 
@@ -31,7 +31,7 @@ public class RecipePopupViewModel extends ViewModel {
     @Override
     public void firePropertyChanged() {
         support.firePropertyChange("state", null, this.state);
-        support.firePropertyChange("recipeLabel", null, this.recipeLabel);
+
     }
 
     @Override

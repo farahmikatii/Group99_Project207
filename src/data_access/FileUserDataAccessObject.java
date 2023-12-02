@@ -94,8 +94,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.newLine();
 
             for (User user : accounts.values()) {
+
                 String userline = String.format("%s,%s, []",
                         user.getName(), user.getPassword());
+
                 writer.write(userline);
                 writer.newLine();
             }
