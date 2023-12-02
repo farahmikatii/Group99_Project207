@@ -7,17 +7,11 @@ import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
-import interface_adapter.uploading.UploadingController;
 import interface_adapter.uploading.UploadingViewModel;
 import interface_adapter.uploads.UploadsViewModel;
-import use_case.uploading.UploadingInputBoundary;
-import use_case.uploading.UploadingInputData;
 
 
 import interface_adapter.recipePopup.RecipePopupViewModel;
-import interface_adapter.saved.SavedViewModel;
-import interface_adapter.signup.SignupViewModel;
-import interface_adapter.uploading.UploadingViewModel;
 
 import view.*;
 import interface_adapter.login.LoginViewModel;
@@ -113,9 +107,10 @@ public class Main {
         UploadingViewModel uploadingViewModel = new UploadingViewModel();
         RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
 
+
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -134,6 +129,11 @@ public class Main {
 
         SavedView savedView = new SavedView(savedViewModel, viewManagerModel, profileViewModel);
         views.add(savedView, savedView.viewName);
+
+        //RecipePopupView recipePopupView = RecipePopupUseCaseFactory.create(viewManagerModel,recipePopupViewModel, userDataAccessObject, loggedInViewModel)
+
+        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel);
+        views.add(recipePopupView, recipePopupView.viewName);
 
         UploadingView uploadingView = UploadingUseCaseFactory.create(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, userDataAccessObject);
         views.add(uploadingView, uploadingView.viewName);

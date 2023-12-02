@@ -31,7 +31,7 @@ public class RecipePopupViewModel extends ViewModel {
     @Override
     public void firePropertyChanged() {
         support.firePropertyChange("state", null, this.state);
-        support.firePropertyChange("recipeLabel", null, this.recipeLabel);
+
     }
 
     @Override
