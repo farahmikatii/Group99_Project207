@@ -71,7 +71,7 @@ public class Main {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 assert response.body() != null;
-                String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json"; // Change the file extension or name as needed
+                String filePath = "./response_output.json"; // Change the file extension or name as needed
 
                 // Write the response to a file
                 try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
