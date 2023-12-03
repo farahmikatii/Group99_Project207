@@ -1,5 +1,7 @@
 package view;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.LoggedInState;
+import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.saved.SavedState;
 import interface_adapter.saved.SavedViewModel;
@@ -31,19 +33,23 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
     private final ViewManagerModel viewManagerModel;
 
     private final SavedViewModel savedViewModel;
+    private final LoggedInViewModel loggedInViewModel;
     private final JButton saved;
 
     private final JButton uploads;
 
     private final JButton uploadNew;
 
-    public ProfileView(UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, SavedViewModel savedViewModel, UploadsViewModel uploadsViewModel) {
+    private final JButton back;
+
+    public ProfileView(UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, SavedViewModel savedViewModel, UploadsViewModel uploadsViewModel, LoggedInViewModel loggedInViewModel) {
 
         this.uploadingViewModel = uploadingViewModel;
         this.uploadsViewModel = uploadsViewModel;
         this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
         this.savedViewModel = savedViewModel;
+        this.loggedInViewModel = loggedInViewModel;
         uploadingViewModel.addPropertyChangeListener(this);
         profileViewModel.addPropertyChangeListener(this);
 
@@ -57,6 +63,9 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
         buttons.add(uploads);
         uploadNew = new JButton(ProfileViewModel.UPLOAD_NEW_BUTTON_LABEL);
         buttons.add(uploadNew);
+        back = new JButton(ProfileViewModel.BACK_BUTTON_LABEL);
+        buttons.add(back);
+        //TODO: make back button at the bottom of the page
 
         uploadNew.addActionListener(
                 new ActionListener() {
@@ -105,6 +114,21 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
                         }
 
 
+                    }
+                }
+        );
+
+        back.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(back)){
+                            LoggedInState loggedInState = loggedInViewModel.getState();
+                            loggedInViewModel.setState(loggedInState);
+                            loggedInViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(loggedInViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+                        }
                     }
                 }
         );
