@@ -11,7 +11,6 @@ import interface_adapter.recipePopup.RecipePopupViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 import org.json.JSONObject;
-import use_case.loggedIn.LoggedInOutputBoundary;
 import use_case.recipePopup.RecipePopupOutputData;
 
 import javax.swing.*;
@@ -38,7 +37,6 @@ import java.nio.file.Files;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Scanner;
-import app.Main;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
