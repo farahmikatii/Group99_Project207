@@ -27,6 +27,9 @@ import java.io.IOException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -36,37 +39,19 @@ public class Main {
         // then when you get the file from the try catch run the code below with the proper path
         try{
             OkHttpClient client = new OkHttpClient();
-            String query = "&q=" + "";
-            String cuisine = "&cuisineType=" + "italian";
-            String diet = "&Diet=" + "";
-            String health = "&Health=" + "";
-            String meal = "&mealType=" + "Dinner";
-            String dish = "&dishType=" + "";
 
-            String input = "";
+            String[] cuisines = {"american", "asian", "british", "caribbean", "central europe",
+                    "chinese", "eastern europe", "french", "greek", "indian", "italian", "japanese",
+                    "korean", "kosher", "mediterranean", "mexican", "middle eastern", "nordic",
+                    "south american", "south east asian", "world"};
 
-            if (!query.equals("&q=")) {
-                input += query;
-            }
-            if (!cuisine.equals("&cuisineType=")) {
-                input += cuisine;
-            }
-            if (!diet.equals("&Diet=")) {
-                input += diet;
-            }
-            if (!health.equals("&Health=")) {
-                input += health;
-            }
-            if (!meal.equals("&mealType=")) {
-                input += meal;
-            }
-            if (!dish.equals("&dishType=")) {
-                input += dish;
-            }
-
+            List<String> cuisinesList = Arrays.asList(cuisines);
+            Random random = new Random();
+            String randCuisine = cuisinesList.get(random.nextInt(cuisinesList.size()));
 
             Request request = new Request.Builder()
-                    .url("https://api.edamam.com/api/recipes/v2?app_id=0e94da52&app_key=%20a1c655a3813bf3c3fc6362ee953aa8e3&type=public&" + input)
+                    .url("https://api.edamam.com/api/recipes/v2?app_id=ce388b32&app_key=99c8807d127dc1f464c4e9d959b9446d&type=public&cuisineType="
+                            + randCuisine)
                     .get()
                     .build();
 
