@@ -25,8 +25,12 @@ import java.awt.event.AdjustmentListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +39,7 @@ import java.util.Objects;
 import java.nio.file.Files;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Scanner;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
@@ -202,42 +207,73 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
 
                                 // WE HAVE TO FIGURE OUT SOMEWHERE TO DELETE IT OR ELSE THERE'S IMAGE ISSUES
-                                System.out.println(nextUrl);
-                                File folder = new File("./images");
-                                deleteFolder(folder);
+//                                File folder = new File("./images");
+//                                deleteFolder(folder);
 
-                                try{
-                                    OkHttpClient client = new OkHttpClient();
+                                //There's something a little strange abt the json file
+                                try {
+                                    URL url = new URL(nextUrl);
+                                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-                                    Request request = new Request.Builder()
-                                            .url(nextUrl)
-                                            .get()
-                                            .build();
+                                    // Set up the connection
+                                    connection.setRequestMethod("GET");
 
-                                    Response response = client.newCall(request).execute();
-                                    if (response.isSuccessful()) {
-                                        assert response.body() != null;
-                                        //String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json"; // Change the file extension or name as needed
-                                        String filePath = "./response_output.json";
+                                    // Read the response
+                                    Scanner scanner = new Scanner(connection.getInputStream());
+                                    StringBuilder response = new StringBuilder();
 
-
-                                        // Write the response to a file
-                                        try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
-                                            sink.writeAll(response.body().source());
-                                        } catch (IOException ex) {
-                                            ex.printStackTrace();
-                                        }
-
-                                        System.out.println("API response saved to file: " + filePath);
+                                    while (scanner.hasNextLine()) {
+                                        response.append(scanner.nextLine());
                                     }
-                                    response.close();
-                                } catch(IOException ex) {
-                                    try {
-                                        throw new IOException("error");
-                                    } catch (IOException exc) {
-                                        throw new RuntimeException(exc);
+
+                                    scanner.close();
+                                    connection.disconnect();
+
+                                    JSONObject newObject = new JSONObject(response.toString());
+                                    try (BufferedWriter writer = new BufferedWriter(new FileWriter("./response_output.json"))) {
+                                        writer.write(newObject.toString());
+                                    } catch (IOException ex) {
+                                        throw new RuntimeException(ex);
                                     }
                                 }
+                                catch (IOException w) {
+                                    w.printStackTrace();
+                                }
+
+
+
+//                                try{
+//                                    OkHttpClient client = new OkHttpClient();
+//
+//                                    Request request = new Request.Builder()
+//                                            .url(nextUrl)
+//                                            .get()
+//                                            .build();
+//
+//                                    Response response = client.newCall(request).execute();
+//                                    if (response.isSuccessful()) {
+//                                        assert response.body() != null;
+//                                        //String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json"; // Change the file extension or name as needed
+//                                        String filePath = "./response_output.json";
+//
+//
+//                                        // Write the response to a file
+//                                        try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
+//                                            sink.writeAll(response.body().source());
+//                                        } catch (IOException ex) {
+//                                            ex.printStackTrace();
+//                                        }
+//
+//                                        System.out.println("API response saved to file: " + filePath);
+//                                    }
+//                                    response.close();
+//                                } catch(IOException ex) {
+//                                    try {
+//                                        throw new IOException("error");
+//                                    } catch (IOException exc) {
+//                                        throw new RuntimeException(exc);
+//                                    }
+//                                }
 
                                 try {
                                     //String jsonFile = "C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/response_output.json";
@@ -314,8 +350,19 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         logOut.addActionListener(
                 new ActionListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(account)) {
+                            ProfileState currentLoginState = profileViewModel.getState();
+                            System.out.println(currentLoginState);
+                            profileViewModel.setState(currentLoginState);
+                            System.out.println(profileViewModel.getState());
+                            profileViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(profileViewModel
+                                    .getViewName());
+                            System.out.println(viewManagerModel.getActiveView());
+                            viewManagerModel.firePropertyChanged();
 
+                        }
                     }
                 }
         );
