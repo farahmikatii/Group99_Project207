@@ -9,6 +9,8 @@ import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.recipePopup.RecipePopupViewModel;
+import interface_adapter.search.SearchState;
+import interface_adapter.search.SearchViewModel;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -49,6 +51,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     private final RecipePopupViewModel recipePopupViewModel;
 
+    private final SearchViewModel searchViewModel;
+
 
     JLabel username;
 
@@ -60,10 +64,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     String file;
     private int previousScrollValue = 0;
     private int prevHorizontalValue = 0;
-    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, RecipePopupViewModel recipePopupViewModel) throws Exception {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, RecipePopupViewModel recipePopupViewModel, SearchViewModel searchViewModel) throws Exception {
         this.loggedInViewModel = loggedInViewModel;
         this.viewManagerModel = viewManagerModel;
         this.profileViewModel = profileViewModel;
+        this.searchViewModel = searchViewModel;
 
 
         this.recipePopupViewModel = recipePopupViewModel;
@@ -71,6 +76,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         loggedInViewModel.addPropertyChangeListener(this);
         profileViewModel.addPropertyChangeListener(this);
         viewManagerModel.addPropertyChangeListener(this);
+        searchViewModel.addPropertyChangeListener(this);
 
 
 
@@ -323,8 +329,14 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         search.addActionListener(
                 new ActionListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
-
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(search)) {
+                            SearchState currentSearchState = searchViewModel.getState();
+                            searchViewModel.setState(currentSearchState);
+                            searchViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(searchViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+                        }
                     }
                 }
         );
