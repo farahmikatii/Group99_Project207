@@ -325,6 +325,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 //                            LoggedInOutputBoundary.confirmation("You have been logged out.");
                     }
                 }
+            }
         );
         search.addActionListener(
                 new ActionListener() {
