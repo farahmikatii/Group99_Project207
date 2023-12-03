@@ -6,6 +6,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
+import interface_adapter.resultSearch.ResultViewModel;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
@@ -101,7 +102,7 @@ public class Main {
         UploadsViewModel uploadsViewModel = new UploadsViewModel();
         UploadingViewModel uploadingViewModel = new UploadingViewModel();
         SearchViewModel searchViewModel = new SearchViewModel();
-        SearchController searchController = new SearchController();
+        ResultViewModel resultViewModel = new ResultViewModel();
 
         RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
         RecipePopupState recipePopupState = new RecipePopupState();
@@ -148,7 +149,7 @@ public class Main {
         );
         views.add(uploadsView, uploadsView.viewName);
 
-        SearchView searchView = new SearchView(searchController, searchViewModel, viewManagerModel, loggedInViewModel);
+        SearchView searchView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, loggedInViewModel, resultViewModel);
         views.add(searchView, searchView.viewName);
         //this is likely to be needed to change after the searchfactory is made
 

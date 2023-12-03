@@ -5,6 +5,7 @@ import data_access.FilterAPICallDataAccessObject;
 import entity.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.resultSearch.ResultViewModel;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.search.SearchController;
 import interface_adapter.signup.SignupController;
