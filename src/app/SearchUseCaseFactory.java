@@ -57,7 +57,6 @@ public class SearchUseCaseFactory {
 
         //return new SearchController(searchInteractor);
     //}
-}
     //FilterAPICallDataAccessObject recipeDataAccessObject, CommonRecipeDataAccessObject commonRecipeDataAccessObject, SearchOutputBoundary searchPresenter, RecipeFactory recipeFactory
 
     public static SearchView create(

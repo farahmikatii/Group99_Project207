@@ -28,10 +28,10 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
     public List<CommonRecipe> returnRecipeList(int diff){
         String targetDictionary;
         if (diff == 1){
-            targetDictionary = "./images";
+            targetDictionary = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/src/images";
         }
         else{
-            targetDictionary = "./filter/images";
+            targetDictionary = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/src/filter/images";
         }
         JSONObject jsonObject = new JSONObject(jsonFile);
         JSONArray hits = jsonObject.getJSONArray("hits");

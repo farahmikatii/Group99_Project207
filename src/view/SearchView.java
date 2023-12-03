@@ -29,8 +29,6 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
 
     private final LoggedInViewModel loggedInViewModel;
 
-    private final LoggedInState loggedInState;
-
     final JTextField searchInputField = new JTextField(15);
 
     JLabel filters;
