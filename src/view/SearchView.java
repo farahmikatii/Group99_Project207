@@ -74,6 +74,7 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         mealTypeOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown.add(mealTypeOptions);
 
+
         JPanel dropDown2 = new JPanel();
         JLabel dishType = new JLabel("Select a dish type");
         dishType.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -88,6 +89,18 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         dishTypeOptions.setMaximumSize(dishTypeOptions.getPreferredSize());
         dishTypeOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown2.add(dishTypeOptions);
+
+        dishTypeOptions.addActionListener(
+                // Creates an anonymous subclass of ActionListener and instantiates it
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        SearchState currentState = searchViewModel.getState();
+                        JComboBox<String> cb = (JComboBox) evt.getSource();
+                        String dishSelected = (String) cb.getSelectedItem();
+                        currentState.setDishType(dishSelected);
+                    }
+        }
+        );
 
         JPanel dropDown3 = new JPanel();
         JLabel cuisineType = new JLabel("Select a cuisine type");
