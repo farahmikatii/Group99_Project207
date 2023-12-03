@@ -11,6 +11,7 @@ import interface_adapter.recipePopup.RecipePopupViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 import org.json.JSONObject;
+import use_case.loggedIn.LoggedInOutputBoundary;
 import use_case.recipePopup.RecipePopupOutputData;
 
 import javax.swing.*;
@@ -37,6 +38,7 @@ import java.nio.file.Files;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Scanner;
+import app.Main;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
@@ -354,11 +356,14 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(logOut)) {
-                            SignupState currentSignupState = signupViewModel.getState();
-                            signupViewModel.setState(currentSignupState);
-                            signupViewModel.firePropertyChanged();
-                            viewManagerModel.setActiveView(signupViewModel.getViewName());
-                            viewManagerModel.firePropertyChanged();
+//                            SignupState currentSignupState = signupViewModel.getState();
+//                            signupViewModel.setState(currentSignupState);
+//                            signupViewModel.firePropertyChanged();
+//                            viewManagerModel.setActiveView(signupViewModel.getViewName());
+//                            viewManagerModel.firePropertyChanged();
+
+                            System.exit(0);
+//                            LoggedInOutputBoundary.confirmation("You have been logged out.");
 
                         }
                     }
