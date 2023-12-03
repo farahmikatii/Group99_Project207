@@ -355,7 +355,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                         }
                     }
                 }
-            }
+            
         );
 
         search.addActionListener(
