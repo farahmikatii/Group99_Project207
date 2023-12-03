@@ -28,7 +28,7 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
     public List<CommonRecipe> returnRecipeList(int diff){
         String targetDictionary;
         if (diff == 1){
-            targetDictionary = "C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/src/images";
+            targetDictionary = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/src/images";
         }
         else{
             targetDictionary = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/src/filter/images";
