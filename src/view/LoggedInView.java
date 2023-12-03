@@ -93,7 +93,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
         //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
         //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
-        String jsonFile = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json";
+        String jsonFile = "./response_output.json";
         file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
         final CommonRecipeDataAccessObject[] commonRecipeDAO = {new CommonRecipeDataAccessObject(file)}; // replace jsonFile with the actual JSON file content or path
 
@@ -219,7 +219,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
                                 // WE HAVE TO FIGURE OUT SOMEWHERE TO DELETE IT OR ELSE THERE'S IMAGE ISSUES
                                 System.out.println(nextUrl);
-                                File folder = new File("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/src/images");
+                                File folder = new File("./src/images");
                                 deleteFolder(folder);
 
                                 try{
@@ -234,7 +234,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                                     if (response.isSuccessful()) {
                                         assert response.body() != null;
                                         //String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json"; // Change the file extension or name as needed
-                                        String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json";
+                                        String filePath = "./response_output.json";
 
 
                                         // Write the response to a file
