@@ -6,6 +6,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
+import interface_adapter.resultSearch.ResultViewModel;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
@@ -14,7 +15,9 @@ import interface_adapter.uploads.UploadsViewModel;
 
 import interface_adapter.recipePopup.RecipePopupViewModel;
 
-import use_case.recipePopup.RecipePopupOutputData;
+import interface_adapter.search.SearchViewModel;
+import interface_adapter.search.SearchController;
+
 import view.*;
 import interface_adapter.login.LoginViewModel;
 
@@ -60,6 +63,7 @@ public class Main {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 assert response.body() != null;
+
                 //String filePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
                 //String filePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
                 //String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json"; // Change the file extension or name as needed
@@ -97,6 +101,9 @@ public class Main {
         SavedViewModel savedViewModel = new SavedViewModel();
         UploadsViewModel uploadsViewModel = new UploadsViewModel();
         UploadingViewModel uploadingViewModel = new UploadingViewModel();
+        SearchViewModel searchViewModel = new SearchViewModel();
+        ResultViewModel resultViewModel = new ResultViewModel();
+
         RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
         RecipePopupState recipePopupState = new RecipePopupState();
 
@@ -116,6 +123,7 @@ public class Main {
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel, signupViewModel);
+
         views.add(loggedInView, loggedInView.viewName);
 
         ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel, loggedInViewModel);
@@ -140,6 +148,10 @@ public class Main {
                 userDataAccessObject
         );
         views.add(uploadsView, uploadsView.viewName);
+
+        SearchView searchView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, loggedInViewModel, resultViewModel);
+        views.add(searchView, searchView.viewName);
+        //this is likely to be needed to change after the searchfactory is made
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
