@@ -41,8 +41,9 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
             // Extract recipe information
 //            int id = recipeJson.getInt("id");
             String label = recipeJson.getString("label");
+            String url = recipeJson.getString("url");
 
-            String image_path = downloadImage(recipeJson.getString("image"), label, targetDictionary).toString();
+            String image_path = downloadImage(recipeJson.getString("image"), url, targetDictionary).toString();
 
             //String image_path = recipeJson.getString("image");
 
@@ -54,7 +55,7 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
 //                ingredients[j] = ingredientsJsonArray.getString(j);
 //            }
 
-            String url = recipeJson.getString("url");
+
 
             // Create a CommonRecipe object
             CommonRecipe commonRecipe = new CommonRecipe(label, image_path, url);
@@ -68,14 +69,15 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
         return new String(Files.readAllBytes(Paths.get(file)));
     }
 
-    public static Path downloadImage(String imageUrl, String recipeName, String targetDirectory) {
+    public static Path downloadImage(String imageUrl, String recipeUrl, String targetDirectory) {
         // Returns path of image which is downloaded under 'images' package in src
         try {
             URL url = new URL(imageUrl);
             String[] illegal = {"#", "%", "&", "}", "{", "\\", ">", "<", "*", "?", "/", "$", "!", "'", "\"", ":", "@", "+", "`", "|", "=", ""};
 
             try (InputStream in = url.openStream()) {
-                String fileName = recipeName.replaceAll(Arrays.toString(illegal), "_") + ".png";
+                //String fileName = recipeName.replaceAll(Arrays.toString(illegal), "_") + ".png";
+                String fileName = recipeUrl.replaceAll(Arrays.toString(illegal), "_") + ".png";
                 Path destination = Paths.get(targetDirectory, fileName);
 
                 // Creation of target directory if non-existent

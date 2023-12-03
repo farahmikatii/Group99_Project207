@@ -11,13 +11,11 @@ import java.util.List;
 
 public class SearchInteractor implements SearchInputBoundary{
     final FilterAPICallDataAccessObject recipeDataAccessObject;
-    final CommonRecipeDataAccessObject commonRecipeDataAccessObject;
     final SearchOutputBoundary searchPresenter;
     final RecipeFactory recipeFactory;
 
-    public SearchInteractor(FilterAPICallDataAccessObject recipeDataAccessObject, CommonRecipeDataAccessObject commonRecipeDataAccessObject, SearchOutputBoundary searchPresenter, RecipeFactory recipeFactory){
+    public SearchInteractor(FilterAPICallDataAccessObject recipeDataAccessObject, SearchOutputBoundary searchPresenter, RecipeFactory recipeFactory){
         this.recipeDataAccessObject = recipeDataAccessObject;
-        this.commonRecipeDataAccessObject = commonRecipeDataAccessObject;
         this.searchPresenter = searchPresenter;
         this.recipeFactory = recipeFactory;
     }

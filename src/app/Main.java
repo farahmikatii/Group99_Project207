@@ -8,6 +8,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
+import interface_adapter.resultSearch.ResultViewModel;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.uploading.UploadingViewModel;
@@ -15,6 +16,10 @@ import interface_adapter.uploads.UploadsViewModel;
 
 
 import interface_adapter.recipePopup.RecipePopupViewModel;
+
+
+import interface_adapter.search.SearchViewModel;
+import interface_adapter.search.SearchController;
 
 import view.*;
 import interface_adapter.login.LoginViewModel;
@@ -28,52 +33,43 @@ import java.io.IOException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+
+
 
         //API STUFF
         // Notes for running: first run the try catch and comment out the code below it,
         // then when you get the file from the try catch run the code below with the proper path
         try{
             OkHttpClient client = new OkHttpClient();
-            String query = "&q=" + "";
-            String cuisine = "&cuisineType=" + "italian";
-            String diet = "&Diet=" + "";
-            String health = "&Health=" + "";
-            String meal = "&mealType=" + "Dinner";
-            String dish = "&dishType=" + "";
 
-            String input = "";
+            String[] cuisines = {"american", "asian", "british", "caribbean", "central europe",
+                    "chinese", "eastern europe", "french", "greek", "indian", "italian", "japanese",
+                    "korean", "kosher", "mediterranean", "mexican", "middle eastern", "nordic",
+                    "south american", "south east asian", "world"};
 
-            if (!query.equals("&q=")) {
-                input += query;
-            }
-            if (!cuisine.equals("&cuisineType=")) {
-                input += cuisine;
-            }
-            if (!diet.equals("&Diet=")) {
-                input += diet;
-            }
-            if (!health.equals("&Health=")) {
-                input += health;
-            }
-            if (!meal.equals("&mealType=")) {
-                input += meal;
-            }
-            if (!dish.equals("&dishType=")) {
-                input += dish;
-            }
-
+            List<String> cuisinesList = Arrays.asList(cuisines);
+            Random random = new Random();
+            String randCuisine = cuisinesList.get(random.nextInt(cuisinesList.size()));
 
             Request request = new Request.Builder()
-                    .url("https://api.edamam.com/api/recipes/v2?app_id=0e94da52&app_key=%20a1c655a3813bf3c3fc6362ee953aa8e3&type=public&" + input)
+                    .url("https://api.edamam.com/api/recipes/v2?app_id=ce388b32&app_key=99c8807d127dc1f464c4e9d959b9446d&type=public&cuisineType="
+                            + randCuisine)
                     .get()
                     .build();
 
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 assert response.body() != null;
+
+                //String filePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
+                //String filePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
+                //String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json"; // Change the file extension or name as needed
                 String filePath = "./response_output.json"; // Change the file extension or name as needed
 
                 // Write the response to a file
@@ -90,7 +86,7 @@ public class Main {
             throw new IOException("error");
         }
 
-        JFrame application = new JFrame("Reciepe Flow");
+        JFrame application = new JFrame("Recipe Flow");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -108,12 +104,16 @@ public class Main {
         SavedViewModel savedViewModel = new SavedViewModel();
         UploadsViewModel uploadsViewModel = new UploadsViewModel();
         UploadingViewModel uploadingViewModel = new UploadingViewModel();
+        SearchViewModel searchViewModel = new SearchViewModel();
+        ResultViewModel resultViewModel = new ResultViewModel();
+
         RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
         RecipePopupState recipePopupState = new RecipePopupState();
 
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("/Users/duahussain/IdeaProjects/Group99_Project207/users.csv", new CommonUserFactory());
+
+            userDataAccessObject = new FileUserDataAccessObject("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/users.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -126,10 +126,11 @@ public class Main {
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel);
+        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel, searchViewModel);
+
         views.add(loggedInView, loggedInView.viewName);
 
-        ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel);
+        ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel, loggedInViewModel);
         views.add(profileView, profileView.viewName);
 
         SavedView savedView = new SavedView(savedViewModel, viewManagerModel, profileViewModel);
@@ -152,6 +153,10 @@ public class Main {
         );
         views.add(uploadsView, uploadsView.viewName);
 
+        SearchView searchView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, loggedInViewModel, resultViewModel);
+        views.add(searchView, searchView.viewName);
+        //this is likely to be needed to change after the searchfactory is made
+
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
 
@@ -167,13 +172,7 @@ public class Main {
 //            APICallDataAccessObject.jsonToCsv(file);
 //        }
 //        catch(IOException e){
-//            throw new NoSuchFileException("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json");
+//            throw new NoSuchFileException("C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/response_output.json");
 //        }
-
-
-
-
-
-
     }
 }

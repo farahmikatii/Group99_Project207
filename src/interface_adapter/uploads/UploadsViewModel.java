@@ -11,7 +11,7 @@ public class UploadsViewModel extends ViewModel {
 
     private UploadsState state = new UploadsState();
 
-    public final String BACK_BUTTON_LABEL = "back";
+    public final String BACK_BUTTON_LABEL = "Back";
 
     public UploadsViewModel(){super("Uploaded Recipes");}
 

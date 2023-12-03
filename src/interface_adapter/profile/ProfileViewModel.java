@@ -38,6 +38,8 @@ public class ProfileViewModel extends ViewModel{
     public static final String UPLOAD_BUTTON_LABEL = "Uploaded Recipes";
     public static final String UPLOAD_NEW_BUTTON_LABEL = "Upload New Recipe";
 
+    public static final String BACK_BUTTON_LABEL = "Back";
+
 
     private ProfileState state = new ProfileState();
 

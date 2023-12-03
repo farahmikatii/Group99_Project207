@@ -6,4 +6,6 @@ public  interface LoginInputBoundary {
     void execute(LoginInputData loginInputData);
 
 
+    void setUsername(LoginInputData loginInputData);
+
 }
