@@ -35,7 +35,6 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
 
     JButton search;
 
-    JButton select;
 
     JButton back;
 
@@ -47,7 +46,6 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         this.searchController = searchController;
         this.viewManagerModel = viewManagerModel;
         this.loggedInViewModel = loggedInViewModel;
-
         this.searchViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Search");
@@ -58,21 +56,18 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
 
         JPanel searchButton = new JPanel();
         JPanel backButton = new JPanel();
-        JPanel selectButton = new JPanel();
         back = new JButton(SearchViewModel.BACK_BUTTON_LABEL);
         backButton.add(back);
         search = new JButton(SearchViewModel.SEARCH_BUTTON_LABEL);
         searchButton.add(search);
-        select = new JButton(SearchViewModel.SELECT_BUTTON_LABEL);
-        selectButton.add(select);
 
         JPanel dropDown = new JPanel();
         JLabel mealType = new JLabel("Select a meal type");
         mealType.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown.add(mealType);
 
-        String[] choices = { "breakfast", "brunch", "lunch/dinner", "snack",
-                "teatime" };
+        String[] choices = {"", "breakfast", "brunch", "lunch/dinner", "snack",
+                "teatime"};
 
         final JComboBox<String> mealTypeOptions = new JComboBox<>(choices);
         mealTypeOptions.setMaximumSize(mealTypeOptions.getPreferredSize());
@@ -84,7 +79,7 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         dishType.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown2.add(dishType);
 
-        String[] dishes = { "alcohol cocktail", "biscuits and cookies", "bread", "cereals", "condiments and sauces",
+        String[] dishes = {"", "alcohol cocktail", "biscuits and cookies", "bread", "cereals", "condiments and sauces",
                 "desserts", "drinks", "egg", "ice cream and custard", "main course", "pancake", "pasta", "pastry",
                 "pies and tarts", "pizza", "preps", "preserve", "salad", "sandwiches", "seafood", "side dish", "soup",
                 "special occasions", "starter", "sweets"};
@@ -99,7 +94,7 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         cuisineType.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown3.add(cuisineType);
 
-        String[] cuisines = { "american", "asian", "british", "caribbean", "central europe", "chinese", "eastern europe",
+        String[] cuisines = {"", "american", "asian", "british", "caribbean", "central europe", "chinese", "eastern europe",
                 "french", "greek", "indian", "italian", "japanese", "korean", "kosher", "mediterranean", "mexican",
                 "middle eastern", "nordic", "south american", "south east asian", "world"};
 
@@ -108,40 +103,32 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         cuisineTypeOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown3.add(cuisineTypeOptions);
 
-        JPanel additional = new JPanel();
-        JLabel healthLabels = new JLabel("Select any additional filters");
-        healthLabels.setAlignmentX(Component.LEFT_ALIGNMENT);
-        additional.add(healthLabels);
+        JPanel dropDown4 = new JPanel();
+        JLabel dietLabels = new JLabel("Select a diet restriction");
+        dietLabels.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dropDown4.add(dietLabels);
 
-        JLabel alcoholFree = new JLabel("Alcohol-Free");
-        additional.add(alcoholFree);
-        JButton select1 = new JButton(SearchViewModel.SELECT1_BUTTON_LABEL); //add actionlistener for select1
-        additional.add(select1);
+        String[] diets = {"", "balanced", "high-fiber", "high-protein", "low-carb", "low-fat", "low-sodium"};
 
-        JLabel dairyFree = new JLabel("Dairy-Free");
-        additional.add(dairyFree);
-        JButton select2 = new JButton(SearchViewModel.SELECT2_BUTTON_LABEL); //add actionlistener for select2
-        additional.add(select2);
+        final JComboBox<String> dietLabelOptions = new JComboBox<>(diets);
+        dietLabelOptions.setMaximumSize(dietLabelOptions.getPreferredSize());
+        dietLabelOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dropDown4.add(dietLabelOptions);
 
-        JLabel eggFree = new JLabel("Egg-Free");
-        additional.add(eggFree);
-        JButton select3 = new JButton(SearchViewModel.SELECT3_BUTTON_LABEL); //add actionlistener for select3
-        additional.add(select3);
+        JPanel dropDown5 = new JPanel();
+        JLabel healthLabels = new JLabel("Select a health restriction");
+        healthLabels.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dropDown5.add(healthLabels);
 
-        JLabel peanutFree = new JLabel("Peanut-Free");
-        additional.add(peanutFree);
-        JButton select4 = new JButton(SearchViewModel.SELECT4_BUTTON_LABEL); //add actionlistener for select4
-        additional.add(select4);
+        String[] healths = {"", "alcohol-free", "crustacean-free", "dairy-free", "egg-free", "gluten-free", "keto-friendly",
+                "kosher", "peanut-free", "sesame-free", "shellfish-free", "tree-nut-free", "vegan"};
 
-        JLabel shellfishFree = new JLabel("Shellfish-Free");
-        additional.add(shellfishFree);
-        JButton select5 = new JButton(SearchViewModel.SELECT5_BUTTON_LABEL); //add actionlistener for select5
-        additional.add(select5);
+        final JComboBox<String> healthLabelOptions = new JComboBox<>(healths);
+        healthLabelOptions.setMaximumSize(healthLabelOptions.getPreferredSize());
+        healthLabelOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dropDown5.add(healthLabelOptions);
 
-        JLabel vegan = new JLabel("Vegan");
-        additional.add(vegan);
-        JButton select6 = new JButton(SearchViewModel.SELECT6_BUTTON_LABEL); //add actionlistener for select6
-        additional.add(select6);
+
 
 
         search.addActionListener(
@@ -152,13 +139,14 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
                             SearchState currentState = searchViewModel.getState();
 
                             //searchController.execute(
-                                    // in here we need to execute what happens in controller
-                                    // gather which filters they have chosen
-                                    // make dictionary with the filter where the filter name is the key and if it is
-                                    //chosen the value if not value is null
-                            //);
+                                    //if currentState.getDietLabelEmpty(){
+
+                            }
+
+                        //)
+
                         }
-                    }
+                    //}
                 }
         );
 
@@ -191,6 +179,7 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
                         String text = searchInputField.getText() + e.getKeyChar();
                         //currentState.setUsername(text); change to saving this to search within the api in SearchState
                         searchViewModel.setState(currentState);
+                        //like signup
                     }
 
                     @Override
@@ -206,12 +195,13 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         this.add(title);
         //this.add(filters); see if this is needed for if the filters label is used somewhere else
         this.add(searchInfo);
-        this.add(searchButton);
-        this.add(backButton);
-        this.add(selectButton);
         this.add(dropDown);
         this.add(dropDown2);
         this.add(dropDown3);
+        this.add(dropDown4);
+        this.add(dropDown5);
+        this.add(searchButton);
+        this.add(backButton);
     }
 
     public void actionPerformed(ActionEvent evt) {
