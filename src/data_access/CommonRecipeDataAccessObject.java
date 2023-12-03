@@ -90,7 +90,7 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
         }
         return null;
     }
-    public CommonRecipe findRecipe(String label) {
+    public CommonRecipe findRecipe(String label, List<CommonRecipe> commonRecipeList) {
         for (CommonRecipe recipe : commonRecipeList) {
             if (recipe.getRecipeName().equalsIgnoreCase(label)) {
                 return recipe;

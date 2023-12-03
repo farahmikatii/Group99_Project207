@@ -1,6 +1,8 @@
 package app;
 
+import data_access.CommonRecipeDataAccessObject;
 import data_access.FileUserDataAccessObject;
+import entity.CommonRecipeFactory;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -14,7 +16,6 @@ import interface_adapter.uploads.UploadsViewModel;
 
 import interface_adapter.recipePopup.RecipePopupViewModel;
 
-import use_case.recipePopup.RecipePopupOutputData;
 import view.*;
 import interface_adapter.login.LoginViewModel;
 
@@ -111,13 +112,17 @@ public class Main {
         RecipePopupState recipePopupState = new RecipePopupState();
 
 
-
+        CommonRecipeDataAccessObject commonRecipeDataAccessObject;
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("/Users/duahussain/IdeaProjects/Group99_Project207/users.csv", new CommonUserFactory());
+
+            commonRecipeDataAccessObject = new CommonRecipeDataAccessObject("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/src/filter/images");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.viewName);
@@ -126,6 +131,7 @@ public class Main {
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel);
+        //LoggedInView loggedInView = LoggedInUseCaseFactory.create(viewManagerModel, recipePopupViewModel, commonRecipeDataAccessObject, loggedInViewModel, profileViewModel);
         views.add(loggedInView, loggedInView.viewName);
 
         ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel);
