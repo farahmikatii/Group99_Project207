@@ -7,8 +7,8 @@ import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
-import interface_adapter.search.SearchState;
-import interface_adapter.search.SearchViewModel;
+import interface_adapter.recipePopup.RecipePopupState;
+import interface_adapter.recipePopup.RecipePopupViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,10 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import java.util.List;
 
@@ -32,21 +28,30 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     private final ProfileViewModel profileViewModel;
 
-    private final SearchViewModel searchViewModel;
+    private final RecipePopupViewModel recipePopupViewModel;
+
 
     JLabel username;
+
 
     final JButton logOut;
     final JButton search;
     final JButton account;
     JButton recipeImage;
-    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, SearchViewModel searchViewModel) throws Exception {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, RecipePopupViewModel recipePopupViewModel) throws Exception {
         this.loggedInViewModel = loggedInViewModel;
         this.viewManagerModel = viewManagerModel;
         this.profileViewModel = profileViewModel;
-        this.searchViewModel = searchViewModel;
 
-        this.loggedInViewModel.addPropertyChangeListener(this);
+        this.recipePopupViewModel = recipePopupViewModel;
+
+        loggedInViewModel.addPropertyChangeListener(this);
+        profileViewModel.addPropertyChangeListener(this);
+        viewManagerModel.addPropertyChangeListener(this);
+
+
+
+
 
         JLabel title = new JLabel("Recipe Flow");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -54,17 +59,14 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
 
         //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
-
-        String jsonFile = "/Users/sedakchuckal/IdeaProjects/Group99_Project207/response_output.json";
-
         //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
         //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
-
+        String jsonFile = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json";
         String file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
         CommonRecipeDataAccessObject commonRecipeDAO = new CommonRecipeDataAccessObject(file); // replace jsonFile with the actual JSON file content or path
 
         // Call returnRecipeList method
-        List<CommonRecipe> recipesList = commonRecipeDAO.returnRecipeList();
+        List<CommonRecipe> recipesList = commonRecipeDAO.returnRecipeList(1);
 
 
 
@@ -109,16 +111,33 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     // This creates an anonymous subclass of ActionListener and instantiates it.
                     new ActionListener() {
                         public void actionPerformed(ActionEvent evt) {
-                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                                try {
-                                    URI uri = new URI(recipe.getRecipeUrl());
-                                    Desktop.getDesktop().browse(uri);
-                                } catch (IOException | URISyntaxException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                System.out.println("Opening a link is not supported on this platform.");
+//                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+//                                try {
+//                                    URI uri = new URI(recipe.getRecipeUrl());
+//                                    Desktop.getDesktop().browse(uri);
+//                                } catch (IOException | URISyntaxException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            } else {
+//                                System.out.println("Opening a link is not supported on this platform.");
+//                            }
+                            if (evt.getSource().equals(recipeImage)) {
+
+                                RecipePopupState currentPopupState = recipePopupViewModel.getState();
+                                System.out.println(currentPopupState);
+
+                                recipePopupViewModel.setState(currentPopupState);
+                                System.out.println(recipePopupViewModel.getState());
+
+                                recipePopupViewModel.firePropertyChanged();
+
+                                viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
+                                System.out.println(viewManagerModel.getActiveView());
+                                viewManagerModel.firePropertyChanged();
+
                             }
+
+
                         }
                     }
             );
@@ -132,25 +151,23 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         //account.setBounds(10, 10, 100, 30);
         //account.setBounds(10, -20, 100, 30);
 
-        logOut.addActionListener(this);
+        logOut.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                }
+        );
         search.addActionListener(
                 new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    if (evt.getSource().equals(search)) {
-                        SearchState currentLoginState = searchViewModel.getState();
-                        System.out.println(currentLoginState);
-                        searchViewModel.setState(currentLoginState);
-                        System.out.println(searchViewModel.getState());
-                        searchViewModel.firePropertyChanged();
-                        viewManagerModel.setActiveView(searchViewModel
-                            .getViewName());
-                        System.out.println(viewManagerModel.getActiveView());
-                        viewManagerModel.firePropertyChanged();
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
 
+                    }
                 }
-            }
-        });
+        );
+
         account.addActionListener(
                 new ActionListener() {
                     @Override
@@ -193,7 +210,18 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        LoggedInState state = (LoggedInState) evt.getNewValue();
-        //username.setText(state.getUsername());
+//        try {
+//            LoggedInState loggedInState = (LoggedInState) evt.getNewValue();
+//            if (loggedInState.getUsernameError() != null) {
+//                JOptionPane.showMessageDialog(this, LoggedInState.getUsernameError());
+//            }
+//        }
+//        catch(ClassCastException e){
+//            ProfileState profilestate = (ProfileState) evt.getNewValue();
+//            if (profilestate.getUsernameError() != null){
+//                JOptionPane.showMessageDialog(this, profilestate.getUsernameError());
+//            }
+//
+//        }
     }
 }

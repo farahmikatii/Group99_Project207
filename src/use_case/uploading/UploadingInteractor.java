@@ -3,6 +3,10 @@ package use_case.uploading;
 import entity.UploadedRecipe;
 import entity.UploadedRecipeFactory;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class UploadingInteractor implements UploadingInputBoundary {
 
     final UploadingDataAccessInterface uploadingDataAccessInterface;
@@ -34,5 +38,19 @@ public class UploadingInteractor implements UploadingInputBoundary {
             uploadingPresenter.prepareSuccessView(uploadingOutputData);
         }
 
+    }
+
+    @Override
+    public List<Map<String, Object>> uploadedRecipes() {
+
+        return uploadingDataAccessInterface.readUploadedRecipesFromCSV();
+
+    }
+
+    @Override
+    public void executeRecipeView(UploadingInputData uploadingInputData) {
+        UploadedRecipe uploadedRecipe = uploadedRecipeFactory.create(uploadingInputData.getRecipeName(), uploadingInputData.getRecipeIngredients(), uploadingInputData.getRecipeInstructions(), uploadingInputData.getRecipeImage());
+        UploadingOutputData uploadingOutputData = new UploadingOutputData(uploadedRecipe.getUploadedRecipeName(), uploadedRecipe.getIngredients(), uploadedRecipe.getInstructions(), uploadedRecipe.getImage());
+        uploadingPresenter.prepareUploadedRecipeView(uploadingOutputData);
     }
 }

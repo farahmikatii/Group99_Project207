@@ -9,9 +9,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 import use_case.uploading.UploadingDataAccessInterface;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, UploadingDataAccessInterface {
 
@@ -34,6 +32,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         headers.put("username", 0);
         headers.put("password", 1);
         //headers.put("creation_time", 2);
+        headers.put("uploaded recipes", 2);
 
         if (csvFile.length() == 0) {
             save();
@@ -59,12 +58,22 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
     }
 
+    /**
+     * Return whether a user exists with username identifier.
+     * @param identifier the username to check.
+     * @return whether a user exists with username identifier
+     */
+    @Override
+    public boolean existsByName(String identifier) {
+        return accounts.containsKey(identifier);
+    }
 
     @Override
     public void save(User user) {
         accounts.put(user.getName(), user);
         this.save();
     }
+
     public User get(String username) {
         return accounts.get(username);
     }
@@ -77,9 +86,13 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.newLine();
 
             for (User user : accounts.values()) {
-                String line = String.format("%s,%s",
+                List<String> emptyArrayList = new ArrayList<>();
+                List<Object> line = new ArrayList<>();
+                String userline = String.format("%s,%s",
                         user.getName(), user.getPassword());
-                writer.write(line);
+                line.add(userline);
+                line.add(emptyArrayList);
+                writer.write(line.toString());
                 writer.newLine();
             }
 
@@ -95,11 +108,29 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         this.saveUploadedRecipe();
     }
 
-    private void saveUploadedRecipe(){
-        BufferedWriter writer;
+    @Override
+    public List<Map<String, Object>> readUploadedRecipesFromCSV() {
+        List<Map<String, Object>> recipesList = new ArrayList<>();
+
+        for (UploadedRecipe uploadedRecipe : uploadedRecipeMap.values()) {
+            Map<String, Object> uploadedRecipeDataMap = new HashMap<>();
+            uploadedRecipeDataMap.put("Name", uploadedRecipe.getUploadedRecipeName());
+            uploadedRecipeDataMap.put("Ingredients", uploadedRecipe.getIngredients());
+            uploadedRecipeDataMap.put("Instructions", uploadedRecipe.getInstructions());
+            uploadedRecipeDataMap.put("Image", uploadedRecipe.getImage());
+
+            recipesList.add(uploadedRecipeDataMap);
+        }
+
+        return recipesList;
+    }
+
+    private void saveUploadedRecipe() {
+
+
+/*        BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter(csvFile));
-            writer.write(String.join(",", headers.keySet()));
             writer.newLine();
 
             for (UploadedRecipe uploadedRecipe: uploadedRecipeMap.values()){
@@ -125,16 +156,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         } catch (IOException e){
             throw new RuntimeException(e);
         }
-        }
+        }*/
 
-    /**
-     * Return whether a user exists with username identifier.
-     * @param identifier the username to check.
-     * @return whether a user exists with username identifier
-     */
-    @Override
-    public boolean existsByName(String identifier) {
-        return accounts.containsKey(identifier);
+
     }
-
 }

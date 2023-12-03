@@ -44,12 +44,11 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
     private SearchController searchController;
 
     public SearchView(SearchController searchController,SearchViewModel searchViewModel, ViewManagerModel viewManagerModel,
-                      LoggedInViewModel loggedInViewModel, LoggedInState loggedInState) throws Exception {
+                      LoggedInViewModel loggedInViewModel) throws Exception {
         this.searchViewModel = searchViewModel;
         this.searchController = searchController;
         this.viewManagerModel = viewManagerModel;
         this.loggedInViewModel = loggedInViewModel;
-        this.loggedInState = loggedInState;
 
         this.searchViewModel.addPropertyChangeListener(this);
 
@@ -84,7 +83,7 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
 
         JPanel dropDown2 = new JPanel();
         JLabel dishType = new JLabel("Select a dish type");
-        mealType.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dishType.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown2.add(dishType);
 
         String[] dishes = { "alcohol cocktail", "biscuits and cookies", "bread", "cereals", "condiments and sauces",
@@ -110,6 +109,42 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         cuisineTypeOptions.setMaximumSize(cuisineTypeOptions.getPreferredSize());
         cuisineTypeOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown3.add(cuisineTypeOptions);
+
+        JPanel additional = new JPanel();
+        JLabel healthLabels = new JLabel("Select any additional filters");
+        healthLabels.setAlignmentX(Component.LEFT_ALIGNMENT);
+        additional.add(healthLabels);
+
+        JLabel alcoholFree = new JLabel("Alcohol-Free");
+        additional.add(alcoholFree);
+        JButton select1 = new JButton(SearchViewModel.SELECT1_BUTTON_LABEL); //add actionlistener for select1
+        additional.add(select1);
+
+        JLabel dairyFree = new JLabel("Dairy-Free");
+        additional.add(dairyFree);
+        JButton select2 = new JButton(SearchViewModel.SELECT2_BUTTON_LABEL); //add actionlistener for select2
+        additional.add(select2);
+
+        JLabel eggFree = new JLabel("Egg-Free");
+        additional.add(eggFree);
+        JButton select3 = new JButton(SearchViewModel.SELECT3_BUTTON_LABEL); //add actionlistener for select3
+        additional.add(select3);
+
+        JLabel peanutFree = new JLabel("Peanut-Free");
+        additional.add(peanutFree);
+        JButton select4 = new JButton(SearchViewModel.SELECT4_BUTTON_LABEL); //add actionlistener for select4
+        additional.add(select4);
+
+        JLabel shellfishFree = new JLabel("Shellfish-Free");
+        additional.add(shellfishFree);
+        JButton select5 = new JButton(SearchViewModel.SELECT5_BUTTON_LABEL); //add actionlistener for select5
+        additional.add(select5);
+
+        JLabel vegan = new JLabel("Vegan");
+        additional.add(vegan);
+        JButton select6 = new JButton(SearchViewModel.SELECT6_BUTTON_LABEL); //add actionlistener for select6
+        additional.add(select6);
+
 
         search.addActionListener(
                 // Creates an anonymous subclass of ActionListener and instantiates it
