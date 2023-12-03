@@ -131,6 +131,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         //buttons.add(logOut);
         searchButton.add(search);
         searchButton.add(account);
+        searchButton.add(logOut);
         //divider.add(logOut);
         //recipes.add(recipeImage);
 
