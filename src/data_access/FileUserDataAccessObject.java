@@ -1,5 +1,6 @@
 package data_access;
 
+import app.UploadsUseCaseFactory;
 import entity.UploadedRecipe;
 import entity.User;
 import entity.UserFactory;
@@ -24,6 +25,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     private UserFactory userFactory;
 
     private UploadedRecipeFactory uploadedRecipeFactory;
+    private String loggedInUsername;
 
     public FileUserDataAccessObject(String csvPath, UserFactory userFactory) throws IOException {
         this.userFactory = userFactory;
@@ -60,6 +62,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     /**
      * Return whether a user exists with username identifier.
+     *
      * @param identifier the username to check.
      * @return whether a user exists with username identifier
      */
@@ -78,6 +81,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return accounts.get(username);
     }
 
+    @Override
+    public void setUsername(String username) {
+        this.loggedInUsername = username;
+    }
+
     private void save() {
         BufferedWriter writer;
         try {
@@ -86,13 +94,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.newLine();
 
             for (User user : accounts.values()) {
-                List<String> emptyArrayList = new ArrayList<>();
-                List<Object> line = new ArrayList<>();
-                String userline = String.format("%s,%s",
+
+                String userline = String.format("%s,%s, []",
                         user.getName(), user.getPassword());
-                line.add(userline);
-                line.add(emptyArrayList);
-                writer.write(line.toString());
+
+                writer.write(userline);
                 writer.newLine();
             }
 
@@ -105,6 +111,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     public void saveUploadedRecipe(UploadedRecipe uploadedRecipe) {
         uploadedRecipeMap.put(uploadedRecipe.getUploadedRecipeName(), uploadedRecipe);
+        System.out.println(uploadedRecipeMap);
         this.saveUploadedRecipe();
     }
 
@@ -126,38 +133,144 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
     private void saveUploadedRecipe() {
+// need to find logged in user first and add the uploaded recipe to the list
+        String targetUsername = loggedInUsername;
+        List<String> updatedLines = new ArrayList<>();
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                String[] copyArray = new String[3];
+                if (parts.length >= 3 && parts[0].equals(targetUsername)) {
+                    int startIndex = -1;
+                    for (int i = 2; i < parts.length; i++) {
+                        if (parts[i].trim().startsWith("[")) {
+                            startIndex = i;
+                            break;
+                        }
+                    }
 
-/*        BufferedWriter writer;
-        try {
-            writer = new BufferedWriter(new FileWriter(csvFile));
-            writer.newLine();
+                    if (startIndex != -1) {
+                        // Extract existing recipes from the CSV line
+                        StringBuilder currentUploadedRecipes = new StringBuilder(parts[startIndex]);
+                        for (int i = startIndex + 1; i < parts.length; i++) {
+                            currentUploadedRecipes.append(",").append(parts[i]);
+                            if (parts[i].trim().endsWith("]")) {
+                                break;
+                            }
+                        }
+                        String currentRecipesString = currentUploadedRecipes.toString();
+                        List<Map<String, Object>> parsedMap = parseListOfHashMap(currentRecipesString);
 
-            for (UploadedRecipe uploadedRecipe: uploadedRecipeMap.values()){
-                HashMap<String, Object> uploadedrecipeDataMap = new HashMap<>();
+                        for (UploadedRecipe uploadedRecipe : uploadedRecipeMap.values()) {
+                            Map<String, Object> uploadedrecipeDataMap = new HashMap<>();
+                            uploadedrecipeDataMap.put("Name", uploadedRecipe.getUploadedRecipeName());
+                            uploadedrecipeDataMap.put("Ingredients", uploadedRecipe.getIngredients());
+                            uploadedrecipeDataMap.put("Instructions", uploadedRecipe.getInstructions());
+                            uploadedrecipeDataMap.put("Image", uploadedRecipe.getImage());
+                            parsedMap.add(uploadedrecipeDataMap);
+                        }
 
-                uploadedrecipeDataMap.put("Name", uploadedRecipe.getUploadedRecipeName());
-                uploadedrecipeDataMap.put("Ingredients", uploadedRecipe.getIngredients());
-                uploadedrecipeDataMap.put("Instructions", uploadedRecipe.getUploadedRecipeName());
-                uploadedrecipeDataMap.put("Image", uploadedRecipe.getImage());
+                        String updatedUploadedRecipes = convertMapListToString(parsedMap);
 
-                StringBuilder lineBuilder = new StringBuilder();
-                for (Map.Entry<String, UploadedRecipe> entry : uploadedRecipeMap.entrySet()){
-                    lineBuilder.append(String.format("%s=%s,", entry.getKey(), entry.getValue()));
+                        for (int i = 0, k = 0; i < parts.length; i++){
+                            if (i == 2 | i > 2){
+                                continue;
+                            } copyArray[k++] = parts[i];
+                        }
+
+                        copyArray[startIndex] = updatedUploadedRecipes;
+                        updatedLines.add(String.join(",", copyArray));
+                    }
+                } else if (!parts[0].equals(targetUsername)){
+                    updatedLines.add(String.join(",", parts));
                 }
+            }
 
-                String line = lineBuilder.toString().replaceAll(",$", "");
-                writer.write(line);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile))) {
+            for (String updatedLine : updatedLines) {
+                writer.write(updatedLine);
                 writer.newLine();
             }
-            writer.close();
-
-
-        } catch (IOException e){
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        }*/
-
 
     }
+
+
+    private static List<Map<String, Object>> parseListOfHashMap(String input) {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        input = input.trim();
+
+        if (input.equals("[]")) {
+            return list;
+        }
+        if (input.startsWith("[") && input.endsWith("]")) {
+            input = input.substring(1, input.length() - 1);
+        }
+
+        String[] mapStrings = input.split(",(?![^{}]*\\})");
+
+        for (String mapString : mapStrings) {
+            Map<String, Object> map = parseHashMap(mapString.trim());
+            list.add(map);
+        }
+
+        return list;
+    }
+
+    private static Map<String, Object> parseHashMap(String input) {
+        Map<String, Object> map = new HashMap<>();
+
+        // Remove curly braces
+        input = input.replaceAll("[{}]", "");
+
+        // Split by commas
+        String[] pairs = input.split(",");
+
+        for (String pair : pairs) {
+            // Split each pair by '='
+            String[] keyValue = pair.trim().split("=");
+
+            if (keyValue.length == 2) {
+                String key = keyValue[0].trim();
+                String value = keyValue[1].trim();
+                map.put(key, value);
+            }
+        }
+
+        return map;
+    }
+
+    private static String convertMapListToString(List<Map<String, Object>> mapList) {
+        StringBuilder result = new StringBuilder("[");
+
+        for (Map<String, Object> map : mapList) {
+            result.append("{");
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                result.append(entry.getKey()).append("=").append(entry.getValue()).append(", ");
+            }
+            result.setLength(result.length() - 2);  // Remove the trailing comma and space
+            result.append("}, ");
+        }
+
+        if (!mapList.isEmpty()) {
+            result.setLength(result.length() - 2);  // Remove the trailing comma and space
+        }
+
+        result.append("]");
+        return result.toString();
+    }
 }
+
+
+
+
+

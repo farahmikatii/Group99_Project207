@@ -1,7 +1,6 @@
 package interface_adapter.search;
 
 import interface_adapter.ViewModel;
-import interface_adapter.search.SearchState;
 
 
 import java.beans.PropertyChangeListener;
@@ -43,5 +42,7 @@ public class SearchViewModel extends ViewModel {
     public void addPropertyChangeListener(PropertyChangeListener listener){
         support.addPropertyChangeListener(listener);
     }
+
     public SearchState getState(){return state;}
+
 }

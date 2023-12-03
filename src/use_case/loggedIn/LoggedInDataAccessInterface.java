@@ -5,5 +5,5 @@ import entity.CommonRecipe;
 import java.util.List;
 
 public interface LoggedInDataAccessInterface {
-    List<CommonRecipe> returnRecipeList();
+    List<CommonRecipe> returnRecipeList(int diff);
 }

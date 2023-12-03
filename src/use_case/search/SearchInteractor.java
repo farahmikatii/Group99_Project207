@@ -26,11 +26,7 @@ public class SearchInteractor implements SearchInputBoundary{
     public void execute(SearchInputData searchInputData) {
         HashMap<String, String> filterDict = searchInputData.getFilterDict();
         String jsonFile = null;
-        try {
-            jsonFile = recipeDataAccessObject.searchApiCall(filterDict);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        jsonFile = recipeDataAccessObject.searchApiCall(filterDict);
         String file = null;
         try {
             file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
