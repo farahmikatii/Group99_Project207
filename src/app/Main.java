@@ -111,13 +111,9 @@ public class Main {
         RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
         RecipePopupState recipePopupState = new RecipePopupState();
 
-
-        CommonRecipeDataAccessObject commonRecipeDataAccessObject;
         FileUserDataAccessObject userDataAccessObject;
         try {
             userDataAccessObject = new FileUserDataAccessObject("/Users/duahussain/IdeaProjects/Group99_Project207/users.csv", new CommonUserFactory());
-
-            commonRecipeDataAccessObject = new CommonRecipeDataAccessObject("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/src/filter/images");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -131,7 +127,6 @@ public class Main {
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel);
-        //LoggedInView loggedInView = LoggedInUseCaseFactory.create(viewManagerModel, recipePopupViewModel, commonRecipeDataAccessObject, loggedInViewModel, profileViewModel);
         views.add(loggedInView, loggedInView.viewName);
 
         ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel);
