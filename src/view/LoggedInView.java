@@ -8,11 +8,8 @@ import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.recipePopup.RecipePopupViewModel;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okio.BufferedSink;
-import okio.Okio;
+import interface_adapter.signup.SignupState;
+import interface_adapter.signup.SignupViewModel;
 import org.json.JSONObject;
 import use_case.recipePopup.RecipePopupOutputData;
 
@@ -54,8 +51,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     private final RecipePopupViewModel recipePopupViewModel;
 
-
-
+    private final SignupViewModel signupViewModel;
 
     JLabel username;
 
@@ -67,10 +63,12 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     String file;
     private int previousScrollValue = 0;
     private int prevHorizontalValue = 0;
-    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, RecipePopupViewModel recipePopupViewModel) throws Exception {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, RecipePopupViewModel recipePopupViewModel, SignupViewModel signupViewModel) throws Exception {
         this.loggedInViewModel = loggedInViewModel;
         this.viewManagerModel = viewManagerModel;
         this.profileViewModel = profileViewModel;
+        this.signupViewModel = signupViewModel;
+
 
 
         this.recipePopupViewModel = recipePopupViewModel;
@@ -79,6 +77,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         loggedInViewModel.addPropertyChangeListener(this);
         profileViewModel.addPropertyChangeListener(this);
         viewManagerModel.addPropertyChangeListener(this);
+        signupViewModel.addPropertyChangeListener(this);
 
 
 
@@ -125,9 +124,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
 
 
-        //buttons.add(logOut);
+
         searchButton.add(search);
         searchButton.add(account);
+        searchButton.add(logOut);
         //divider.add(logOut);
         //recipes.add(recipeImage);
 
@@ -351,15 +351,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(account)) {
-                            ProfileState currentLoginState = profileViewModel.getState();
-                            System.out.println(currentLoginState);
-                            profileViewModel.setState(currentLoginState);
-                            System.out.println(profileViewModel.getState());
-                            profileViewModel.firePropertyChanged();
-                            viewManagerModel.setActiveView(profileViewModel
-                                    .getViewName());
-                            System.out.println(viewManagerModel.getActiveView());
+                        if (evt.getSource().equals(logOut)) {
+                            SignupState currentSignupState = signupViewModel.getState();
+                            signupViewModel.setState(currentSignupState);
+                            signupViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(signupViewModel.getViewName());
                             viewManagerModel.firePropertyChanged();
 
                         }

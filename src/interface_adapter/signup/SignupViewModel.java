@@ -15,7 +15,7 @@ public class SignupViewModel extends ViewModel {
     public static final String SIGNUP_BUTTON_LABEL = "Sign up";
     public static final String LOGIN_BUTTON_LABEL = "Log in";
 
-    private SignupState state = new SignupState();
+    private static SignupState state = new SignupState();
 
     public SignupViewModel() {
         super("sign up");
@@ -37,7 +37,7 @@ public class SignupViewModel extends ViewModel {
         support.addPropertyChangeListener(listener);
     }
 
-    public SignupState getState() {
+    public static SignupState getState() {
         return state;
     }
 }

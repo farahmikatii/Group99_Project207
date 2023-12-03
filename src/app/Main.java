@@ -110,7 +110,7 @@ public class Main {
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel);
+        LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel, signupViewModel);
         views.add(loggedInView, loggedInView.viewName);
 
         ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel);
