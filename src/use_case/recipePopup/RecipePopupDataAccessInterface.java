@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface RecipePopupDataAccessInterface {
     List<CommonRecipe> returnRecipeList(int diff);
-    CommonRecipe findRecipe(String label);
+    CommonRecipe findRecipe(String label, List<CommonRecipe> commonRecipeList);
 
 }

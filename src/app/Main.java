@@ -1,6 +1,8 @@
 package app;
 
+import data_access.CommonRecipeDataAccessObject;
 import data_access.FileUserDataAccessObject;
+import entity.CommonRecipeFactory;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -14,6 +16,7 @@ import interface_adapter.uploads.UploadsViewModel;
 
 
 import interface_adapter.recipePopup.RecipePopupViewModel;
+
 
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.search.SearchController;
@@ -107,14 +110,15 @@ public class Main {
         RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
         RecipePopupState recipePopupState = new RecipePopupState();
 
-
-
         FileUserDataAccessObject userDataAccessObject;
         try {
+
             userDataAccessObject = new FileUserDataAccessObject("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/users.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.viewName);

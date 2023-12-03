@@ -3,7 +3,11 @@ package view;
 import data_access.CommonRecipeDataAccessObject;
 import entity.CommonRecipe;
 import interface_adapter.ViewManagerModel;
+
+import interface_adapter.logged_in.LoggedInController;
+
 import interface_adapter.logged_in.LoggedInState;
+
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
@@ -50,6 +54,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final ProfileViewModel profileViewModel;
 
     private final RecipePopupViewModel recipePopupViewModel;
+    //private final LoggedInController loggedInController;
 
     private final SearchViewModel searchViewModel;
 
@@ -152,7 +157,17 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                             if (evt.getSource() instanceof JButton sourceButton) {
                                 if (evt.getSource().equals(sourceButton)) {
 
+                                    //recipePopupViewModel.setSelectedRecipeName(selectedRecipeName);
+                                    //recipePopupViewModel.setRecipeLabel(recipe.getRecipeName());
+
                                     RecipePopupState currentPopupState = recipePopupViewModel.getState();
+                                    currentPopupState.setRecipe(recipe);
+                                    currentPopupState.setRecipeLabel(recipe);
+                                    currentPopupState.setImageUrl(recipe);
+
+
+                                   
+
                                     System.out.println(currentPopupState);
 
                                     recipePopupViewModel.setState(currentPopupState);
@@ -163,6 +178,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                                     viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
                                     System.out.println(viewManagerModel.getActiveView());
                                     viewManagerModel.firePropertyChanged();
+
+                                    //loggedInController.execute(recipe.getRecipeName(), recipe.getRecipeUrl());
 
                                 }
 
@@ -270,10 +287,22 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                                                             RecipePopupState currentPopupState = recipePopupViewModel.getState();
                                                             System.out.println(currentPopupState);
 
+
+                                                       
+                                                            currentPopupState.setRecipe(recipe);
+                                                            currentPopupState.setRecipeLabel(recipe);
+                                                            currentPopupState.setImageUrl(recipe);
+                                                            System.out.println(currentPopupState);
+
+
                                                             recipePopupViewModel.setState(currentPopupState);
                                                             System.out.println(recipePopupViewModel.getState());
 
+                                                            
+                                                            
+
                                                             recipePopupViewModel.firePropertyChanged();
+
 
                                                             viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
                                                             System.out.println(viewManagerModel.getActiveView());
