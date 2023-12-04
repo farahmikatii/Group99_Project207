@@ -91,9 +91,13 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(save)){
                             JFrame saved = new JFrame("Confirmation");
-                            saved.setPreferredSize(new Dimension(500, 100));
+                            saved.setSize(275, 100);
+                            JPanel little = new JPanel();
+                            little.setLayout(new BorderLayout());
                             JLabel message = new JLabel("Saved!");
-                            saved.add(message);
+                            //message.setAlignmentX(CENTER_ALIGNMENT);
+                            little.add(message, BorderLayout.CENTER);
+                            saved.add(little);
                             saved.setVisible(true);
 
 //                            saved.setPreferredSize(new Dimension(500, 100));

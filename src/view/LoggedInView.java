@@ -84,8 +84,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         searchViewModel.addPropertyChangeListener(this);
 
 
-
-        JLabel title = new JLabel("Recipe Flow");
+        ImageIcon titleImage = new ImageIcon("./src/app_pictures/title_logo.png");
+        JLabel title = new JLabel(titleImage);
+//        JLabel title = new JLabel("Recipe Flow");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
