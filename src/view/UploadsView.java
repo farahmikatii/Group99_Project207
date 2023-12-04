@@ -7,6 +7,7 @@ import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.uploadedRecipe.UploadedRecipeState;
 import interface_adapter.uploadedRecipe.UploadedRecipeViewModel;
 import interface_adapter.uploading.UploadingController;
+import interface_adapter.uploads.UploadsState;
 import interface_adapter.uploads.UploadsViewModel;
 
 
@@ -31,7 +32,9 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 
     private UploadedRecipeViewModel uploadedRecipeViewModel;
 
-    private final UploadingController uploadingController;
+    //private final UploadingController uploadingController;
+
+    private final UploadsState uploadsState;
 
     private JList<Object> uploadedRecipeList;
 
@@ -39,16 +42,17 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 
     JButton viewButton;
 
-    public UploadsView(UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, UploadingController uploadingController) {
+    public UploadsView(UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel) {
         this.uploadsViewModel = uploadsViewModel;
         this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.uploadingController = uploadingController;
+        //this.uploadingController = uploadingController;
         uploadsViewModel.addPropertyChangeListener(this);
+        viewManagerModel.addPropertyChangeListener(this);
 
-       setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        DefaultListModel<Object> uploadedRecipeListModel = new DefaultListModel<>();
+        //DefaultListModel<Object> uploadedRecipeListModel = new DefaultListModel<>();
 
         JPanel mainPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(mainPanel);
@@ -56,15 +60,18 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         //ist<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
         //create state of uploadsviewmodel getState, then get the recipes from this state and then loop over them
 
+        uploadsState = uploadsViewModel.getState();
+        List<Map<String, Object>> recipesList = uploadsState.getUploadedrecipesList();
+
 // for loop is where uploaded recipes are added from the controller
 
         for (Map<String, Object> recipe : recipesList){
 
             String recipeName = (String) recipe.get("Name");
-            uploadedRecipeListModel.addElement(recipeName);
+            //uploadedRecipeListModel.addElement(recipeName);
             // Create a button for each recipe and add an action listener
 
-            JButton viewButton = new JButton("View " + recipeName);
+            viewButton = new JButton("View " + recipeName);
             viewButton.addActionListener(
                     new ActionListener() {
                         @Override
@@ -77,12 +84,17 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 
                                 //take to recipe page view
 
-                                uploadingController.executeRecipeView(
-                                        recipeName,
-                                        recipeIngredients,
-                                        recipeInstructions,
-                                        recipeImage
-                                );
+                                UploadedRecipeState currentRecipeState = uploadedRecipeViewModel.getState();
+                                currentRecipeState.setUploadedRecipe(recipe);
+                                currentRecipeState.setUploadedRecipeName(recipeName);
+                                currentRecipeState.setUploadedRecipeIngredients(recipeIngredients);
+                                currentRecipeState.setUploadedRecipeInstructions(recipeInstructions);
+                                currentRecipeState.setUploadedRecipeImage(recipeImage);
+
+                                uploadedRecipeViewModel.setState(currentRecipeState);
+                                viewManagerModel.setActiveView(uploadedRecipeViewModel.getViewName());
+                                viewManagerModel.firePropertyChanged();
+
                             }
 
                         }

@@ -23,7 +23,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     private final List<User> accounts = new ArrayList<>();
 
-    private final Map<String, UploadedRecipe> uploadedRecipeMap = new HashMap<>();
+    private final Map<String, UploadedRecipe> uploadedRecipeMap;
 
     private UserFactory userFactory;
 
@@ -34,6 +34,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         this.userFactory = userFactory;
 
         csvFile = new File(csvPath);
+        uploadedRecipeMap = new HashMap<>();
         headers.put("username", 0);
         headers.put("password", 1);
         //headers.put("creation_time", 2);
@@ -166,9 +167,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
 
-        public void saveUploadedRecipe(UploadedRecipe uploadedRecipe) {
-        uploadedRecipeMap.put(uploadedRecipe.getUploadedRecipeName(), uploadedRecipe);
-        System.out.println(uploadedRecipeMap);
+    public void saveUploadedRecipe(UploadedRecipe uploadedRecipe) {
+        //every time a user logs out, the uploaded recipes reset (an issue we can fix later)
+        this.uploadedRecipeMap.put(uploadedRecipe.getUploadedRecipeName(), uploadedRecipe);
         this.saveUploadedRecipe();
     }
 
@@ -176,7 +177,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     public List<Map<String, Object>> readUploadedRecipesFromCSV() {
         List<Map<String, Object>> recipesList = new ArrayList<>();
 
-        for (UploadedRecipe uploadedRecipe : uploadedRecipeMap.values()) {
+        for (UploadedRecipe uploadedRecipe : this.uploadedRecipeMap.values()) {
             Map<String, Object> uploadedRecipeDataMap = new HashMap<>();
             uploadedRecipeDataMap.put("Name", uploadedRecipe.getUploadedRecipeName());
             uploadedRecipeDataMap.put("Ingredients", uploadedRecipe.getIngredients());

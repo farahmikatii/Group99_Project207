@@ -17,7 +17,7 @@ import view.UploadingView;
 import view.UploadsView;
 
 public class UploadsUseCaseFactory {
-
+/*
     private UploadsUseCaseFactory() {}
 
     public static UploadsView create(ViewManagerModel viewManagerModel, UploadingViewModel uploadingViewModel, UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, UploadingDataAccessInterface uploadingDataAccessInterface){
@@ -37,5 +37,5 @@ public class UploadsUseCaseFactory {
         );
 
         return new UploadingController(uploadingInteractor);
-    }
+    }*/
 }

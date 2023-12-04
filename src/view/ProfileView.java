@@ -1,15 +1,13 @@
 package view;
-import data_access.FileUserDataAccessObject;
-import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.saved.SavedState;
 import interface_adapter.saved.SavedViewModel;
+import interface_adapter.uploading.UploadingController;
 import interface_adapter.uploading.UploadingState;
 import interface_adapter.uploading.UploadingViewModel;
-import interface_adapter.uploads.UploadsController;
 import interface_adapter.uploads.UploadsState;
 import interface_adapter.uploads.UploadsViewModel;
 
@@ -19,7 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
+import java.util.Map;
+import java.util.List;
 
 
 public class ProfileView extends JPanel implements ActionListener, PropertyChangeListener{
@@ -39,6 +38,8 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
     private final SavedViewModel savedViewModel;
     private final LoggedInViewModel loggedInViewModel;
 
+    private final UploadingController uploadingController;
+
     private final JButton saved;
 
     private final JButton uploads;
@@ -47,7 +48,7 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     private final JButton back;
 
-    public ProfileView(UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, SavedViewModel savedViewModel, UploadsViewModel uploadsViewModel, LoggedInViewModel loggedInViewModel) {
+    public ProfileView(UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, SavedViewModel savedViewModel, UploadsViewModel uploadsViewModel, LoggedInViewModel loggedInViewModel, UploadingController uploadingController) {
 
         this.uploadingViewModel = uploadingViewModel;
         this.uploadsViewModel = uploadsViewModel;
@@ -55,6 +56,7 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
         this.viewManagerModel = viewManagerModel;
         this.savedViewModel = savedViewModel;
         this.loggedInViewModel = loggedInViewModel;
+        this.uploadingController = uploadingController;
         uploadingViewModel.addPropertyChangeListener(this);
         profileViewModel.addPropertyChangeListener(this);
 
@@ -118,9 +120,9 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(uploads)){
-                            //uploadingController.uploadedRecipes();
+                            List<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
                             UploadsState uploadsState = uploadsViewModel.getState();
-                            //uploadsState.set()
+                            uploadsState.setUploadedrecipesList(recipesList);
                             uploadsViewModel.setState(uploadsState);
                             uploadsViewModel.firePropertyChanged();
                             viewManagerModel.setActiveView(uploadsViewModel.getViewName());
