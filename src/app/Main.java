@@ -143,15 +143,16 @@ public class Main {
 
         UploadingView uploadingView = UploadingUseCaseFactory.create(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, userDataAccessObject);
         views.add(uploadingView, uploadingView.viewName);
-/*
+
         UploadsView uploadsView = UploadsUseCaseFactory.create(
                 viewManagerModel,
                 uploadingViewModel,
                 uploadsViewModel,
                 profileViewModel,
                 userDataAccessObject
-        );*/
-        UploadsView uploadsView = new UploadsView(uploadsViewModel, profileViewModel, viewManagerModel);
+        );
+
+        //UploadsView uploadsView = new UploadsView(uploadsViewModel, profileViewModel, viewManagerModel);
         views.add(uploadsView, uploadsView.viewName);
 
         SearchView searchView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, loggedInViewModel, resultViewModel);

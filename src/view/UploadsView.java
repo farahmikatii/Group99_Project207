@@ -7,6 +7,7 @@ import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.uploadedRecipe.UploadedRecipeState;
 import interface_adapter.uploadedRecipe.UploadedRecipeViewModel;
 import interface_adapter.uploading.UploadingController;
+import interface_adapter.uploading.UploadingState;
 import interface_adapter.uploads.UploadsState;
 import interface_adapter.uploads.UploadsViewModel;
 
@@ -17,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,43 +34,53 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 
     private UploadedRecipeViewModel uploadedRecipeViewModel;
 
-    //private final UploadingController uploadingController;
+    private final UploadingController uploadingController;
 
-    private final UploadsState uploadsState;
+    private UploadsState uploadsState;
 
-    private JList<Object> uploadedRecipeList;
+    private  List<Map<String, Object>> uploadedRecipeList;
 
     final JButton back;
 
     JButton viewButton;
 
-    public UploadsView(UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel) {
+    JButton viewButtonTest;
+
+    public UploadsView(UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, UploadingController uploadingController) {
         this.uploadsViewModel = uploadsViewModel;
         this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
-        //this.uploadingController = uploadingController;
+        this.uploadingController = uploadingController;
         uploadsViewModel.addPropertyChangeListener(this);
-        viewManagerModel.addPropertyChangeListener(this);
+        this.uploadedRecipeList = new ArrayList<>();
+        //viewManagerModel.addPropertyChangeListener(this);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         //DefaultListModel<Object> uploadedRecipeListModel = new DefaultListModel<>();
 
         JPanel mainPanel = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        //JScrollPane scrollPane = new JScrollPane(mainPanel);
 
         //ist<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
         //create state of uploadsviewmodel getState, then get the recipes from this state and then loop over them
 
-        uploadsState = uploadsViewModel.getState();
-        List<Map<String, Object>> recipesList = uploadsState.getUploadedrecipesList();
+        this.uploadsState = uploadsViewModel.getState();
+        //List<Map<String, Object>> recipesList = uploadsState.getUploadedrecipesList();
+        JPanel buttons = new JPanel();
 
 // for loop is where uploaded recipes are added from the controller
+        if (uploadedRecipeList.size() == 1){
+            //viewButton = new JButton(uploadedRecipeList.get(0).get("Name").toString());
+            viewButton = new JButton("Hello");
+            buttons.add(viewButton);
+        }
+        //uploadedRecipeList.get(0);
 
-        for (Map<String, Object> recipe : recipesList){
+
+        for (Map<String, Object> recipe : uploadedRecipeList){
 
             String recipeName = (String) recipe.get("Name");
-            //uploadedRecipeListModel.addElement(recipeName);
             // Create a button for each recipe and add an action listener
 
             viewButton = new JButton("View " + recipeName);
@@ -107,7 +119,6 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         JLabel title = new JLabel(uploadsViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel buttons = new JPanel();
         back = new JButton(uploadsViewModel.BACK_BUTTON_LABEL);
         buttons.add(back);
 
@@ -115,7 +126,7 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 
         this.add(title);
         this.add(buttons);
-        this.add(scrollPane);
+        this.add(mainPanel);
         //this.add(mainPanel);
 
         back.addActionListener(
@@ -145,6 +156,10 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //TODO: implement
+        //System.out.println("hello");
+        List<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
+        this.uploadedRecipeList = recipesList;
+        System.out.println(uploadedRecipeList.get(0).get("Name").toString());
+
     }
 }

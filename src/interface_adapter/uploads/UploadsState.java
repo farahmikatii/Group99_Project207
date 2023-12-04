@@ -1,6 +1,8 @@
 package interface_adapter.uploads;
 
 import entity.UploadedRecipe;
+import interface_adapter.uploadedRecipe.UploadedRecipeState;
+import interface_adapter.uploading.UploadingController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,8 @@ public class UploadsState {
     public UploadsState(){}
 
     private List<Map<String, Object>> uploadedrecipesList = new ArrayList<>();
+
+    private UploadingController uploadingController;
 
     public List<Map<String, Object>> getUploadedrecipesList(){
         return uploadedrecipesList;

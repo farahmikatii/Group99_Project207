@@ -118,6 +118,7 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
                                     currentState.getRecipeImage());
 
                         }
+
                         uploadsViewModel.firePropertyChanged();
 
                         recipenameInputField.setText("");

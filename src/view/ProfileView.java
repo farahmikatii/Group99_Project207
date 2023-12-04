@@ -120,9 +120,9 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(uploads)){
-                            List<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
+                            //List<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
                             UploadsState uploadsState = uploadsViewModel.getState();
-                            uploadsState.setUploadedrecipesList(recipesList);
+                            //uploadsState.setUploadedrecipesList(recipesList);
                             uploadsViewModel.setState(uploadsState);
                             uploadsViewModel.firePropertyChanged();
                             viewManagerModel.setActiveView(uploadsViewModel.getViewName());
