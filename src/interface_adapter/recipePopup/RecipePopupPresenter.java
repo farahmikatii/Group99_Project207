@@ -1,6 +1,7 @@
 package interface_adapter.recipePopup;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginState;
 import interface_adapter.signup.SignupState;
@@ -21,7 +22,11 @@ public class RecipePopupPresenter implements RecipePopupOutputBoundary {
 
     @Override
     public void prepareSuccessView(RecipePopupOutputData recipePopupOutputData) {
-        recipePopupViewModel.setRecipeLabel(recipePopupOutputData.getRecipeLabel());
+
+        RecipePopupState recipePopupState = recipePopupViewModel.getState();
+
+        //recipePopupState.setRecipeLabel(recipePopupOutputData.getRecipeLabel());
+        //recipePopupViewModel.setRecipeLabel(recipePopupOutputData.getRecipeLabel());
 
         // Additional logic to update other parts of the view model if needed
 

@@ -1,4 +1,7 @@
 package use_case.loggedIn;
 
-public class LoggedInInputBoundary {
+import use_case.login.LoginInputData;
+
+public interface LoggedInInputBoundary {
+    void execute(LoggedInInputData loggedInInputData);
 }

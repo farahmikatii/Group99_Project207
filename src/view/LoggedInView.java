@@ -3,18 +3,24 @@ package view;
 import data_access.CommonRecipeDataAccessObject;
 import entity.CommonRecipe;
 import interface_adapter.ViewManagerModel;
+
+import interface_adapter.logged_in.LoggedInController;
+
+import interface_adapter.logged_in.LoggedInState;
+
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.recipePopup.RecipePopupViewModel;
+import interface_adapter.search.SearchState;
+import interface_adapter.search.SearchViewModel;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
 import org.json.JSONObject;
-import use_case.recipePopup.RecipePopupOutputData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,8 +54,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final ProfileViewModel profileViewModel;
 
     private final RecipePopupViewModel recipePopupViewModel;
+    //private final LoggedInController loggedInController;
 
-
+    private final SearchViewModel searchViewModel;
 
 
     JLabel username;
@@ -62,18 +69,19 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     String file;
     private int previousScrollValue = 0;
     private int prevHorizontalValue = 0;
-    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, RecipePopupViewModel recipePopupViewModel) throws Exception {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, RecipePopupViewModel recipePopupViewModel, SearchViewModel searchViewModel) throws Exception {
         this.loggedInViewModel = loggedInViewModel;
         this.viewManagerModel = viewManagerModel;
         this.profileViewModel = profileViewModel;
+        this.searchViewModel = searchViewModel;
 
 
         this.recipePopupViewModel = recipePopupViewModel;
 
-
         loggedInViewModel.addPropertyChangeListener(this);
         profileViewModel.addPropertyChangeListener(this);
         viewManagerModel.addPropertyChangeListener(this);
+        searchViewModel.addPropertyChangeListener(this);
 
 
 
@@ -84,12 +92,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
         //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
-
         //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
         String jsonFile = "./response_output.json";
         file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
         final CommonRecipeDataAccessObject[] commonRecipeDAO = {new CommonRecipeDataAccessObject(file)}; // replace jsonFile with the actual JSON file content or path
-
 
         // Call returnRecipeList method
         final List<CommonRecipe>[][][] recipesList = new List[][][]{new List[][]{new List[]{commonRecipeDAO[0].returnRecipeList(1)}}};
@@ -125,6 +131,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         //buttons.add(logOut);
         searchButton.add(search);
         searchButton.add(account);
+        searchButton.add(logOut);
         //divider.add(logOut);
         //recipes.add(recipeImage);
 
@@ -150,13 +157,19 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 //                            }
                             if (evt.getSource() instanceof JButton sourceButton) {
                                 if (evt.getSource().equals(sourceButton)) {
+
                                     //recipePopupViewModel.setSelectedRecipeName(selectedRecipeName);
-                                    recipePopupViewModel.setRecipeLabel(recipe.getRecipeName());
+                                    //recipePopupViewModel.setRecipeLabel(recipe.getRecipeName());
 
                                     RecipePopupState currentPopupState = recipePopupViewModel.getState();
-                                    currentPopupState.setRecipeLabel(recipe.getRecipeName());
-                                    System.out.println(currentPopupState);
+                                    currentPopupState.setRecipe(recipe);
+                                    currentPopupState.setRecipeLabel(recipe);
+                                    currentPopupState.setImageUrl(recipe);
 
+
+                                   
+
+                                    System.out.println(currentPopupState);
 
                                     recipePopupViewModel.setState(currentPopupState);
                                     System.out.println(recipePopupViewModel.getState());
@@ -166,6 +179,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                                     viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
                                     System.out.println(viewManagerModel.getActiveView());
                                     viewManagerModel.firePropertyChanged();
+
+                                    //loggedInController.execute(recipe.getRecipeName(), recipe.getRecipeUrl());
 
                                 }
 
@@ -205,7 +220,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
                                 // WE HAVE TO FIGURE OUT SOMEWHERE TO DELETE IT OR ELSE THERE'S IMAGE ISSUES
                                 System.out.println(nextUrl);
-                                File folder = new File("./images");
+                                File folder = new File("./src/images");
                                 deleteFolder(folder);
 
                                 try{
@@ -273,10 +288,22 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                                                             RecipePopupState currentPopupState = recipePopupViewModel.getState();
                                                             System.out.println(currentPopupState);
 
+
+                                                       
+                                                            currentPopupState.setRecipe(recipe);
+                                                            currentPopupState.setRecipeLabel(recipe);
+                                                            currentPopupState.setImageUrl(recipe);
+                                                            System.out.println(currentPopupState);
+
+
                                                             recipePopupViewModel.setState(currentPopupState);
                                                             System.out.println(recipePopupViewModel.getState());
 
+                                                            
+                                                            
+
                                                             recipePopupViewModel.firePropertyChanged();
+
 
                                                             viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
                                                             System.out.println(viewManagerModel.getActiveView());
@@ -316,16 +343,33 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         logOut.addActionListener(
                 new ActionListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(logOut)) {
+//                            SignupState currentSignupState = signupViewModel.getState();
+//                            signupViewModel.setState(currentSignupState);
+//                            signupViewModel.firePropertyChanged();
+//                            viewManagerModel.setActiveView(signupViewModel.getViewName());
+//                            viewManagerModel.firePropertyChanged();
 
+                            System.exit(0);
+//                            LoggedInOutputBoundary.confirmation("You have been logged out.");
+                        }
                     }
                 }
+            
         );
+
         search.addActionListener(
                 new ActionListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
-
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(search)) {
+                            SearchState currentSearchState = searchViewModel.getState();
+                            searchViewModel.setState(currentSearchState);
+                            searchViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(searchViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+                        }
                     }
                 }
         );
