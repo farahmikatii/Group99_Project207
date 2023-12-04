@@ -10,8 +10,8 @@ public class RecipePopupController {
         this.recipePopupInputBoundary = recipePopupInputBoundary;
     }
 
-    public void execute(String recipeLabel, String recipeUrl){
-        RecipePopupInputData recipePopupInputData = new RecipePopupInputData(recipeLabel, recipeUrl);
+    public void execute(String recipeLabel, String recipeUrl, String url){
+        RecipePopupInputData recipePopupInputData = new RecipePopupInputData(recipeLabel, recipeUrl, url);
         recipePopupInputBoundary.loadRecipeDisplay(recipePopupInputData);
 
     }

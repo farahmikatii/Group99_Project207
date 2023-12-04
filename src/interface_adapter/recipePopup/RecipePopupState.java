@@ -7,6 +7,9 @@ public class RecipePopupState {
 
     private String imageUrl = null;
 
+
+    private String recipeUrl = null;
+
     private CommonRecipe recipe;
 
 
@@ -28,9 +31,15 @@ public class RecipePopupState {
     }
 
 
-
     public void setRecipeLabel(CommonRecipe recipe){
         this.recipeLabel = recipe.getRecipeName();
+    }
+    public String getRecipeUrl() {
+        return recipe.getRecipeUrl();
+    }
+
+    public void setRecipeUrl(CommonRecipe recipe) {
+        this.recipeUrl = recipe.getRecipeUrl();
     }
 
     public String getImageUrl() {

@@ -74,7 +74,6 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         mealTypeOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown.add(mealTypeOptions);
 
-
         JPanel dropDown2 = new JPanel();
         JLabel dishType = new JLabel("Select a dish type");
         dishType.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -89,18 +88,6 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         dishTypeOptions.setMaximumSize(dishTypeOptions.getPreferredSize());
         dishTypeOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown2.add(dishTypeOptions);
-
-        dishTypeOptions.addActionListener(
-                // Creates an anonymous subclass of ActionListener and instantiates it
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        SearchState currentState = searchViewModel.getState();
-                        JComboBox<String> cb = (JComboBox) evt.getSource();
-                        String dishSelected = (String) cb.getSelectedItem();
-                        currentState.setDishType(dishSelected);
-                    }
-        }
-        );
 
         JPanel dropDown3 = new JPanel();
         JLabel cuisineType = new JLabel("Select a cuisine type");
@@ -141,28 +128,6 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         healthLabelOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropDown5.add(healthLabelOptions);
 
-
-
-
-        search.addActionListener(
-                // Creates an anonymous subclass of ActionListener and instantiates it
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(search)) {
-                            SearchState currentState = searchViewModel.getState();
-
-                            //searchController.execute(
-                                    //if currentState.getDietLabelEmpty(){
-
-                            }
-
-                        //)
-
-                        }
-                    //}
-                }
-        );
-
         back.addActionListener(
                 new ActionListener() {
                     @Override
@@ -190,6 +155,7 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
                     public void keyTyped(KeyEvent e) {
                         SearchState currentState = searchViewModel.getState();
                         String text = searchInputField.getText() + e.getKeyChar();
+                        currentState.setQuery(text);
                         //currentState.setUsername(text); change to saving this to search within the api in SearchState
                         searchViewModel.setState(currentState);
                         //like signup
@@ -203,6 +169,88 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
                     public void keyReleased(KeyEvent e) {
                     }
                 });
+
+        mealTypeOptions.addActionListener(
+                // Creates an anonymous subclass of ActionListener and instantiates it
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        SearchState currentState = searchViewModel.getState();
+                        JComboBox<String> meals = (JComboBox) evt.getSource();
+                        String mealSelected = (String) meals.getSelectedItem();
+                        currentState.setMealType(mealSelected);
+                    }
+                }
+        );
+
+        dishTypeOptions.addActionListener(
+                // Creates an anonymous subclass of ActionListener and instantiates it
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        SearchState currentState = searchViewModel.getState();
+                        JComboBox<String> cb = (JComboBox) evt.getSource();
+                        String dishSelected = (String) cb.getSelectedItem();
+                        currentState.setDishType(dishSelected);
+                    }
+                }
+        );
+
+        cuisineTypeOptions.addActionListener(
+                // Creates an anonymous subclass of ActionListener and instantiates it
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        SearchState currentState = searchViewModel.getState();
+                        JComboBox<String> cuisines = (JComboBox) evt.getSource();
+                        String cuisineSelected = (String) cuisines.getSelectedItem();
+                        currentState.setCuisine(cuisineSelected);
+                    }
+                }
+        );
+
+        dietLabelOptions.addActionListener(
+                // Creates an anonymous subclass of ActionListener and instantiates it
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        SearchState currentState = searchViewModel.getState();
+                        JComboBox<String> diets = (JComboBox) evt.getSource();
+                        String dietLabelSelected = (String) diets.getSelectedItem();
+                        currentState.setDietLabel(dietLabelSelected);
+                    }
+                }
+        );
+
+        healthLabelOptions.addActionListener(
+                // Creates an anonymous subclass of ActionListener and instantiates it
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        SearchState currentState = searchViewModel.getState();
+                        JComboBox<String> healths = (JComboBox) evt.getSource();
+                        String healthLabelSelected = (String) healths.getSelectedItem();
+                        currentState.setHealthLabel(healthLabelSelected);
+                    }
+                }
+        );
+
+        search.addActionListener(
+                // Creates an anonymous subclass of ActionListener and instantiates it
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(search)) {
+                            SearchState currentState = searchViewModel.getState();
+
+                            searchController.execute(currentState.getQuery(), currentState.getDietLabel(), currentState.getHealthLabel(), currentState.getCuisine(), currentState.getMealType(), currentState.getDishType());
+
+                            //searchController.execute(
+                            //if currentState.getDietLabelEmpty(){
+
+                        }
+
+                        //)
+
+                    }
+                    //}
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
