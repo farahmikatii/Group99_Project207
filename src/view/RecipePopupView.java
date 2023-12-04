@@ -1,10 +1,13 @@
 package view;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.LoggedInState;
+import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.recipePopup.RecipePopupViewModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -24,7 +27,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
     JLabel recipeUrl;
 
 
-    public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupState recipePopupState, RecipePopupViewModel recipePopupViewModel){
+    public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupState recipePopupState, RecipePopupViewModel recipePopupViewModel, LoggedInViewModel loggedInViewModel){
         //this.recipePopupController = recipePopupController;
         this.viewManagerModel = viewManagerModel;
         //NEED TO CHANGE
@@ -47,12 +50,79 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         JLabel title = new JLabel("Recipe Flow");
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS
         ));
+        /////////
+
+        JButton back = new JButton("Back");
+        JButton save = new JButton("Save");
+        JButton make = new JButton("Make it");
+
+        back.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(back)){
+                            LoggedInState loggedInState = loggedInViewModel.getState();
+                            loggedInViewModel.setState(loggedInState);
+                            loggedInViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(loggedInViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+                        }
+                    }
+                }
+        );
+
+        save.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(save)){
+                            JFrame saved = new JFrame("Confirmation");
+                            saved.setPreferredSize(new Dimension(500, 100));
+                            JLabel message = new JLabel("Saved!");
+                            saved.add(message);
+                            saved.setVisible(true);
+
+//                            saved.setPreferredSize(new Dimension(500, 100));
+//                            JLabel message = new JLabel("Recipe has already been saved.");
+//                            saved.add(message);
+//                            saved.setVisible(true);
+
+                        }
+                    }
+                }
+        );
+
+        make.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+//                        if (e.getSource().equals(save)){
+//                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+//                                try {
+//                                    URI uri = new URI(recipe.getRecipeUrl());
+//                                    Desktop.getDesktop().browse(uri);
+//                                } catch (IOException | URISyntaxException w) {
+//                                    w.printStackTrace();
+//                                }
+//                            } else {
+//                                System.out.println("Link cannot be opened.");
+//                            }
+//
+//                        }
+                    }
+                }
+        );
+
+        /////////
 
         this.add(title);
         //this.add(recipeName);
         this.add(recName);
         this.add(image);
         this.add(recipeUrl);
+        this.add(back);
+        this.add(save);
+        this.add(make);
 
     }
 

@@ -138,7 +138,7 @@ public class Main {
 
         //RecipePopupView recipePopupView = RecipePopupUseCaseFactory.create(viewManagerModel,recipePopupViewModel, userDataAccessObject, loggedInViewModel)
 
-        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel, recipePopupState, recipePopupViewModel);
+        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel, recipePopupState, recipePopupViewModel, loggedInViewModel);
         views.add(recipePopupView, recipePopupView.viewName);
 
         UploadingView uploadingView = UploadingUseCaseFactory.create(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, userDataAccessObject);
