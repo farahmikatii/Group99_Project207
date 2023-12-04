@@ -25,7 +25,7 @@ public class RecipePopupUseCaseFactory {
 
         try{
             RecipePopupController recipePopupController = createUserRecipePopupUseCase(viewManagerModel, recipePopupViewModel, loggedInViewModel, recipePopupDataAccessInterface);
-            return new RecipePopupView( viewManagerModel, recipePopupState, recipePopupViewModel);
+            return new RecipePopupView( viewManagerModel, recipePopupState, recipePopupViewModel, loggedInViewModel);
         }
         catch (IOException e){
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
