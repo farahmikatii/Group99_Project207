@@ -8,17 +8,20 @@ import entity.UploadedRecipeFactory;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.uploading.UploadingDataAccessInterface;
+import use_case.uploads.UploadsDataAccessInterface;
 
 import java.io.*;
 import java.util.*;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, UploadingDataAccessInterface {
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, UploadingDataAccessInterface, UploadsDataAccessInterface {
 
     private final File csvFile;
 
     private final Map<String, Integer> headers = new LinkedHashMap<>();
 
-    private final Map<String, User> accounts = new HashMap<>();
+/*    private final Map<String, User> accounts = new HashMap<>();*/
+
+    private final List<User> accounts = new ArrayList<>();
 
     private final Map<String, UploadedRecipe> uploadedRecipeMap = new HashMap<>();
 
@@ -39,26 +42,30 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         if (csvFile.length() == 0) {
             save();
         } else {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+            String header = reader.readLine();
 
-            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
-                String header = reader.readLine();
+            // TODO clean this up by creating a new Exception subclass and handling it in the UI.
+            assert header.equals("username,password,creation_time");
 
-                // TODO clean this up by creating a new Exception subclass and handling it in the UI.
-                assert header.equals("username,password,creation_time");
+            String row;
+            while ((row = reader.readLine()) != null) {
+                String[] col = row.split(",");
+                String username = String.valueOf(col[headers.get("username")]);
+                String password = String.valueOf(col[headers.get("password")]);
+                //String creationTimeText = String.valueOf(col[headers.get("creation_time")]);
+                //LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
+                User user = userFactory.create(username, password);
+                accounts.add(user);
 
-                String row;
-                while ((row = reader.readLine()) != null) {
-                    String[] col = row.split(",");
-                    String username = String.valueOf(col[headers.get("username")]);
-                    String password = String.valueOf(col[headers.get("password")]);
-                    //String creationTimeText = String.valueOf(col[headers.get("creation_time")]);
-                    //LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
-                    User user = userFactory.create(username, password);
-                    accounts.put(username, user);
-                }
+        /*        Map<String, User> userMap = new HashMap<>();
+                userMap.put(username, user);
+                accounts.add(userMap);*/
             }
         }
     }
+
+}
 
     /**
      * Return whether a user exists with username identifier.
@@ -68,17 +75,41 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
      */
     @Override
     public boolean existsByName(String identifier) {
-        return accounts.containsKey(identifier);
+        //return accounts.containsKey(identifier);
+  /*      for (Map<String, User> user : accounts){
+            if (user.containsKey(identifier)){
+                return true;
+            }
+        }
+        return false;*/
+        for (User user : accounts){
+            if (user.getName().equals(identifier)){
+                return true;
+            }
+        } return false;
     }
 
     @Override
     public void save(User user) {
-        accounts.put(user.getName(), user);
+        accounts.add(user);
         this.save();
+/*        Map<String, User> userMap = new HashMap<>();
+        userMap.put(user.getName(), user);
+        accounts.add(userMap);
+        this.save();*/
     }
 
     public User get(String username) {
-        return accounts.get(username);
+        for (User user : accounts){
+            if (user.getName().equals(username)){
+                return user;
+            }
+        } return null;
+/*        for (Map<String, User> user : accounts) {
+            if (user.containsKey(username)) {
+                return user.get(username);
+            }
+        } return null;*/
     }
 
     @Override
@@ -87,29 +118,55 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
     private void save() {
+        // rewrite entire csv file
+        // add new line for last element of accounts
         BufferedWriter writer;
-        try {
-            writer = new BufferedWriter(new FileWriter(csvFile));
-            writer.write(String.join(",", headers.keySet()));
-            writer.newLine();
 
-            for (User user : accounts.values()) {
-
-                String userline = String.format("%s,%s, []",
-                        user.getName(), user.getPassword());
-
-                writer.write(userline);
+        if (accounts.isEmpty()){
+            try {
+                writer = new BufferedWriter(new FileWriter(csvFile));
+                writer.write(String.join(",", headers.keySet()));
                 writer.newLine();
+
+                for (User user : accounts) {
+
+                    String userline = String.format("%s,%s, []",
+                            user.getName(), user.getPassword());
+
+                    writer.write(userline);
+                    writer.newLine();
+                }
+
+                writer.close();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);}
+        } else {
+            try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));){
+                String line;
+                StringBuilder content = new StringBuilder();
+                while ((line = reader.readLine()) != null){
+                    content.append(line).append("\n");
+                }
+                String userline = String.format("%s,%s, []",
+                        accounts.get(accounts.size() -1 ).getName(), accounts.get(accounts.size() -1 ).getPassword());
+                content.append(userline).append("\n");
+
+                try (BufferedWriter writer2 = new BufferedWriter(new FileWriter(csvFile))) {
+                    writer2.write(content.toString());
+                } catch (IOException e){
+                    throw new RuntimeException(e);
+                }
+
+            } catch (IOException e){
+                throw new RuntimeException(e);
             }
-
-            writer.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
+
     }
 
-    public void saveUploadedRecipe(UploadedRecipe uploadedRecipe) {
+
+        public void saveUploadedRecipe(UploadedRecipe uploadedRecipe) {
         uploadedRecipeMap.put(uploadedRecipe.getUploadedRecipeName(), uploadedRecipe);
         System.out.println(uploadedRecipeMap);
         this.saveUploadedRecipe();
@@ -133,7 +190,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     }
 
     private void saveUploadedRecipe() {
-// need to find logged in user first and add the uploaded recipe to the list
         String targetUsername = loggedInUsername;
         List<String> updatedLines = new ArrayList<>();
 

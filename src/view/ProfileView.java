@@ -1,4 +1,6 @@
 package view;
+import data_access.FileUserDataAccessObject;
+import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -7,6 +9,7 @@ import interface_adapter.saved.SavedState;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.uploading.UploadingState;
 import interface_adapter.uploading.UploadingViewModel;
+import interface_adapter.uploads.UploadsController;
 import interface_adapter.uploads.UploadsState;
 import interface_adapter.uploads.UploadsViewModel;
 
@@ -16,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 
 
 public class ProfileView extends JPanel implements ActionListener, PropertyChangeListener{
@@ -34,6 +38,7 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     private final SavedViewModel savedViewModel;
     private final LoggedInViewModel loggedInViewModel;
+
     private final JButton saved;
 
     private final JButton uploads;
@@ -52,6 +57,13 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
         this.loggedInViewModel = loggedInViewModel;
         uploadingViewModel.addPropertyChangeListener(this);
         profileViewModel.addPropertyChangeListener(this);
+
+   /*     FileUserDataAccessObject userDataAccessObject;
+        try {
+            userDataAccessObject = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv", new CommonUserFactory());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }*/
 
         JLabel title = new JLabel(ProfileViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -106,7 +118,9 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(uploads)){
+                            //uploadingController.uploadedRecipes();
                             UploadsState uploadsState = uploadsViewModel.getState();
+                            //uploadsState.set()
                             uploadsViewModel.setState(uploadsState);
                             uploadsViewModel.firePropertyChanged();
                             viewManagerModel.setActiveView(uploadsViewModel.getViewName());

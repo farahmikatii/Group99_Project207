@@ -6,6 +6,7 @@ import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.uploading.UploadingController;
 import interface_adapter.uploading.UploadingState;
 import interface_adapter.uploading.UploadingViewModel;
+import interface_adapter.uploads.UploadsViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,18 +38,21 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
 
     private final ViewManagerModel viewManagerModel;
 
+    private final UploadsViewModel uploadsViewModel;
+
     private final JButton upload;
 
     private final JButton back;
 
     private final JButton uploadRecipePhoto;
 
-    public UploadingView(UploadingController uploadingController, UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel) {
+    public UploadingView(UploadingController uploadingController, UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, UploadsViewModel uploadsViewModel) {
 
         this.uploadingController = uploadingController;
         this.uploadingViewModel = uploadingViewModel;
         this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.uploadsViewModel = uploadsViewModel;
         uploadingViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(UploadingViewModel.TITLE_LABEL);
@@ -114,6 +118,8 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
                                     currentState.getRecipeImage());
 
                         }
+                        uploadsViewModel.firePropertyChanged();
+
                         recipenameInputField.setText("");
                         ingredientsInputField.setText("");
                         instructionsInputField.setText("");

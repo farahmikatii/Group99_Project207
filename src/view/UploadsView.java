@@ -53,8 +53,8 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         JPanel mainPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(mainPanel);
 
-        List<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
-
+        //ist<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
+        //create state of uploadsviewmodel getState, then get the recipes from this state and then loop over them
 
 // for loop is where uploaded recipes are added from the controller
 
@@ -64,13 +64,13 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
             uploadedRecipeListModel.addElement(recipeName);
             // Create a button for each recipe and add an action listener
 
-            viewButton = new JButton("View " + recipeName);
+            JButton viewButton = new JButton("View " + recipeName);
             viewButton.addActionListener(
                     new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (e.getSource().equals(viewButton)) {
-
+                                String recipeName = (String) recipe.get("Name");
                                 String recipeIngredients = (String) recipe.get("Ingredients");
                                 String recipeInstructions = (String) recipe.get("Instructions");
                                 Image recipeImage = (Image) recipe.get("Image");
@@ -104,6 +104,7 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         this.add(title);
         this.add(buttons);
         this.add(scrollPane);
+        //this.add(mainPanel);
 
         back.addActionListener(
                 // takes back to profile page

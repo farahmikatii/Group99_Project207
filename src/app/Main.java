@@ -14,7 +14,6 @@ import interface_adapter.uploads.UploadsViewModel;
 
 import interface_adapter.recipePopup.RecipePopupViewModel;
 
-import use_case.recipePopup.RecipePopupOutputData;
 import view.*;
 import interface_adapter.login.LoginViewModel;
 
@@ -119,7 +118,7 @@ public class Main {
 
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/users.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -133,7 +132,7 @@ public class Main {
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel);
         views.add(loggedInView, loggedInView.viewName);
 
-        ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel, loggedInViewModel);
+        ProfileView profileView = new ProfileView(uploadingViewModel, profileViewModel, viewManagerModel, savedViewModel, uploadsViewModel, loggedInViewModel);
         views.add(profileView, profileView.viewName);
 
         SavedView savedView = new SavedView(savedViewModel, viewManagerModel, profileViewModel);

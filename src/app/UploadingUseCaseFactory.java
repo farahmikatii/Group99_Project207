@@ -12,13 +12,12 @@ import use_case.uploading.UploadingDataAccessInterface;
 import use_case.uploading.UploadingInputBoundary;
 import use_case.uploading.UploadingInteractor;
 import use_case.uploading.UploadingOutputBoundary;
-import view.UploadedRecipeView;
 import view.UploadingView;
 
 public class UploadingUseCaseFactory {
     public static UploadingView create(ViewManagerModel viewManagerModel, UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, UploadsViewModel uploadsViewModel, UploadingDataAccessInterface uploadingDataAccessInterface){
         UploadingController uploadingController = createUploadsUseCase(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, uploadingDataAccessInterface);
-        return new UploadingView(uploadingController, uploadingViewModel, profileViewModel, viewManagerModel);
+        return new UploadingView(uploadingController, uploadingViewModel, profileViewModel, viewManagerModel, uploadsViewModel);
     }
 
     private static UploadingController createUploadsUseCase(ViewManagerModel viewManagerModel, UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, UploadsViewModel uploadsViewModel, UploadingDataAccessInterface uploadingDataAccessInterface) {
