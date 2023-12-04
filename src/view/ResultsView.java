@@ -50,11 +50,10 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         JPanel recipes = new JPanel();
         JScrollPane scroll = new JScrollPane(recipes);
 
-        recipes.setLayout(new GridLayout(0,4,5,5));
-
+        recipes.setLayout(new GridLayout(0, 4, 5, 5));
         ResultState currentState = resultViewModel.getState();
         List<CommonRecipe> recipesList = currentState.getRecipesList();
-        for (CommonRecipe recipe : recipesList){
+        for (CommonRecipe recipe : recipesList) {
             ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
             recipeImage = new JButton(recipe.getRecipeName(), saveRecipeImage);
             //setting position of label of recipe
@@ -63,31 +62,32 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
             recipeImage.addActionListener(
                     // This creates an anonymous subclass of ActionListener and instantiates it.
                     new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource() instanceof JButton sourceButton) {
-                            if (evt.getSource().equals(sourceButton)) {
-                                RecipePopupState currentPopupState = recipePopupViewModel.getState();
-                                System.out.println(currentPopupState);
+                        public void actionPerformed(ActionEvent evt) {
+                            if (evt.getSource() instanceof JButton sourceButton) {
+                                if (evt.getSource().equals(sourceButton)) {
+                                    RecipePopupState currentPopupState = recipePopupViewModel.getState();
+                                    System.out.println(currentPopupState);
 
-                                recipePopupViewModel.setState(currentPopupState);
-                                System.out.println(recipePopupViewModel.getState());
+                                    recipePopupViewModel.setState(currentPopupState);
+                                    System.out.println(recipePopupViewModel.getState());
 
-                                recipePopupViewModel.firePropertyChanged();
+                                    recipePopupViewModel.firePropertyChanged();
 
-                                viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
-                                System.out.println(viewManagerModel.getActiveView());
-                                viewManagerModel.firePropertyChanged();
+                                    viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
+                                    System.out.println(viewManagerModel.getActiveView());
+                                    viewManagerModel.firePropertyChanged();
+
+                                }
+
 
                             }
-
-
                         }
                     }
-                }
             );
             //recipeImage.setPreferredSize(new Dimension(10, 10));
             recipes.add(recipeImage);
         }
+        this.add(scroll);
 
         back.addActionListener(
                 new ActionListener() {
@@ -107,7 +107,6 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(buttons);
-        this.add(scroll);
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -116,17 +115,8 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        try {
-            ResultState state = (ResultState) evt.getNewValue();
-            System.out.println(state.getRecipesList());
-        }
-        catch(ClassCastException e){
-            LoggedInState state = (LoggedInState) evt.getNewValue();
-            if (state.getUsername() != null){
-                JOptionPane.showMessageDialog(this, state.getUsernameError());
-            }
-        }
     }
+
     //this will be the page that the user is taken to when they click search on the SearchView
     //this will present the filtered results of their search and have a button to go back to the
     //searchview so they can search again
