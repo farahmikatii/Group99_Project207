@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ResultsView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    public final String viewName = "Filtered Recipes";
+    public final String viewName = "Filtered Results";
     private final ResultViewModel resultViewModel;
     private final RecipePopupViewModel recipePopupViewModel;
     private final LoggedInViewModel loggedInViewModel;
@@ -47,52 +47,13 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         back = new JButton(resultViewModel.BACK_BUTTON_LABEL);
         buttons.add(back);
 
-        JPanel recipes = new JPanel();
-        JScrollPane scroll = new JScrollPane(recipes);
-
-        recipes.setLayout(new GridLayout(0, 4, 5, 5));
-        ResultState currentState = resultViewModel.getState();
-        List<CommonRecipe> recipesList = currentState.getRecipesList();
-        for (CommonRecipe recipe : recipesList) {
-            ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
-            recipeImage = new JButton(recipe.getRecipeName(), saveRecipeImage);
-            //setting position of label of recipe
-            recipeImage.setVerticalTextPosition(SwingConstants.TOP);
-            recipeImage.setHorizontalTextPosition(SwingConstants.CENTER);
-            recipeImage.addActionListener(
-                    // This creates an anonymous subclass of ActionListener and instantiates it.
-                    new ActionListener() {
-                        public void actionPerformed(ActionEvent evt) {
-                            if (evt.getSource() instanceof JButton sourceButton) {
-                                if (evt.getSource().equals(sourceButton)) {
-                                    RecipePopupState currentPopupState = recipePopupViewModel.getState();
-                                    System.out.println(currentPopupState);
-
-                                    recipePopupViewModel.setState(currentPopupState);
-                                    System.out.println(recipePopupViewModel.getState());
-
-                                    recipePopupViewModel.firePropertyChanged();
-
-                                    viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
-                                    System.out.println(viewManagerModel.getActiveView());
-                                    viewManagerModel.firePropertyChanged();
-
-                                }
-
-
-                            }
-                        }
-                    }
-            );
-            //recipeImage.setPreferredSize(new Dimension(10, 10));
-            recipes.add(recipeImage);
-        }
-        this.add(scroll);
-
         back.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(back)) {
+                            ResultState cureentResultState = resultViewModel.getState();
+                            cureentResultState.setRecipesList(null);
+                            resultViewModel.setState(cureentResultState);
                             LoggedInState currentLoggedInState = loggedInViewModel.getState();
                             loggedInViewModel.setState(currentLoggedInState);
                             loggedInViewModel.firePropertyChanged();
@@ -102,7 +63,6 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
                     }
                 }
         );
-
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
@@ -115,6 +75,56 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        ResultState currentState = resultViewModel.getState();
+        List<CommonRecipe> recipesList = currentState.getRecipesList();
+        if (recipesList != null) {
+            if (!recipesList.isEmpty()) {
+                JPanel recipes = new JPanel();
+                JScrollPane scroll = new JScrollPane(recipes);
+                recipes.setLayout(new GridLayout(0, 4, 5, 5));
+                System.out.println(recipesList);
+                for (CommonRecipe recipe : recipesList) {
+                    ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
+                    recipeImage = new JButton(recipe.getRecipeName(), saveRecipeImage);
+                    //setting position of label of recipe
+                    recipeImage.setVerticalTextPosition(SwingConstants.TOP);
+                    recipeImage.setHorizontalTextPosition(SwingConstants.CENTER);
+                    recipeImage.addActionListener(
+                            // This creates an anonymous subclass of ActionListener and instantiates it.
+                            new ActionListener() {
+                                public void actionPerformed(ActionEvent evt) {
+                                    if (evt.getSource() instanceof JButton sourceButton) {
+                                        if (evt.getSource().equals(sourceButton)) {
+                                            RecipePopupState currentPopupState = recipePopupViewModel.getState();
+                                            currentPopupState.setRecipe(recipe);
+                                            currentPopupState.setRecipeLabel(recipe);
+                                            currentPopupState.setImageUrl(recipe);
+
+
+                                            System.out.println(currentPopupState);
+
+                                            recipePopupViewModel.setState(currentPopupState);
+                                            System.out.println(recipePopupViewModel.getState());
+
+                                            recipePopupViewModel.firePropertyChanged();
+
+                                            viewManagerModel.setActiveView(recipePopupViewModel.getViewName());
+                                            System.out.println(viewManagerModel.getActiveView());
+                                            viewManagerModel.firePropertyChanged();
+
+                                        }
+
+
+                                    }
+                                }
+                            }
+                    );
+                    //recipeImage.setPreferredSize(new Dimension(10, 10));
+                    recipes.add(recipeImage);
+                }
+                this.add(scroll);
+            }
+        }
     }
 
     //this will be the page that the user is taken to when they click search on the SearchView

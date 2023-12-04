@@ -22,7 +22,7 @@ public class FilterAPICallDataAccessObject implements SearchUserDataAccessInterf
         for (HashMap.Entry<String, String> entry : filterDict.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            if (value != null){
+            if (!value.isEmpty()){
                 returnString.append("&").append(key).append("=").append(value);
             }
         }
