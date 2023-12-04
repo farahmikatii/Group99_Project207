@@ -135,7 +135,6 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         this.add(back);
         this.add(save);
         this.add(make);
-
     }
 
     @Override
