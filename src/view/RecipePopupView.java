@@ -5,13 +5,18 @@ import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.recipePopup.RecipePopupViewModel;
+import interface_adapter.logged_in.LoggedInViewModel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class RecipePopupView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -22,6 +27,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 
     private final RecipePopupState recipePopupState;
     private final RecipePopupViewModel recipePopupViewModel;
+    private final LoggedInViewModel loggedInViewModel;
     JLabel recName;
     JLabel image;
     JLabel recipeUrl;
@@ -33,6 +39,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         //NEED TO CHANGE
         this.recipePopupState = recipePopupState;
         this.recipePopupViewModel = recipePopupViewModel;
+        this.loggedInViewModel = loggedInViewModel;
 
         this.recipePopupViewModel.addPropertyChangeListener(this);
 
@@ -45,12 +52,19 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         recipeUrl = new JLabel();
         //JLabel recipeName = new JLabel("hello");
 
-        //ImageIcon saveRecipeImage = new ImageIcon(currentPopupState.getImageUrl());
-        //JLabel image = new JLabel(saveRecipeImage);
-        JLabel title = new JLabel("Recipe Flow");
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS
-        ));
-        /////////
+//        JPanel whole = new JPanel();
+//        whole.setLayout(new BorderLayout());
+//
+//        whole.add(recName);
+//        recName.setFont(new Font("Serif", Font.PLAIN, 30));
+//        recName.setAlignmentX(CENTER_ALIGNMENT);
+//        recName.setAlignmentY(TOP_ALIGNMENT);
+//
+//        this.add(whole);
+
+
+
+//        recName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton back = new JButton("Back");
         JButton save = new JButton("Save");
@@ -113,7 +127,11 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                 }
         );
 
-        /////////
+        //ImageIcon saveRecipeImage = new ImageIcon(currentPopupState.getImageUrl());
+        //JLabel image = new JLabel(saveRecipeImage);
+        JLabel title = new JLabel("Recipe Flow");
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS
+        ));
 
         this.add(title);
         //this.add(recipeName);
@@ -123,7 +141,6 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         this.add(back);
         this.add(save);
         this.add(make);
-
     }
 
     @Override
