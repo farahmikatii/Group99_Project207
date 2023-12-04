@@ -1,8 +1,6 @@
 package app;
 
-import data_access.CommonRecipeDataAccessObject;
 import data_access.FileUserDataAccessObject;
-import entity.CommonRecipeFactory;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -16,11 +14,7 @@ import interface_adapter.uploads.UploadsViewModel;
 
 
 import interface_adapter.recipePopup.RecipePopupViewModel;
-
-
 import interface_adapter.search.SearchViewModel;
-import interface_adapter.search.SearchController;
-
 import view.*;
 import interface_adapter.login.LoginViewModel;
 
@@ -116,7 +110,9 @@ public class Main {
         FileUserDataAccessObject userDataAccessObject;
         try {
 
-            userDataAccessObject = new FileUserDataAccessObject("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/users.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv", new CommonUserFactory());
+
+            //userDataAccessObject = new FileUserDataAccessObject("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/users.csv", new CommonUserFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -133,7 +129,8 @@ public class Main {
 
         views.add(loggedInView, loggedInView.viewName);
 
-        ProfileView profileView = new ProfileView(new UploadingViewModel(), profileViewModel, viewManagerModel, new SavedViewModel(), uploadsViewModel, loggedInViewModel);
+        //ProfileView profileView = new ProfileView(uploadingViewModel, profileViewModel, viewManagerModel, savedViewModel, uploadsViewModel, loggedInViewModel, uploadingController);
+        ProfileView profileView = ProfileUseCaseFactory.create(viewManagerModel, profileViewModel, uploadingViewModel, uploadsViewModel, savedViewModel, userDataAccessObject, loggedInViewModel);
         views.add(profileView, profileView.viewName);
 
         SavedView savedView = new SavedView(savedViewModel, viewManagerModel, profileViewModel);
@@ -154,6 +151,8 @@ public class Main {
                 profileViewModel,
                 userDataAccessObject
         );
+
+        //UploadsView uploadsView = new UploadsView(uploadsViewModel, profileViewModel, viewManagerModel);
         views.add(uploadsView, uploadsView.viewName);
 
         SearchView searchView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, loggedInViewModel, resultViewModel);
