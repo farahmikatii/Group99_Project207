@@ -16,6 +16,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface, RecipePopupDataAccessInterface {
     private final List<CommonRecipe> commonRecipeList = new ArrayList<>();
@@ -43,7 +44,7 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
             String label = recipeJson.getString("label");
             String url = recipeJson.getString("url");
 
-            String image_path = downloadImage(recipeJson.getString("image"), url, targetDictionary).toString();
+            String image_path = Objects.requireNonNull(downloadImage(recipeJson.getString("image"), url, targetDictionary)).toString();
 
             //String image_path = recipeJson.getString("image");
 
