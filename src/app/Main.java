@@ -89,6 +89,9 @@ public class Main {
         JFrame application = new JFrame("Recipe Flow");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        ImageIcon egg = new ImageIcon("./src/app_pictures/egg2.png");
+        application.setIconImage(egg.getImage());
+
         CardLayout cardLayout = new CardLayout();
 
         JPanel views = new JPanel(cardLayout);

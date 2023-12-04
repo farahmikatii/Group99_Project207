@@ -84,8 +84,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         searchViewModel.addPropertyChangeListener(this);
 
 
-
-        JLabel title = new JLabel("Recipe Flow");
+        ImageIcon titleImage = new ImageIcon("./src/app_pictures/title_logo.png");
+        JLabel title = new JLabel(titleImage);
+//        JLabel title = new JLabel("Recipe Flow");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
@@ -137,7 +138,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         for (CommonRecipe recipe : recipesList[0][0][0]){
             ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
-            recipeImage = new JButton(recipe.getRecipeName(), saveRecipeImage);
+            recipeImage = new JButton(cutName(recipe.getRecipeName()), saveRecipeImage);
             //setting position of label of recipe
             recipeImage.setVerticalTextPosition(SwingConstants.TOP);
             recipeImage.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -145,16 +146,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     // This creates an anonymous subclass of ActionListener and instantiates it.
                     new ActionListener() {
                         public void actionPerformed(ActionEvent evt) {
-//                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-//                                try {
-//                                    URI uri = new URI(recipe.getRecipeUrl());
-//                                    Desktop.getDesktop().browse(uri);
-//                                } catch (IOException | URISyntaxException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            } else {
-//                                System.out.println("Opening a link is not supported on this platform.");
-//                            }
                             if (evt.getSource() instanceof JButton sourceButton) {
                                 if (evt.getSource().equals(sourceButton)) {
 
@@ -274,7 +265,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
                                 for (CommonRecipe recipe : recipesList[0][0][0]){
                                     ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
-                                    recipeImage = new JButton(recipe.getRecipeName(), saveRecipeImage);
+                                    recipeImage = new JButton(cutName(recipe.getRecipeName()), saveRecipeImage);
                                     //setting position of label of recipe
                                     recipeImage.setVerticalTextPosition(SwingConstants.TOP);
                                     recipeImage.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -461,5 +452,14 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         // Delete the empty folder after deleting its contents
         folder.delete();
+    }
+
+    public static String cutName(String name) {
+        //Checking if name is longer than 45 chars
+        if (name.length() > 42) {
+            return name.substring(0, 42) + "...";
+        } else {
+            return name;
+        }
     }
 }

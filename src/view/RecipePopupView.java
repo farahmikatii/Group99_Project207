@@ -43,32 +43,21 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 
         this.recipePopupViewModel.addPropertyChangeListener(this);
 
-
-
         RecipePopupState currentPopupState = recipePopupViewModel.getState();
         //System.out.println(currentPopupState.getRecipeLabel());
-        recName = new JLabel();
-        image = new JLabel();
+
         recipeUrl = new JLabel();
         //JLabel recipeName = new JLabel("hello");
 
-//        JPanel whole = new JPanel();
-//        whole.setLayout(new BorderLayout());
-//
-//        whole.add(recName);
-//        recName.setFont(new Font("Serif", Font.PLAIN, 30));
-//        recName.setAlignmentX(CENTER_ALIGNMENT);
-//        recName.setAlignmentY(TOP_ALIGNMENT);
-//
-//        this.add(whole);
+        JPanel whole = new JPanel();
+        whole.setLayout(new BorderLayout());
 
-
-
-//        recName.setAlignmentX(Component.CENTER_ALIGNMENT);
+        recName = new JLabel();
+        recName.setFont(new Font("Serif", Font.PLAIN, 25));
+        whole.add(recName, BorderLayout.PAGE_START);
 
         JButton back = new JButton("Back");
-        JButton save = new JButton("Save");
-        JButton make = new JButton("Make it");
+        whole.add(back, BorderLayout.PAGE_END);
 
         back.addActionListener(
                 new ActionListener() {
@@ -85,15 +74,30 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                 }
         );
 
+        JPanel middle = new JPanel();
+        middle.setLayout(new BorderLayout());
+
+        image = new JLabel();
+        middle.add(image, BorderLayout.LINE_START);
+
+        JPanel saveMake = new JPanel();
+        saveMake.setLayout(new FlowLayout());
+        JButton save = new JButton("Save");
+        JButton make = new JButton("Make it");
+
         save.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(save)){
                             JFrame saved = new JFrame("Confirmation");
-                            saved.setPreferredSize(new Dimension(500, 100));
+                            saved.setSize(275, 100);
+                            JPanel little = new JPanel();
+                            little.setLayout(new BorderLayout());
                             JLabel message = new JLabel("Saved!");
-                            saved.add(message);
+                            //message.setAlignmentX(CENTER_ALIGNMENT);
+                            little.add(message, BorderLayout.CENTER);
+                            saved.add(little);
                             saved.setVisible(true);
 
 //                            saved.setPreferredSize(new Dimension(500, 100));
@@ -110,37 +114,30 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-//                        if (e.getSource().equals(save)){
-//                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-//                                try {
-//                                    URI uri = new URI(recipe.getRecipeUrl());
-//                                    Desktop.getDesktop().browse(uri);
-//                                } catch (IOException | URISyntaxException w) {
-//                                    w.printStackTrace();
-//                                }
-//                            } else {
-//                                System.out.println("Link cannot be opened.");
-//                            }
-//
-//                        }
+                        if (e.getSource().equals(make)){
+                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                                try {
+                                    URI uri = new URI(recipeUrl.getText());
+                                    Desktop.getDesktop().browse(uri);
+                                } catch (IOException | URISyntaxException w) {
+                                    w.printStackTrace();
+                                }
+                            } else {
+                                System.out.println("Link cannot be opened.");
+                            }
+
+                        }
                     }
                 }
         );
 
-        //ImageIcon saveRecipeImage = new ImageIcon(currentPopupState.getImageUrl());
-        //JLabel image = new JLabel(saveRecipeImage);
-        JLabel title = new JLabel("Recipe Flow");
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS
-        ));
+        saveMake.add(save);
+        saveMake.add(make);
+        middle.add(saveMake, BorderLayout.LINE_END);
 
-        this.add(title);
-        //this.add(recipeName);
-        this.add(recName);
-        this.add(image);
-        this.add(recipeUrl);
-        this.add(back);
-        this.add(save);
-        this.add(make);
+        whole.add(middle, BorderLayout.CENTER);
+
+        this.add(whole);
     }
 
     @Override
