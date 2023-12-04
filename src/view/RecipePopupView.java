@@ -43,8 +43,6 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 
         this.recipePopupViewModel.addPropertyChangeListener(this);
 
-
-
         RecipePopupState currentPopupState = recipePopupViewModel.getState();
         //System.out.println(currentPopupState.getRecipeLabel());
 
