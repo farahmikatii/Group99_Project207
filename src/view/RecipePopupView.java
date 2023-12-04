@@ -21,6 +21,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
     private final RecipePopupViewModel recipePopupViewModel;
     JLabel recName;
     JLabel image;
+    JLabel recipeUrl;
 
 
     public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupState recipePopupState, RecipePopupViewModel recipePopupViewModel){
@@ -38,16 +39,20 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         //System.out.println(currentPopupState.getRecipeLabel());
         recName = new JLabel();
         image = new JLabel();
+        recipeUrl = new JLabel();
         //JLabel recipeName = new JLabel("hello");
 
         //ImageIcon saveRecipeImage = new ImageIcon(currentPopupState.getImageUrl());
         //JLabel image = new JLabel(saveRecipeImage);
         JLabel title = new JLabel("Recipe Flow");
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS
+        ));
 
         this.add(title);
         //this.add(recipeName);
         this.add(recName);
         this.add(image);
+        this.add(recipeUrl);
 
     }
 
@@ -62,6 +67,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         recName.setText(state.getRecipeLabel());
         ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
         image.setIcon(saveRecipeImage);
+        recipeUrl.setText(state.getRecipeUrl());
 
 
     }
