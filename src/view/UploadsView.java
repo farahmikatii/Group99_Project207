@@ -7,7 +7,6 @@ import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.uploadedRecipe.UploadedRecipeState;
 import interface_adapter.uploadedRecipe.UploadedRecipeViewModel;
 import interface_adapter.uploading.UploadingController;
-import interface_adapter.uploading.UploadingState;
 import interface_adapter.uploads.UploadsState;
 import interface_adapter.uploads.UploadsViewModel;
 
@@ -46,20 +45,22 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 
     JButton viewButtonTest;
 
-    public UploadsView(UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, UploadingController uploadingController) {
+    public UploadsView(UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, UploadedRecipeViewModel uploadedRecipeViewModel, UploadingController uploadingController) {
         this.uploadsViewModel = uploadsViewModel;
         this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.uploadedRecipeViewModel = uploadedRecipeViewModel;
         this.uploadingController = uploadingController;
         uploadsViewModel.addPropertyChangeListener(this);
         this.uploadedRecipeList = new ArrayList<>();
+        this.uploadedRecipeViewModel.addPropertyChangeListener(this);
         //viewManagerModel.addPropertyChangeListener(this);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         //DefaultListModel<Object> uploadedRecipeListModel = new DefaultListModel<>();
 
-        JPanel mainPanel = new JPanel();
+        //JPanel mainPanel = new JPanel();
         //JScrollPane scrollPane = new JScrollPane(mainPanel);
 
         //ist<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
@@ -75,46 +76,9 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
             viewButton = new JButton("Hello");
             buttons.add(viewButton);
         }
+
+        //buttons.add(viewButton);
         //uploadedRecipeList.get(0);
-
-
-        for (Map<String, Object> recipe : uploadedRecipeList){
-
-            String recipeName = (String) recipe.get("Name");
-            // Create a button for each recipe and add an action listener
-
-            viewButton = new JButton("View " + recipeName);
-            viewButton.addActionListener(
-                    new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if (e.getSource().equals(viewButton)) {
-                                String recipeName = (String) recipe.get("Name");
-                                String recipeIngredients = (String) recipe.get("Ingredients");
-                                String recipeInstructions = (String) recipe.get("Instructions");
-                                Image recipeImage = (Image) recipe.get("Image");
-
-                                //take to recipe page view
-
-                                UploadedRecipeState currentRecipeState = uploadedRecipeViewModel.getState();
-                                currentRecipeState.setUploadedRecipe(recipe);
-                                currentRecipeState.setUploadedRecipeName(recipeName);
-                                currentRecipeState.setUploadedRecipeIngredients(recipeIngredients);
-                                currentRecipeState.setUploadedRecipeInstructions(recipeInstructions);
-                                currentRecipeState.setUploadedRecipeImage(recipeImage);
-
-                                uploadedRecipeViewModel.setState(currentRecipeState);
-                                viewManagerModel.setActiveView(uploadedRecipeViewModel.getViewName());
-                                viewManagerModel.firePropertyChanged();
-
-                            }
-
-                        }
-                    }
-            );
-            mainPanel.add(viewButton);
-        }
-
 
         JLabel title = new JLabel(uploadsViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -126,7 +90,7 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 
         this.add(title);
         this.add(buttons);
-        this.add(mainPanel);
+        //this.add(mainPanel);
         //this.add(mainPanel);
 
         back.addActionListener(
@@ -159,7 +123,48 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         //System.out.println("hello");
         List<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
         this.uploadedRecipeList = recipesList;
-        System.out.println(uploadedRecipeList.get(0).get("Name").toString());
+        JPanel mainPanel = new JPanel();
+        //System.out.println(uploadedRecipeList.get(0).get("Name").toString());
 
+        //add if statement to check if button is already in the panel 
+
+        for (Map<String, Object> recipe : uploadedRecipeList){
+
+            String recipeName = (String) recipe.get("Name");
+            // Create a button for each recipe and add an action listener
+
+            viewButton = new JButton("View " + recipeName);
+            viewButton.addActionListener(
+                    new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (e.getSource().equals(viewButton)) {
+                                String recipeName = (String) recipe.get("Name");
+                                String recipeIngredients = (String) recipe.get("Ingredients");
+                                String recipeInstructions = (String) recipe.get("Instructions");
+                                Image recipeImage = (Image) recipe.get("Image");
+
+                                //take to recipe page view
+
+                                UploadedRecipeState currentRecipeState = uploadedRecipeViewModel.getState();
+                                currentRecipeState.setUploadedRecipe(recipe);
+                                currentRecipeState.setUploadedRecipeName(recipeName);
+                                currentRecipeState.setUploadedRecipeIngredients(recipeIngredients);
+                                currentRecipeState.setUploadedRecipeInstructions(recipeInstructions);
+                                currentRecipeState.setUploadedRecipeImage(recipeImage);
+
+                                uploadedRecipeViewModel.setState(currentRecipeState);
+                                uploadedRecipeViewModel.firePropertyChanged();
+                                viewManagerModel.setActiveView(uploadedRecipeViewModel.getViewName());
+                                viewManagerModel.firePropertyChanged();
+
+                            }
+
+                        }
+                    }
+            );
+            mainPanel.add(viewButton);
+        }
+        this.add(mainPanel);
     }
 }
