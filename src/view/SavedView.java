@@ -35,26 +35,26 @@ public class SavedView extends JPanel implements ActionListener,PropertyChangeLi
         back = new JButton(savedViewModel.BACK_BUTTON_LABEL);
         buttons.add(back);
 
-        back.addActionListener(this);
+        back.addActionListener(
+                // to return to the user's profile page
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(back)){
+                            ProfileState currentState = profileViewModel.getState();
+                            profileViewModel.setState(currentState);
+                            profileViewModel.firePropertyChanged();
+                            viewManagerModel.setActiveView(profileViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+                        }
+                    }
+                }
+        );
 
       this.add(title);
       this.add(buttons);
 
-      back.addActionListener(
-              // takes back to profile page
-              new ActionListener() {
-                  @Override
-                  public void actionPerformed(ActionEvent e) {
-                      if (e.getSource().equals(back)){
-                          ProfileState currentState = profileViewModel.getState();
-                          profileViewModel.setState(currentState);
-                          profileViewModel.firePropertyChanged();
-                          viewManagerModel.setActiveView(profileViewModel.getViewName());
-                          viewManagerModel.firePropertyChanged();
-                      }
-                  }
-              }
-      );
+
 
       //TODO: show saved recipes here (in same presentation as results)
     }
