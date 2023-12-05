@@ -1,6 +1,6 @@
 package entity;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.Assert.*;
