@@ -261,13 +261,25 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         info.setLayout(new BorderLayout());
         info.add(saveMake, BorderLayout.PAGE_START);
 
-        ingredients = new JLabel();
-        info.add(ingredients, BorderLayout.CENTER);
+        StringBuilder finalStringBuilder = new StringBuilder();
+
+//        for (String ingredient : recipe.getIngredients()) {
+//            finalStringBuilder.append("- ").append(ingredient).append("\n");
+//        }
+//
+//        String finalString = finalStringBuilder.toString();
+//
+//        System.out.println(finalString);
+
+        JLabel displayIngredients = new JLabel(String.valueOf(ingredients));
+        info.add(displayIngredients, BorderLayout.CENTER);
+
         middle.add(info, BorderLayout.LINE_END);
 
         whole.add(middle, BorderLayout.CENTER);
 
         this.add(whole);
+
     }
 
     @Override
