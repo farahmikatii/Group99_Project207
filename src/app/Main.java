@@ -9,6 +9,8 @@ import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.resultSearch.ResultViewModel;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.uploadedRecipe.UploadedRecipeState;
+import interface_adapter.uploadedRecipe.UploadedRecipeViewModel;
 import interface_adapter.uploading.UploadingViewModel;
 import interface_adapter.uploads.UploadsViewModel;
 
@@ -103,9 +105,12 @@ public class Main {
         UploadingViewModel uploadingViewModel = new UploadingViewModel();
         SearchViewModel searchViewModel = new SearchViewModel();
         ResultViewModel resultViewModel = new ResultViewModel();
+        UploadedRecipeViewModel uploadedRecipeViewModel = new UploadedRecipeViewModel();
 
         RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
         RecipePopupState recipePopupState = new RecipePopupState();
+
+        UploadedRecipeState uploadedRecipeState = new UploadedRecipeState();
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -149,11 +154,15 @@ public class Main {
                 uploadingViewModel,
                 uploadsViewModel,
                 profileViewModel,
-                userDataAccessObject
+                userDataAccessObject,
+                uploadedRecipeViewModel
         );
 
         //UploadsView uploadsView = new UploadsView(uploadsViewModel, profileViewModel, viewManagerModel);
         views.add(uploadsView, uploadsView.viewName);
+
+        UploadedRecipeView uploadedRecipeView = new UploadedRecipeView(viewManagerModel, uploadedRecipeState, uploadingViewModel,uploadsViewModel);
+        views.add(uploadedRecipeView, uploadedRecipeView.viewName);
 
         SearchView searchView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, loggedInViewModel, resultViewModel);
         views.add(searchView, searchView.viewName);

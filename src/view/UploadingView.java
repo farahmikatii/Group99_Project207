@@ -124,6 +124,7 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
                         recipenameInputField.setText("");
                         ingredientsInputField.setText("");
                         instructionsInputField.setText("");
+
                     }
                 }
         );

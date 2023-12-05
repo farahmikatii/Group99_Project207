@@ -50,8 +50,9 @@ public class UploadingPresenter implements UploadingOutputBoundary {
     public void prepareUploadedRecipeView(UploadingOutputData uploadedRecipe){
         // when a user clicks on an uploaded recipe in UploadsView, creates a new page for that recipe
 
-        UploadedRecipeView uploadedRecipeView = new UploadedRecipeView(uploadingViewModel, uploadedRecipe.getRecipeName(), uploadedRecipe.getRecipeIngredients(), uploadedRecipe.getRecipeInstructions(), uploadedRecipe.getRecipeImage(), uploadsViewModel);
         UploadedRecipeViewModel uploadedRecipeViewModel = new UploadedRecipeViewModel();
+        UploadedRecipeView uploadedRecipeView = new UploadedRecipeView(viewManagerModel, uploadedRecipeViewModel.getState() , uploadingViewModel, uploadsViewModel);
+
         uploadedRecipeViewModel.addPropertyChangeListener(uploadedRecipeView);
 
         UploadedRecipeState uploadedRecipeState = uploadedRecipeViewModel.getState();
