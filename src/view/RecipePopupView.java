@@ -1,25 +1,33 @@
 package view;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
+import entity.CommonRecipe;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.recipePopup.RecipePopupViewModel;
-import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.resultSearch.ResultState;
 import interface_adapter.resultSearch.ResultViewModel;
+import interface_adapter.saved.SavedState;
+import interface_adapter.saved.SavedViewModel;
+import interface_adapter.uploadedRecipe.UploadedRecipeState;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.List;
 
 public class RecipePopupView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -31,20 +39,27 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
     private final RecipePopupViewModel recipePopupViewModel;
     private final LoggedInViewModel loggedInViewModel;
     private final ResultViewModel resultViewModel;
+    private final SavedViewModel savedViewModel;
     JLabel recName;
     JLabel image;
     JLabel recipeUrl;
 
+    private CommonRecipe recipe;
+    private String username;
 
-    public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupViewModel recipePopupViewModel, LoggedInViewModel loggedInViewModel, ResultViewModel resultViewModel){
+    List<CommonRecipe> savedList = new ArrayList<>();
+
+    public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupViewModel recipePopupViewModel, LoggedInViewModel loggedInViewModel, ResultViewModel resultViewModel, SavedViewModel savedViewModel){
         //this.recipePopupController = recipePopupController;
         this.viewManagerModel = viewManagerModel;
         //NEED TO CHANGE
         this.recipePopupViewModel = recipePopupViewModel;
         this.loggedInViewModel = loggedInViewModel;
         this.resultViewModel = resultViewModel;
+        this.savedViewModel = savedViewModel;
 
         this.recipePopupViewModel.addPropertyChangeListener(this);
+        this.savedViewModel.addPropertyChangeListener(this);
 
 
         RecipePopupState currentPopupState = recipePopupViewModel.getState();
@@ -115,6 +130,97 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                             little.add(message, BorderLayout.CENTER);
                             saved.add(little);
                             saved.setVisible(true);
+                            savedList.add(recipe);
+                            //BufferedWriter writer;
+                            SavedState currentSavedState = savedViewModel.getState();
+                            currentSavedState.setRecipe(recipe);
+                            currentPopupState.setRecipeLabel(recipe);
+                            currentPopupState.setUsername(username);
+                            savedViewModel.setState(currentSavedState);
+                            savedViewModel.firePropertyChanged();
+//                            currentPopupState.setImageUrl(recipe);
+//                            currentPopupState.setRecipeUrl(recipe);
+//                            currentPopupState.setComingFrom("loggedin");
+
+
+
+
+
+                            try{
+                                //writer = new BufferedWriter(new FileWriter("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv", true));
+                                //BufferedReader reader = new BufferedReader(new FileReader("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv"));
+                                CSVReader reader2 = new CSVReader(new FileReader("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv"));
+                                CSVWriter writer2 = new CSVWriter(new FileWriter("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv", true));
+//                                writer.write(username+","+savedList.toString());
+//                                writer.newLine();
+//                                List<String> lines = new ArrayList<>();
+//                                String line1;
+//                                while ((line1 = reader.readLine()) != null) {
+//                                    lines.add(line1);
+//                                }
+//                                boolean usernameExists = false;
+//                                for (int i = 0; i < lines.size(); i++) {
+//                                    String[] parts = lines.get(i).split(",");
+//                                    if (parts.length > 0 && parts[0].equals(username)) {
+//                                        // Update the line if the username exists
+//                                        usernameExists = true;
+//                                        break;
+//                                    }
+//                                }
+//                                List<String[]> lines = reader2.readAll();
+//                                String line;
+//                                String lastLine = "";
+//                                while ((line = reader.readLine()) != null) {
+//                                    String[] lineParts = line.split(",");
+//                                    if(lineParts[0].equals(username)){
+//                                        lines.remove(lineParts);
+//                                        writer.write(username+","+savedList.toString());
+//
+//                                    }else{
+//                                       lastLine = line;
+//
+//                                    }
+//
+//                                    writer.newLine();
+//
+//                                }
+//                                if(!lastLine.isEmpty()){
+//                                    writer.write(username+","+savedList.toString());
+//                                }
+//                                writer.close();
+                                List<String[]> lines = reader2.readAll();
+                                String line;
+                                boolean usernameFound = false;
+
+                                for (int i = 0; i < lines.size(); i++) {
+                                    String[] lineParts = lines.get(i);
+
+                                    if (lineParts[0].equals(username)) {
+                                        // Clear the line and write a new line
+                                        lines.set(i, new String[]{});
+                                        lines.add(new String[]{username, savedList.toString()});
+                                        usernameFound = true;
+                                        break;  // No need to continue checking
+                                    }
+                                }
+
+                                if (!usernameFound) {
+                                    // If username was not found, add a new line
+                                    lines.add(new String[]{username, savedList.toString()});
+                                }
+
+                                // Write the modified content back to the CSV file
+                                writer2.writeAll(lines);
+
+                                writer2.close();
+
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+
+                            } catch (CsvException ex) {
+                                throw new RuntimeException(ex);
+                            }
+
 
 //                            saved.setPreferredSize(new Dimension(500, 100));
 //                            JLabel message = new JLabel("Recipe has already been saved.");
@@ -163,10 +269,23 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        RecipePopupState state = (RecipePopupState) evt.getNewValue();
-        recName.setText(state.getRecipeLabel());
-        ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
-        image.setIcon(saveRecipeImage);
-        recipeUrl.setText(state.getRecipeUrl());
+        Object newValue = evt.getNewValue();
+        if (newValue  instanceof RecipePopupState) {
+            RecipePopupState state = (RecipePopupState) evt.getNewValue();
+            recName.setText(state.getRecipeLabel());
+            ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
+            image.setIcon(saveRecipeImage);
+            recipeUrl.setText(state.getRecipeUrl());
+            this.recipe = state.getRecipe();
+            this.username = state.getUsername();
+            System.out.println(state.getUsername()+"YAY");
+            System.out.println(Arrays.toString(state.getIngredients()));
+        }
+
+
+
+
+
+
     }
 }
