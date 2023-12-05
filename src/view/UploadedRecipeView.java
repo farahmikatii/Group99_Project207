@@ -50,38 +50,40 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
         uploadsViewModel.addPropertyChangeListener(this);
         uploadedRecipeViewModel.addPropertyChangeListener(this);
 
+        JPanel entire = new JPanel();
+        entire.setLayout(new BoxLayout(entire, BoxLayout.PAGE_AXIS));
+
         title = new JLabel();
         title.setFont(new Font("Serif", Font.PLAIN, 25));
         //title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel whole = new JPanel();
-        whole.setLayout(new BorderLayout());
+        JPanel titlePanel = new JPanel();
+        titlePanel.add(title, BorderLayout.PAGE_START);
 
-        JPanel middle = new JPanel();
-        middle.setLayout(new BorderLayout());
+        JPanel whole = new JPanel();
+        whole.setLayout(new BoxLayout(whole, BoxLayout.Y_AXIS));
+
+        back = new JButton(uploadingViewModel.BACK_BUTTON_LABEL);
+        JPanel backPanel = new JPanel();
+        backPanel.add(back, BorderLayout.PAGE_END);
+
 
         recipeNameArea = new JLabel(uploadedRecipeState.getUploadedRecipeName());
         recipeIngredientsArea = new JLabel("Ingredients: " + uploadedRecipeState.getUploadedRecipeIngredients());
         recipeInstructionsArea = new JLabel("Instructions: " + uploadedRecipeState.getUploadedRecipeInstructions());
 
 
-        //whole.add(recipeNameArea);
-        middle.add(recipeIngredientsArea, BorderLayout.CENTER);
-        middle.add(recipeInstructionsArea, BorderLayout.CENTER);
+        whole.add(recipeIngredientsArea);
+        whole.add(recipeInstructionsArea, BorderLayout.CENTER);
 
 
         if (uploadedRecipeState.getUploadedRecipe() != null) {
+            JPanel imagePanel = new JPanel();
             image = new JLabel();
-            this.add(image);
-            middle.add(image, BorderLayout.LINE_START);
-
+            imagePanel.add(image, BorderLayout.LINE_START);
+            this.add(imagePanel);
         }
-        //potentially add a scroll pane
 
-        back = new JButton(uploadingViewModel.BACK_BUTTON_LABEL);
-        whole.add(back, BorderLayout.PAGE_END);
-
-        whole.add(title, BorderLayout.PAGE_START);
 
         back.addActionListener(
                 //takes user back to home page
@@ -95,17 +97,18 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
                             viewManagerModel.setActiveView(uploadsViewModel.getViewName());
                             viewManagerModel.firePropertyChanged();
                         }
+                        uploadedRecipeState.setUploadedRecipeImage(null);
+                        uploadedRecipeViewModel.firePropertyChanged();
                     }
                 }
         );
 
-        whole.add(middle, BorderLayout.CENTER);
-        this.add(whole);
-/*
-        this.add(recipeNameArea);
-        this.add(recipeIngredientsArea);
-        this.add(recipeInstructionsArea);
-*/
+        entire.add(titlePanel);
+        entire.add(whole);
+        entire.add(backPanel);
+
+        this.add(entire);
+
     }
 
 
@@ -121,12 +124,17 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
             UploadedRecipeState newState = (UploadedRecipeState) newValue;
             System.out.println(newState.getUploadedRecipeName());
             title.setText(newState.getUploadedRecipeName());
-            //recipeNameArea.setText(newState.getUploadedRecipeName());
-           // ImageIcon recipeImage = new ImageIcon(newState.getUploadedRecipeImage());
             recipeIngredientsArea.setText("Ingredients: " + newState.getUploadedRecipeIngredients());
             recipeInstructionsArea.setText("Instructions: " + newState.getUploadedRecipeInstructions());
-            //image.setIcon(recipeImage);
-            //getting a null point exception error
+
+            if (newState.getUploadedRecipeImage() != null){
+                ImageIcon recipeImage = new ImageIcon(newState.getUploadedRecipeImage());
+                image = new JLabel();
+                image.setIcon(recipeImage);
+                JPanel imagePanel = new JPanel();
+                imagePanel.add(image, BorderLayout.LINE_START);
+                this.add(imagePanel);
+            }
         }
 
     }
