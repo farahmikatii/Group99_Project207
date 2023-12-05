@@ -1,5 +1,7 @@
 package view;
 
+import com.opencsv.CSVReader;
+import entity.CommonRecipe;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -16,10 +18,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecipePopupView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -35,6 +41,10 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
     JLabel image;
     JLabel recipeUrl;
 
+    private CommonRecipe recipe;
+    private String username;
+
+    List<CommonRecipe> savedList = new ArrayList<>();
 
     public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupViewModel recipePopupViewModel, LoggedInViewModel loggedInViewModel, ResultViewModel resultViewModel){
         //this.recipePopupController = recipePopupController;
@@ -115,6 +125,53 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                             little.add(message, BorderLayout.CENTER);
                             saved.add(little);
                             saved.setVisible(true);
+                            savedList.add(recipe);
+                            BufferedWriter writer;
+                            try{
+                                writer = new BufferedWriter(new FileWriter("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv", true));
+                                BufferedReader reader = new BufferedReader(new FileReader("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv"));
+                                CSVReader reader2 = new CSVReader(new FileReader("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv"));
+//                                writer.write(username+","+savedList.toString());
+//                                writer.newLine();
+//                                List<String> lines = new ArrayList<>();
+//                                String line1;
+//                                while ((line1 = reader.readLine()) != null) {
+//                                    lines.add(line1);
+//                                }
+//                                boolean usernameExists = false;
+//                                for (int i = 0; i < lines.size(); i++) {
+//                                    String[] parts = lines.get(i).split(",");
+//                                    if (parts.length > 0 && parts[0].equals(username)) {
+//                                        // Update the line if the username exists
+//                                        usernameExists = true;
+//                                        break;
+//                                    }
+//                                }
+
+                                String line;
+                                String lastLine = "";
+                                while ((line = reader.readLine()) != null) {
+                                    String[] lineParts = line.split(",");
+                                    if(lineParts[0].equals(username)){
+                                        writer.write(username+","+savedList.toString());
+
+                                    }else{
+                                       lastLine = line;
+
+                                    }
+
+                                    writer.newLine();
+
+                                }
+                                if(!lastLine.isEmpty()){
+                                    writer.write(username+","+savedList.toString());
+                                }
+                                writer.close();
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+
+                            }
+
 
 //                            saved.setPreferredSize(new Dimension(500, 100));
 //                            JLabel message = new JLabel("Recipe has already been saved.");
@@ -168,5 +225,13 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
         image.setIcon(saveRecipeImage);
         recipeUrl.setText(state.getRecipeUrl());
+        this.recipe = state.getRecipe();
+        this.username = state.getUsername();
+
+
+        System.out.println(state.getUsername()+"YAY");
+
+
+
     }
 }
