@@ -90,8 +90,12 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
                                     File file = fileChooser.getSelectedFile();
                                     BufferedImage picture = ImageIO.read(file);
 
-                                    imageLabel.setIcon(new ImageIcon(picture));
-                                    add(imageLabel);
+                                    /*imageLabel.setIcon(new ImageIcon(picture));
+                                    add(imageLabel);*/
+
+                                    UploadingState currentState = uploadingViewModel.getState();
+                                    currentState.setRecipeImage(picture);
+
                                 } catch (IOException ioe) {
                                     ioe.printStackTrace();
                                     JOptionPane.showMessageDialog(null, "ERROR");

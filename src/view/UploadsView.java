@@ -37,6 +37,8 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 
     private UploadsState uploadsState;
 
+    private List<String> buttonsList;
+
     private  List<Map<String, Object>> uploadedRecipeList;
 
     final JButton back;
@@ -53,8 +55,10 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         this.uploadingController = uploadingController;
         uploadsViewModel.addPropertyChangeListener(this);
         this.uploadedRecipeList = new ArrayList<>();
-        this.uploadedRecipeViewModel.addPropertyChangeListener(this);
+        uploadedRecipeViewModel.addPropertyChangeListener(this);
         //viewManagerModel.addPropertyChangeListener(this);
+
+        this.buttonsList = new ArrayList<>();
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -86,11 +90,6 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         back = new JButton(uploadsViewModel.BACK_BUTTON_LABEL);
         buttons.add(back);
 
-        back.addActionListener(this);
-
-        this.add(title);
-        this.add(buttons);
-        //this.add(mainPanel);
         //this.add(mainPanel);
 
         back.addActionListener(
@@ -110,6 +109,10 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         );
 
 
+        this.add(title);
+        this.add(buttons);
+
+
     }
 
 
@@ -120,11 +123,10 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //System.out.println("hello");
+        //UploadsState uploadsState = uploadsViewModel.getState();
         List<Map<String, Object>> recipesList = uploadingController.uploadedRecipes();
         this.uploadedRecipeList = recipesList;
         JPanel mainPanel = new JPanel();
-        //System.out.println(uploadedRecipeList.get(0).get("Name").toString());
 
         //add if statement to check if button is already in the panel 
 
@@ -133,37 +135,40 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
             String recipeName = (String) recipe.get("Name");
             // Create a button for each recipe and add an action listener
 
-            viewButton = new JButton("View " + recipeName);
-            viewButton.addActionListener(
-                    new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if (e.getSource().equals(viewButton)) {
-                                String recipeName = (String) recipe.get("Name");
-                                String recipeIngredients = (String) recipe.get("Ingredients");
-                                String recipeInstructions = (String) recipe.get("Instructions");
-                                Image recipeImage = (Image) recipe.get("Image");
+            if (!buttonsList.contains(recipeName)) {
+                buttonsList.add(recipeName);
+                viewButton = new JButton("View " + recipeName + " Recipe");
+                viewButton.addActionListener(
+                        new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                if (e.getSource().equals(viewButton)) {
+                                    String recipeName = (String) recipe.get("Name");
+                                    String recipeIngredients = (String) recipe.get("Ingredients");
+                                    String recipeInstructions = (String) recipe.get("Instructions");
+                                    Image recipeImage = (Image) recipe.get("Image");
 
-                                //take to recipe page view
+                                    //take to recipe page view
 
-                                UploadedRecipeState currentRecipeState = uploadedRecipeViewModel.getState();
-                                currentRecipeState.setUploadedRecipe(recipe);
-                                currentRecipeState.setUploadedRecipeName(recipeName);
-                                currentRecipeState.setUploadedRecipeIngredients(recipeIngredients);
-                                currentRecipeState.setUploadedRecipeInstructions(recipeInstructions);
-                                currentRecipeState.setUploadedRecipeImage(recipeImage);
+                                    UploadedRecipeState currentRecipeState = uploadedRecipeViewModel.getState();
+                                    currentRecipeState.setUploadedRecipe(recipe);
+                                    currentRecipeState.setUploadedRecipeName(recipeName);
+                                    currentRecipeState.setUploadedRecipeIngredients(recipeIngredients);
+                                    currentRecipeState.setUploadedRecipeInstructions(recipeInstructions);
+                                    currentRecipeState.setUploadedRecipeImage(recipeImage);
 
-                                uploadedRecipeViewModel.setState(currentRecipeState);
-                                uploadedRecipeViewModel.firePropertyChanged();
-                                viewManagerModel.setActiveView(uploadedRecipeViewModel.getViewName());
-                                viewManagerModel.firePropertyChanged();
+                                    uploadedRecipeViewModel.setState(currentRecipeState);
+                                    uploadedRecipeViewModel.firePropertyChanged();
+                                    viewManagerModel.setActiveView(uploadedRecipeViewModel.getViewName());
+                                    viewManagerModel.firePropertyChanged();
+
+                                }
 
                             }
-
                         }
-                    }
-            );
-            mainPanel.add(viewButton);
+                );
+                mainPanel.add(viewButton);
+            }
         }
         this.add(mainPanel);
     }
