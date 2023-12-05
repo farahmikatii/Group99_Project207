@@ -6,9 +6,9 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.recipePopup.RecipePopupController;
 import interface_adapter.recipePopup.RecipePopupPresenter;
-import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.recipePopup.RecipePopupViewModel;
 import interface_adapter.resultSearch.ResultViewModel;
+import interface_adapter.saved.SavedViewModel;
 import use_case.recipePopup.RecipePopupDataAccessInterface;
 import use_case.recipePopup.RecipePopupInputBoundary;
 import use_case.recipePopup.RecipePopupInteractor;
@@ -22,11 +22,11 @@ public class RecipePopupUseCaseFactory {
     private RecipePopupUseCaseFactory(){}
 
     public static RecipePopupView create(
-            ViewManagerModel viewManagerModel, RecipePopupViewModel recipePopupViewModel, RecipePopupDataAccessInterface recipePopupDataAccessInterface, LoggedInViewModel loggedInViewModel, ResultViewModel resultViewModel){
+            ViewManagerModel viewManagerModel, RecipePopupViewModel recipePopupViewModel, RecipePopupDataAccessInterface recipePopupDataAccessInterface, LoggedInViewModel loggedInViewModel, ResultViewModel resultViewModel, SavedViewModel savedViewModel){
 
         try{
             RecipePopupController recipePopupController = createUserRecipePopupUseCase(viewManagerModel, recipePopupViewModel, loggedInViewModel, recipePopupDataAccessInterface);
-            return new RecipePopupView( viewManagerModel, recipePopupViewModel, loggedInViewModel, resultViewModel);
+            return new RecipePopupView( viewManagerModel, recipePopupViewModel, loggedInViewModel, resultViewModel, savedViewModel);
         }
         catch (IOException e){
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
