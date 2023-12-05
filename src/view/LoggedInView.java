@@ -420,19 +420,13 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-//        try {
-//            LoggedInState loggedInState = (LoggedInState) evt.getNewValue();
-//            if (loggedInState.getUsernameError() != null) {
-//                JOptionPane.showMessageDialog(this, LoggedInState.getUsernameError());
-//            }
-//        }
-//        catch(ClassCastException e){
-//            ProfileState profilestate = (ProfileState) evt.getNewValue();
-//            if (profilestate.getUsernameError() != null){
-//                JOptionPane.showMessageDialog(this, profilestate.getUsernameError());
-//            }
-//
-//        }
+
+        Object newValue = evt.getNewValue();
+        if (newValue instanceof LoggedInState) {
+            LoggedInState newState = (LoggedInState) newValue;
+            System.out.println(newState.getUsername());
+        }
+
     }
 
     private static void deleteFolder(File folder) {

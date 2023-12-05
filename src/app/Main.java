@@ -24,7 +24,10 @@ import interface_adapter.login.LoginViewModel;
 import okhttp3.*;
 import okio.BufferedSink;
 import okio.Okio;
+
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -81,6 +84,16 @@ public class Main {
         } catch(IOException e) {
             throw new IOException("error");
         }
+//        try{
+//            BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv"));
+//            writer.write("username,savedList");
+//            writer.newLine();
+//            writer.close();
+//
+//        } catch (IOException ex) {
+//            throw new RuntimeException(ex);
+//
+//        }
 
         JFrame application = new JFrame("Recipe Flow");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -127,7 +140,7 @@ public class Main {
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.viewName);
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel, recipePopupViewModel);
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel, searchViewModel);
