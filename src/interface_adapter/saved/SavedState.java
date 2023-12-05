@@ -6,6 +6,7 @@ public class SavedState {
 
     private String username;
 
+
     private String recipeName = null;
 
     private String recipeNameError;
@@ -20,11 +21,14 @@ public class SavedState {
 
     private CommonRecipe recipe;
 
+
     private String recipeImageURLError;
 
 
     public SavedState(SavedState copy){
+
         recipe = copy.recipe;
+
 
     }
 
@@ -88,6 +92,7 @@ public class SavedState {
     public void setRecipeURLError(String recipeURLError) {
         this.recipeURLError = recipeURLError;
     }
+
 
     public void setRecipeImageURLError(String recipeImageURLError){
         this.recipeImageURLError = recipeImageURLError;
