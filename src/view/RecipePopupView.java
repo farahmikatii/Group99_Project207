@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.List;
 
@@ -278,6 +279,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
             this.recipe = state.getRecipe();
             this.username = state.getUsername();
             System.out.println(state.getUsername()+"YAY");
+            System.out.println(Arrays.toString(state.getIngredients()));
         }
 
 

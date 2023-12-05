@@ -126,7 +126,7 @@ public class Main {
         FileUserDataAccessObject userDataAccessObject;
         try {
 
-            userDataAccessObject = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("./user.csv", new CommonUserFactory());
 
             //userDataAccessObject = new FileUserDataAccessObject("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/users.csv", new CommonUserFactory());
         } catch (IOException e) {
