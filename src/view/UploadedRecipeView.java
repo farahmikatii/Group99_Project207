@@ -93,13 +93,16 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(back)){
                             UploadsState uploadsState = uploadsViewModel.getState();
+                            uploadedRecipeState.setUploadedRecipeImage(null);
+                            uploadedRecipeViewModel.firePropertyChanged();
                             uploadsViewModel.setState(uploadsState);
                             //uploadsViewModel.firePropertyChanged();
                             viewManagerModel.setActiveView(uploadsViewModel.getViewName());
                             viewManagerModel.firePropertyChanged();
+
+
                         }
-                        uploadedRecipeState.setUploadedRecipeImage(null);
-                        uploadedRecipeViewModel.firePropertyChanged();
+
                     }
                 }
         );
