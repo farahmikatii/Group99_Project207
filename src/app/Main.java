@@ -110,7 +110,7 @@ public class Main {
         FileUserDataAccessObject userDataAccessObject;
         try {
 
-            userDataAccessObject = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("./user.csv", new CommonUserFactory());
 
             //userDataAccessObject = new FileUserDataAccessObject("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/users.csv", new CommonUserFactory());
         } catch (IOException e) {
@@ -138,7 +138,7 @@ public class Main {
 
         //RecipePopupView recipePopupView = RecipePopupUseCaseFactory.create(viewManagerModel,recipePopupViewModel, userDataAccessObject, loggedInViewModel)
 
-        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel, recipePopupState, recipePopupViewModel, loggedInViewModel);
+        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel, recipePopupViewModel, loggedInViewModel, resultViewModel);
         views.add(recipePopupView, recipePopupView.viewName);
 
         UploadingView uploadingView = UploadingUseCaseFactory.create(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, userDataAccessObject);

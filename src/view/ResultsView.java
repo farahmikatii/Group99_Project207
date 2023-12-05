@@ -22,6 +22,8 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     public final String viewName = "Filtered Results";
     private final ResultViewModel resultViewModel;
     private final RecipePopupViewModel recipePopupViewModel;
+    private JPanel recipe = null;
+    private JScrollPane scroll = null;
     private final LoggedInViewModel loggedInViewModel;
 
     private final ViewManagerModel viewManagerModel;
@@ -79,9 +81,12 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         List<CommonRecipe> recipesList = currentState.getRecipesList();
         if (recipesList != null) {
             if (!recipesList.isEmpty()) {
-                JPanel recipes = new JPanel();
-                JScrollPane scroll = new JScrollPane(recipes);
-                recipes.setLayout(new GridLayout(0, 4, 5, 5));
+                this.recipe = new JPanel();
+                if (scroll != null){
+                    this.remove(scroll);
+                }
+                this.scroll = new JScrollPane(recipe);
+                recipe.setLayout(new GridLayout(0, 4, 5, 5));
                 System.out.println(recipesList);
                 for (CommonRecipe recipe : recipesList) {
                     ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
@@ -99,6 +104,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
                                             currentPopupState.setRecipe(recipe);
                                             currentPopupState.setRecipeLabel(recipe);
                                             currentPopupState.setImageUrl(recipe);
+                                            currentPopupState.setComingFrom("result");
 
 
                                             System.out.println(currentPopupState);
@@ -120,7 +126,8 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
                             }
                     );
                     //recipeImage.setPreferredSize(new Dimension(10, 10));
-                    recipes.add(recipeImage);
+
+                    this.recipe.add(recipeImage);
                 }
                 this.add(scroll);
             }

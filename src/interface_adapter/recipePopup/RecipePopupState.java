@@ -12,6 +12,8 @@ public class RecipePopupState {
 
     private CommonRecipe recipe;
 
+    private String comingFrom = null;
+
 
     public RecipePopupState(RecipePopupState copy){
         recipe = copy.recipe;
@@ -20,6 +22,14 @@ public class RecipePopupState {
 
     public CommonRecipe getRecipe() {
         return recipe;
+    }
+
+    public String getComingFrom() {
+        return comingFrom;
+    }
+
+    public void setComingFrom(String comingFrom) {
+        this.comingFrom = comingFrom;
     }
 
     public void setRecipe(CommonRecipe recipe) {
