@@ -55,10 +55,10 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
         //title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel whole = new JPanel();
-        whole.setLayout(new BorderLayout());
+        //whole.setLayout(new BorderLayout());
 
         JPanel middle = new JPanel();
-        middle.setLayout(new BorderLayout());
+        //middle.setLayout(new BorderLayout());
 
         recipeNameArea = new JLabel(uploadedRecipeState.getUploadedRecipeName());
         recipeIngredientsArea = new JLabel("Ingredients: " + uploadedRecipeState.getUploadedRecipeIngredients());

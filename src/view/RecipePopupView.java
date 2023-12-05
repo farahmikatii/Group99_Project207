@@ -1,6 +1,8 @@
 package view;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import entity.CommonRecipe;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInState;
@@ -128,9 +130,10 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                             savedList.add(recipe);
                             BufferedWriter writer;
                             try{
-                                writer = new BufferedWriter(new FileWriter("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv", true));
-                                BufferedReader reader = new BufferedReader(new FileReader("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv"));
+                                //writer = new BufferedWriter(new FileWriter("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv", true));
+                                //BufferedReader reader = new BufferedReader(new FileReader("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv"));
                                 CSVReader reader2 = new CSVReader(new FileReader("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv"));
+                                CSVWriter writer2 = new CSVWriter(new FileWriter("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv", true));
 //                                writer.write(username+","+savedList.toString());
 //                                writer.newLine();
 //                                List<String> lines = new ArrayList<>();
@@ -147,29 +150,58 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 //                                        break;
 //                                    }
 //                                }
-
+//                                List<String[]> lines = reader2.readAll();
+//                                String line;
+//                                String lastLine = "";
+//                                while ((line = reader.readLine()) != null) {
+//                                    String[] lineParts = line.split(",");
+//                                    if(lineParts[0].equals(username)){
+//                                        lines.remove(lineParts);
+//                                        writer.write(username+","+savedList.toString());
+//
+//                                    }else{
+//                                       lastLine = line;
+//
+//                                    }
+//
+//                                    writer.newLine();
+//
+//                                }
+//                                if(!lastLine.isEmpty()){
+//                                    writer.write(username+","+savedList.toString());
+//                                }
+//                                writer.close();
+                                List<String[]> lines = reader2.readAll();
                                 String line;
-                                String lastLine = "";
-                                while ((line = reader.readLine()) != null) {
-                                    String[] lineParts = line.split(",");
-                                    if(lineParts[0].equals(username)){
-                                        writer.write(username+","+savedList.toString());
+                                boolean usernameFound = false;
 
-                                    }else{
-                                       lastLine = line;
+                                for (int i = 0; i < lines.size(); i++) {
+                                    String[] lineParts = lines.get(i);
 
+                                    if (lineParts[0].equals(username)) {
+                                        // Clear the line and write a new line
+                                        lines.set(i, new String[]{});
+                                        lines.add(new String[]{username, savedList.toString()});
+                                        usernameFound = true;
+                                        break;  // No need to continue checking
                                     }
-
-                                    writer.newLine();
-
                                 }
-                                if(!lastLine.isEmpty()){
-                                    writer.write(username+","+savedList.toString());
+
+                                if (!usernameFound) {
+                                    // If username was not found, add a new line
+                                    lines.add(new String[]{username, savedList.toString()});
                                 }
-                                writer.close();
+
+                                // Write the modified content back to the CSV file
+                                writer2.writeAll(lines);
+
+                                writer2.close();
+
                             } catch (IOException ex) {
                                 throw new RuntimeException(ex);
 
+                            } catch (CsvException ex) {
+                                throw new RuntimeException(ex);
                             }
 
 
