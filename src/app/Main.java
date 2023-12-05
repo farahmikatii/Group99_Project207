@@ -174,7 +174,7 @@ public class Main {
         //UploadsView uploadsView = new UploadsView(uploadsViewModel, profileViewModel, viewManagerModel);
         views.add(uploadsView, uploadsView.viewName);
 
-        UploadedRecipeView uploadedRecipeView = new UploadedRecipeView(viewManagerModel, uploadedRecipeState, uploadingViewModel,uploadsViewModel);
+        UploadedRecipeView uploadedRecipeView = new UploadedRecipeView(viewManagerModel, uploadedRecipeState, uploadingViewModel,uploadsViewModel, uploadedRecipeViewModel);
         views.add(uploadedRecipeView, uploadedRecipeView.viewName);
 
         SearchView searchView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, loggedInViewModel, resultViewModel);
