@@ -1,37 +1,52 @@
 package interface_adapter.saved;
 
+import entity.CommonRecipe;
+
 public class SavedState {
 
     private String username;
 
-    private String recipeName;
+
+    private String recipeName = null;
 
     private String recipeNameError;
 
-    private String recipeURL;
+    private String recipeURL = null;
 
     private String recipeURLError;
 
-    private String recipeImageURL;
+    private String recipeImageURL = null;
+
+
+
+    private CommonRecipe recipe;
+
 
     private String recipeImageURLError;
 
 
     public SavedState(SavedState copy){
-        recipeName = copy.recipeName;
-        recipeURL = copy.recipeURL;
-        recipeImageURL = copy.recipeImageURL;
+
+        recipe = copy.recipe;
+
 
     }
 
     public SavedState(){}
+    public CommonRecipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(CommonRecipe recipe) {
+        this.recipe = recipe;
+    }
 
     public String getUsername(){
         return username;
     }
 
     public String getRecipeName(){
-        return recipeName;
+        return recipe.getRecipeName();
     }
 
     public String getRecipeNameError(){
@@ -58,8 +73,8 @@ public class SavedState {
         this.username = username;
     }
 
-    public void setRecipeName(String recipeName){
-        this.recipeName = recipeName;
+    public void setRecipeName(CommonRecipe recipe){
+        this.recipeName = recipe.getRecipeName();
     }
 
     public void setRecipeURL(String recipeURL){
@@ -77,6 +92,7 @@ public class SavedState {
     public void setRecipeURLError(String recipeURLError) {
         this.recipeURLError = recipeURLError;
     }
+
 
     public void setRecipeImageURLError(String recipeImageURLError){
         this.recipeImageURLError = recipeImageURLError;
