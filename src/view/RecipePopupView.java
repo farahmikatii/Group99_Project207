@@ -43,6 +43,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
     JLabel recName;
     JLabel image;
     JLabel recipeUrl;
+    JLabel ingredients;
 
     private CommonRecipe recipe;
     private String username;
@@ -255,7 +256,14 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 
         saveMake.add(save);
         saveMake.add(make);
-        middle.add(saveMake, BorderLayout.LINE_END);
+
+        JPanel info = new JPanel();
+        info.setLayout(new BorderLayout());
+        info.add(saveMake, BorderLayout.PAGE_START);
+
+        ingredients = new JLabel();
+        info.add(ingredients, BorderLayout.CENTER);
+        middle.add(info, BorderLayout.LINE_END);
 
         whole.add(middle, BorderLayout.CENTER);
 

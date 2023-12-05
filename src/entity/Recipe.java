@@ -8,4 +8,6 @@ public interface Recipe {
     String getImage();
 
     String getRecipeUrl();
+
+    String[] getIngredients();
 }

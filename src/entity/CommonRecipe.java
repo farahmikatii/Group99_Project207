@@ -4,7 +4,6 @@ public class CommonRecipe implements Recipe{
     private final String name;
     private final String imagePath;
     private final String recipeUrl;
-
     private final String[] ingredients;
 
     /**
