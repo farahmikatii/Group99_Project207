@@ -1,6 +1,8 @@
 package view;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.uploadedRecipe.UploadedRecipeState;
+import interface_adapter.uploadedRecipe.UploadedRecipeViewModel;
 import interface_adapter.uploading.UploadingViewModel;
 import interface_adapter.uploads.UploadsState;
 import interface_adapter.uploads.UploadsViewModel;
@@ -15,49 +17,74 @@ import java.beans.PropertyChangeListener;
 public class UploadedRecipeView extends JPanel implements ActionListener, PropertyChangeListener {
 
     //TODO: change viewName to the actual recipe name
-    public final String viewName = "Uploaded Recipes";
+    public final String viewName = "Uploaded Recipe";
     private final UploadingViewModel uploadingViewModel;
 
     private final UploadsViewModel uploadsViewModel;
 
     private ViewManagerModel viewManagerModel;
 
-    final JTextArea recipeNameArea;
+    private UploadedRecipeState uploadedRecipeState;
 
-    final JTextArea recipeInstructionsArea;
+    private final UploadedRecipeViewModel uploadedRecipeViewModel;
 
-    final JTextArea recipeIngredientsArea;
+    JLabel recipeNameArea;
+
+    final JLabel recipeInstructionsArea;
+
+    final JLabel recipeIngredientsArea;
+
+    final JLabel title;
+
+    JLabel image;
 
     final JButton back;
 
-    public UploadedRecipeView(UploadingViewModel uploadingViewModel, String recipeName, String recipeIngredients, String recipeInstructions, Image recipeImage, UploadsViewModel uploadsViewModel) {
+    public UploadedRecipeView(ViewManagerModel viewManagerModel, UploadedRecipeState uploadedRecipeState, UploadingViewModel uploadingViewModel, UploadsViewModel uploadsViewModel, UploadedRecipeViewModel uploadedRecipeViewModel) {
         this.uploadingViewModel = uploadingViewModel;
         this.uploadsViewModel = uploadsViewModel;
+        this.viewManagerModel = viewManagerModel;
+        this.uploadedRecipeState = uploadedRecipeState;
+        this.uploadedRecipeViewModel = uploadedRecipeViewModel;
         uploadingViewModel.addPropertyChangeListener(this);
+        uploadsViewModel.addPropertyChangeListener(this);
+        uploadedRecipeViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel("Uploaded Recipe");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JPanel entire = new JPanel();
+        entire.setLayout(new BoxLayout(entire, BoxLayout.PAGE_AXIS));
 
-        recipeNameArea = new JTextArea(5,5);
-        recipeNameArea.setText(recipeName);
-        recipeNameArea.setEditable(false);
+        title = new JLabel();
+        title.setFont(new Font("Serif", Font.PLAIN, 25));
+        //title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        recipeInstructionsArea = new JTextArea(10,20);
-        recipeInstructionsArea.setText(recipeInstructions);
-        recipeInstructionsArea.setEditable(false);
+        JPanel titlePanel = new JPanel();
+        titlePanel.add(title, BorderLayout.PAGE_START);
 
-        recipeIngredientsArea = new JTextArea(10, 10);
-        recipeIngredientsArea.setText(recipeIngredients);
-        recipeIngredientsArea.setEditable(false);
+        JPanel whole = new JPanel();
 
-        JLabel picLabel = new JLabel(new ImageIcon(recipeImage));
-        add(picLabel);
+        whole.setLayout(new BoxLayout(whole, BoxLayout.Y_AXIS));
 
-        //potentially add a scroll pane
-
-        JPanel buttons = new JPanel();
         back = new JButton(uploadingViewModel.BACK_BUTTON_LABEL);
-        buttons.add(back);
+        JPanel backPanel = new JPanel();
+        backPanel.add(back, BorderLayout.PAGE_END);
+
+
+        recipeNameArea = new JLabel(uploadedRecipeState.getUploadedRecipeName());
+        recipeIngredientsArea = new JLabel("Ingredients: " + uploadedRecipeState.getUploadedRecipeIngredients());
+        recipeInstructionsArea = new JLabel("Instructions: " + uploadedRecipeState.getUploadedRecipeInstructions());
+
+
+        whole.add(recipeIngredientsArea);
+        whole.add(recipeInstructionsArea, BorderLayout.CENTER);
+
+
+        if (uploadedRecipeState.getUploadedRecipe() != null) {
+            JPanel imagePanel = new JPanel();
+            image = new JLabel();
+            imagePanel.add(image, BorderLayout.LINE_START);
+            this.add(imagePanel);
+        }
+
 
         back.addActionListener(
                 //takes user back to home page
@@ -66,15 +93,25 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(back)){
                             UploadsState uploadsState = uploadsViewModel.getState();
+                            uploadedRecipeState.setUploadedRecipeImage(null);
+                            uploadedRecipeViewModel.firePropertyChanged();
                             uploadsViewModel.setState(uploadsState);
-                            uploadsViewModel.firePropertyChanged();
+                            //uploadsViewModel.firePropertyChanged();
                             viewManagerModel.setActiveView(uploadsViewModel.getViewName());
+                            viewManagerModel.firePropertyChanged();
+
+
                         }
+
                     }
                 }
         );
 
-        this.add(back);
+        entire.add(titlePanel);
+        entire.add(whole);
+        entire.add(backPanel);
+
+        this.add(entire);
 
     }
 
@@ -86,7 +123,23 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //TODO: implement
+        Object newValue = evt.getNewValue();
+        if (newValue  instanceof  UploadedRecipeState){
+            UploadedRecipeState newState = (UploadedRecipeState) newValue;
+            System.out.println(newState.getUploadedRecipeName());
+            title.setText(newState.getUploadedRecipeName());
+            recipeIngredientsArea.setText("Ingredients: " + newState.getUploadedRecipeIngredients());
+            recipeInstructionsArea.setText("Instructions: " + newState.getUploadedRecipeInstructions());
+
+            if (newState.getUploadedRecipeImage() != null){
+                ImageIcon recipeImage = new ImageIcon(newState.getUploadedRecipeImage());
+                image = new JLabel();
+                image.setIcon(recipeImage);
+                JPanel imagePanel = new JPanel();
+                imagePanel.add(image, BorderLayout.LINE_START);
+                this.add(imagePanel);
+            }
+        }
 
     }
     public String getViewName() {return viewName;

@@ -44,7 +44,8 @@ public class UploadedRecipeState {
 
     public String getUploadedRecipeInstructions(){return uploadedRecipeInstructions;}
 
-    public void setUploadedRecipeImage(Image uploadedRecipImage){this.uploadedRecipeImage = uploadedRecipeImage;}
+    public void setUploadedRecipeImage(Image uploadedRecipImage){this.uploadedRecipeImage = uploadedRecipImage;
+    }
     public Image getUploadedRecipeImage(){return uploadedRecipeImage;}
 
 

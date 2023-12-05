@@ -3,8 +3,8 @@ package app;
 import entity.CommonUploadedRecipeFactory;
 import entity.UploadedRecipeFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.uploadedRecipe.UploadedRecipeViewModel;
 import interface_adapter.uploading.UploadingController;
 import interface_adapter.uploading.UploadingPresenter;
 import interface_adapter.uploading.UploadingViewModel;
@@ -13,15 +13,15 @@ import use_case.uploading.UploadingDataAccessInterface;
 import use_case.uploading.UploadingInputBoundary;
 import use_case.uploading.UploadingInteractor;
 import use_case.uploading.UploadingOutputBoundary;
-import view.UploadingView;
+import view.UploadedRecipeView;
 import view.UploadsView;
 
 public class UploadsUseCaseFactory {
     private UploadsUseCaseFactory() {}
 
-    public static UploadsView create(ViewManagerModel viewManagerModel, UploadingViewModel uploadingViewModel, UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, UploadingDataAccessInterface uploadingDataAccessInterface){
+    public static UploadsView create(ViewManagerModel viewManagerModel, UploadingViewModel uploadingViewModel, UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, UploadingDataAccessInterface uploadingDataAccessInterface, UploadedRecipeViewModel uploadedRecipeViewModel){
         UploadingController uploadingController = createUploadsUseCase(viewManagerModel, uploadingViewModel, uploadsViewModel, profileViewModel, uploadingDataAccessInterface);
-        return new UploadsView(uploadsViewModel,profileViewModel,viewManagerModel, uploadingController);
+        return new UploadsView(uploadsViewModel,profileViewModel,viewManagerModel, uploadedRecipeViewModel, uploadingController);
     }
 
     private static UploadingController createUploadsUseCase(ViewManagerModel viewManagerModel,UploadingViewModel uploadingViewModel, UploadsViewModel uploadsViewModel, ProfileViewModel profileViewModel, UploadingDataAccessInterface uploadingDataAccessInterface){

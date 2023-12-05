@@ -40,6 +40,8 @@ public class UploadingState {
 
     public Image getRecipeImage(){return recipeImage;}
 
+    public void setRecipeImage(Image recipeImage){this.recipeImage = recipeImage; }
+
     public void setRecipe(String recipe){this.recipe = recipe;}
     public void setRecipeError(String recipeError){this.recipeError = recipeError;}
 

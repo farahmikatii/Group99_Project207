@@ -10,6 +10,9 @@ public class RecipePopupState {
 
     private String recipeUrl = null;
 
+    private String[] ingredients = null;
+
+    private String username = " ";
     private CommonRecipe recipe;
 
     private String comingFrom = null;
@@ -17,6 +20,7 @@ public class RecipePopupState {
 
     public RecipePopupState(RecipePopupState copy){
         recipe = copy.recipe;
+        username = copy.username;
     }
     public RecipePopupState(){}
 
@@ -40,7 +44,6 @@ public class RecipePopupState {
         return recipe.getRecipeName();
     }
 
-
     public void setRecipeLabel(CommonRecipe recipe){
         this.recipeLabel = recipe.getRecipeName();
     }
@@ -57,5 +60,18 @@ public class RecipePopupState {
     }
     public void setImageUrl(CommonRecipe imageUrl) {
         this.imageUrl = recipe.getImage();
+    }
+    public String getUsername(){
+        return username;
+    }
+    public void setUsername(String username){
+        this.username = username;
+    }
+    public String[] getIngredients() {
+        return recipe.getIngredients();
+    }
+
+    public void setIngredients(CommonRecipe recipe) {
+        this.ingredients = recipe.getIngredients();
     }
 }

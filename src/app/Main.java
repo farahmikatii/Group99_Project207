@@ -9,6 +9,8 @@ import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.resultSearch.ResultViewModel;
 import interface_adapter.saved.SavedViewModel;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.uploadedRecipe.UploadedRecipeState;
+import interface_adapter.uploadedRecipe.UploadedRecipeViewModel;
 import interface_adapter.uploading.UploadingViewModel;
 import interface_adapter.uploads.UploadsViewModel;
 
@@ -22,6 +24,7 @@ import interface_adapter.login.LoginViewModel;
 import okhttp3.*;
 import okio.BufferedSink;
 import okio.Okio;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -79,6 +82,16 @@ public class Main {
         } catch(IOException e) {
             throw new IOException("error");
         }
+//        try{
+//            BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv"));
+//            writer.write("username,savedList");
+//            writer.newLine();
+//            writer.close();
+//
+//        } catch (IOException ex) {
+//            throw new RuntimeException(ex);
+//
+//        }
 
         JFrame application = new JFrame("Recipe Flow");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -103,9 +116,12 @@ public class Main {
         UploadingViewModel uploadingViewModel = new UploadingViewModel();
         SearchViewModel searchViewModel = new SearchViewModel();
         ResultViewModel resultViewModel = new ResultViewModel();
+        UploadedRecipeViewModel uploadedRecipeViewModel = new UploadedRecipeViewModel();
 
         RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
         RecipePopupState recipePopupState = new RecipePopupState();
+
+        UploadedRecipeState uploadedRecipeState = new UploadedRecipeState();
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -122,7 +138,7 @@ public class Main {
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.viewName);
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel, recipePopupViewModel);
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel, profileViewModel, recipePopupViewModel, searchViewModel);
@@ -138,7 +154,7 @@ public class Main {
 
         //RecipePopupView recipePopupView = RecipePopupUseCaseFactory.create(viewManagerModel,recipePopupViewModel, userDataAccessObject, loggedInViewModel)
 
-        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel, recipePopupViewModel, loggedInViewModel, resultViewModel);
+        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel, recipePopupViewModel, loggedInViewModel, resultViewModel, savedViewModel);
         views.add(recipePopupView, recipePopupView.viewName);
 
         UploadingView uploadingView = UploadingUseCaseFactory.create(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, userDataAccessObject);
@@ -149,11 +165,15 @@ public class Main {
                 uploadingViewModel,
                 uploadsViewModel,
                 profileViewModel,
-                userDataAccessObject
+                userDataAccessObject,
+                uploadedRecipeViewModel
         );
 
         //UploadsView uploadsView = new UploadsView(uploadsViewModel, profileViewModel, viewManagerModel);
         views.add(uploadsView, uploadsView.viewName);
+
+        UploadedRecipeView uploadedRecipeView = new UploadedRecipeView(viewManagerModel, uploadedRecipeState, uploadingViewModel,uploadsViewModel, uploadedRecipeViewModel);
+        views.add(uploadedRecipeView, uploadedRecipeView.viewName);
 
         SearchView searchView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, loggedInViewModel, resultViewModel);
         views.add(searchView, searchView.viewName);
