@@ -126,6 +126,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
                             }
                     );
                     //recipeImage.setPreferredSize(new Dimension(10, 10));
+
                     this.recipe.add(recipeImage);
                 }
                 this.add(scroll);
