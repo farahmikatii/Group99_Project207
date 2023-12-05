@@ -6,6 +6,8 @@ import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.recipePopup.RecipePopupViewModel;
 import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.resultSearch.ResultState;
+import interface_adapter.resultSearch.ResultViewModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,6 +19,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 public class RecipePopupView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -25,23 +28,24 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
     //private final RecipePopupController recipePopupController;
     private final ViewManagerModel viewManagerModel;
 
-    private final RecipePopupState recipePopupState;
     private final RecipePopupViewModel recipePopupViewModel;
     private final LoggedInViewModel loggedInViewModel;
+    private final ResultViewModel resultViewModel;
     JLabel recName;
     JLabel image;
     JLabel recipeUrl;
 
 
-    public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupState recipePopupState, RecipePopupViewModel recipePopupViewModel, LoggedInViewModel loggedInViewModel){
+    public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupViewModel recipePopupViewModel, LoggedInViewModel loggedInViewModel, ResultViewModel resultViewModel){
         //this.recipePopupController = recipePopupController;
         this.viewManagerModel = viewManagerModel;
         //NEED TO CHANGE
-        this.recipePopupState = recipePopupState;
         this.recipePopupViewModel = recipePopupViewModel;
         this.loggedInViewModel = loggedInViewModel;
+        this.resultViewModel = resultViewModel;
 
         this.recipePopupViewModel.addPropertyChangeListener(this);
+
 
         RecipePopupState currentPopupState = recipePopupViewModel.getState();
         //System.out.println(currentPopupState.getRecipeLabel());
@@ -64,11 +68,23 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(back)){
-                            LoggedInState loggedInState = loggedInViewModel.getState();
-                            loggedInViewModel.setState(loggedInState);
-                            loggedInViewModel.firePropertyChanged();
-                            viewManagerModel.setActiveView(loggedInViewModel.getViewName());
-                            viewManagerModel.firePropertyChanged();
+                            RecipePopupState currentState = recipePopupViewModel.getState();
+                            String comingFrom = currentState.getComingFrom();
+                            if (Objects.equals(comingFrom, "result")){
+                                ResultState resultState = resultViewModel.getState();
+                                resultViewModel.setState(resultState);
+                                resultViewModel.firePropertyChanged();
+
+                                viewManagerModel.setActiveView(resultViewModel.getViewName());
+                                viewManagerModel.firePropertyChanged();
+                            }
+                            else if (Objects.equals(comingFrom, "loggedin")) {
+                                LoggedInState loggedInState = loggedInViewModel.getState();
+                                loggedInViewModel.setState(loggedInState);
+                                loggedInViewModel.firePropertyChanged();
+                                viewManagerModel.setActiveView(loggedInViewModel.getViewName());
+                                viewManagerModel.firePropertyChanged();
+                            }
                         }
                     }
                 }
@@ -152,7 +168,5 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
         image.setIcon(saveRecipeImage);
         recipeUrl.setText(state.getRecipeUrl());
-
-
     }
 }

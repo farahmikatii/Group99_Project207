@@ -104,6 +104,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
                                             currentPopupState.setRecipe(recipe);
                                             currentPopupState.setRecipeLabel(recipe);
                                             currentPopupState.setImageUrl(recipe);
+                                            currentPopupState.setComingFrom("result");
 
 
                                             System.out.println(currentPopupState);

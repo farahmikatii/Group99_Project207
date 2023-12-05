@@ -27,7 +27,7 @@ public class FilterAPICallDataAccessObject implements SearchUserDataAccessInterf
             }
         }
         String url = returnString.toString();
-        String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/responseOutputFiltered.json";
+        String filePath = "./responseOutputFiltered.json";
         try{
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -38,7 +38,7 @@ public class FilterAPICallDataAccessObject implements SearchUserDataAccessInterf
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 assert response.body() != null;
-                filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/responseOutputFiltered.json";
+                filePath = "./responseOutputFiltered.json";
 
                 // Write the response to a file
                 try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
