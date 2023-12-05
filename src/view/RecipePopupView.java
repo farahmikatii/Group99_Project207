@@ -9,12 +9,13 @@ import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.recipePopup.RecipePopupViewModel;
-import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.resultSearch.ResultState;
 import interface_adapter.resultSearch.ResultViewModel;
+import interface_adapter.saved.SavedState;
+import interface_adapter.saved.SavedViewModel;
+import interface_adapter.uploadedRecipe.UploadedRecipeState;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,9 +25,7 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecipePopupView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -39,6 +38,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
     private final RecipePopupViewModel recipePopupViewModel;
     private final LoggedInViewModel loggedInViewModel;
     private final ResultViewModel resultViewModel;
+    private final SavedViewModel savedViewModel;
     JLabel recName;
     JLabel image;
     JLabel recipeUrl;
@@ -48,15 +48,17 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 
     List<CommonRecipe> savedList = new ArrayList<>();
 
-    public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupViewModel recipePopupViewModel, LoggedInViewModel loggedInViewModel, ResultViewModel resultViewModel){
+    public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupViewModel recipePopupViewModel, LoggedInViewModel loggedInViewModel, ResultViewModel resultViewModel, SavedViewModel savedViewModel){
         //this.recipePopupController = recipePopupController;
         this.viewManagerModel = viewManagerModel;
         //NEED TO CHANGE
         this.recipePopupViewModel = recipePopupViewModel;
         this.loggedInViewModel = loggedInViewModel;
         this.resultViewModel = resultViewModel;
+        this.savedViewModel = savedViewModel;
 
         this.recipePopupViewModel.addPropertyChangeListener(this);
+        this.savedViewModel.addPropertyChangeListener(this);
 
 
         RecipePopupState currentPopupState = recipePopupViewModel.getState();
@@ -128,7 +130,21 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                             saved.add(little);
                             saved.setVisible(true);
                             savedList.add(recipe);
-                            BufferedWriter writer;
+                            //BufferedWriter writer;
+                            SavedState currentSavedState = savedViewModel.getState();
+                            currentSavedState.setRecipe(recipe);
+                            currentPopupState.setRecipeLabel(recipe);
+                            currentPopupState.setUsername(username);
+                            savedViewModel.setState(currentSavedState);
+                            savedViewModel.firePropertyChanged();
+//                            currentPopupState.setImageUrl(recipe);
+//                            currentPopupState.setRecipeUrl(recipe);
+//                            currentPopupState.setComingFrom("loggedin");
+
+
+
+
+
                             try{
                                 //writer = new BufferedWriter(new FileWriter("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv", true));
                                 //BufferedReader reader = new BufferedReader(new FileReader("/Users/duahussain/IdeaProjects/Group99_Project207/saved.csv"));
@@ -252,16 +268,20 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        RecipePopupState state = (RecipePopupState) evt.getNewValue();
-        recName.setText(state.getRecipeLabel());
-        ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
-        image.setIcon(saveRecipeImage);
-        recipeUrl.setText(state.getRecipeUrl());
-        this.recipe = state.getRecipe();
-        this.username = state.getUsername();
+        Object newValue = evt.getNewValue();
+        if (newValue  instanceof RecipePopupState) {
+            RecipePopupState state = (RecipePopupState) evt.getNewValue();
+            recName.setText(state.getRecipeLabel());
+            ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
+            image.setIcon(saveRecipeImage);
+            recipeUrl.setText(state.getRecipeUrl());
+            this.recipe = state.getRecipe();
+            this.username = state.getUsername();
+            System.out.println(state.getUsername()+"YAY");
+        }
 
 
-        System.out.println(state.getUsername()+"YAY");
+
 
 
 
