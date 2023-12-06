@@ -1,7 +1,6 @@
 package use_case.recipePopup;
 
 public class RecipePopupOutputData {
-
     private String recipeLabel;
 
 
