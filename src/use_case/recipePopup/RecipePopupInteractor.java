@@ -22,7 +22,7 @@ public class RecipePopupInteractor implements RecipePopupInputBoundary{
     public void loadRecipeDisplay(RecipePopupInputData recipePopupInputData) {
         List<CommonRecipe> commonRecipeList = recipePopupDAO.returnRecipeList(1);
         CommonRecipe recipe = recipePopupDAO.findRecipe(recipePopupInputData.getRecipeLabel(), commonRecipeList);
-        RecipePopupOutputData recipePopupOutputData = new RecipePopupOutputData(recipe.getRecipeName(),recipe.getRecipeUrl(), recipe.getIngredients());
+        RecipePopupOutputData recipePopupOutputData = new RecipePopupOutputData(recipe.getRecipeName(),recipe.getRecipeUrl());
         recipePopupPresenter.prepareSuccessView(recipePopupOutputData);
 
     }

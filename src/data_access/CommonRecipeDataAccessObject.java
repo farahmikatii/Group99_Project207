@@ -57,7 +57,9 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
             }
 
             // Create a CommonRecipe object
-            CommonRecipe commonRecipe = new CommonRecipe(label, image_path, url, ingredients);
+            CommonRecipe commonRecipe = new CommonRecipe(label, image_path, url, Arrays.toString(ingredients)
+                    .replace("]", "<html>").replace("[", "<html>Ingredients:<br><br>- ")
+                    .replaceAll(", ", "<br>- "));
             commonRecipeList.add(commonRecipe);
         }
         return commonRecipeList;

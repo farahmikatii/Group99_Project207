@@ -108,7 +108,8 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         );
 
         JPanel middle = new JPanel();
-        middle.setLayout(new BorderLayout());
+//        middle.setLayout(new BorderLayout());
+        middle.setLayout(new FlowLayout());
 
         image = new JLabel();
         middle.add(image, BorderLayout.LINE_START);
@@ -262,18 +263,8 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         info.setLayout(new BorderLayout());
         info.add(saveMake, BorderLayout.PAGE_START);
 
-        StringBuilder finalStringBuilder = new StringBuilder();
-
-//        for (String ingredient : recipe.getIngredients()) {
-//            finalStringBuilder.append("- ").append(ingredient).append("\n");
-//        }
-//
-//        String finalString = finalStringBuilder.toString();
-//
-//        System.out.println(finalString);
-
-
         ingredients = new JLabel();
+
         info.add(ingredients, BorderLayout.CENTER);
 
         middle.add(info, BorderLayout.LINE_END);
@@ -298,7 +289,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
             ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
             image.setIcon(saveRecipeImage);
             recipeUrl.setText(state.getRecipeUrl());
-            ingredients.setText(Arrays.toString(state.getIngredients()));
+            ingredients.setText(state.getIngredients());
             this.recipe = state.getRecipe();
             this.username = state.getUsername();
 
