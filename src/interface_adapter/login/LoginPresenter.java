@@ -34,7 +34,8 @@ public class LoginPresenter implements LoginOutputBoundary {
         LoggedInState loggedInState = loggedInViewModel.getState();
         RecipePopupState recipePopupState = recipePopupViewModel.getState();
         loggedInState.setUsername(response.getUsername());
-        recipePopupState.setUsername(response.getUsername());
+        if (recipePopupState != null){
+        recipePopupState.setUsername(response.getUsername());}
 
         this.loggedInViewModel.setState(loggedInState);
         this.loggedInViewModel.firePropertyChanged();
@@ -46,7 +47,8 @@ public class LoginPresenter implements LoginOutputBoundary {
     @Override
     public void prepareFailView(String error) {
         LoginState loginState = loginViewModel.getState();
+        if (loginState != null) {
         loginState.setUsernameError(error);
-        loginViewModel.firePropertyChanged();
+        loginViewModel.firePropertyChanged();}
     }
 }
