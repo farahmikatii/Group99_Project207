@@ -70,14 +70,23 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
         JLabel title = new JLabel(ProfileViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        ImageIcon titleImage = new ImageIcon("./src/app_pictures/fullTitle.png");
+        JLabel image = new JLabel(titleImage);
+        image.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
         JPanel buttons = new JPanel();
         saved = new JButton(ProfileViewModel.SAVED_BUTTON_LABEL);
+        saved.setBackground(new Color(254,232,210));
         buttons.add(saved);
         uploads = new JButton(ProfileViewModel.UPLOAD_BUTTON_LABEL);
+        uploads.setBackground(new Color(254,232,210));
         buttons.add(uploads);
         uploadNew = new JButton(ProfileViewModel.UPLOAD_NEW_BUTTON_LABEL);
+        uploadNew.setBackground(new Color(254,232,210));
         buttons.add(uploadNew);
         back = new JButton(ProfileViewModel.BACK_BUTTON_LABEL);
+        back.setBackground(new Color(254,232,210));
         buttons.add(back);
         //TODO: make back button at the bottom of the page
 
@@ -149,8 +158,11 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
                 }
         );
 
+        this.setLayout(new BorderLayout());
+
         this.add(title);
-        this.add(buttons);
+        this.add(buttons, BorderLayout.PAGE_START);
+        this.add(image, BorderLayout.CENTER);
     }
 
     @Override

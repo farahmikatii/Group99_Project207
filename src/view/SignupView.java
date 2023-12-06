@@ -41,8 +41,27 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         signupViewModel.addPropertyChangeListener(this);
         loginViewModel.addPropertyChangeListener(this);
 
+        JPanel entire = new JPanel();
+        entire.setLayout(new BorderLayout());
+        ImageIcon nothing = new ImageIcon("./src/app_pictures/Empty.png");
+        JLabel empty = new JLabel(nothing);
+        entire.add(empty, BorderLayout.PAGE_START);
+
+
+        JPanel whole = new JPanel();
+        whole.setLayout(new FlowLayout());
+
+        ImageIcon recipeFlow = new ImageIcon("./src/app_pictures/fullTitle.png");
+        JLabel pic = new JLabel(recipeFlow);
+        whole.add(pic);
+
+        JPanel right = new JPanel();
+        right.setPreferredSize(new Dimension(500, 375));
+
+
         JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font("Serif", Font.PLAIN, 25));
 
         LabelTextPanel usernameInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.USERNAME_LABEL), usernameInputField);
@@ -53,8 +72,10 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
         JPanel buttons = new JPanel();
         signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
+        signUp.setBackground(new Color(254,232,210));
         buttons.add(signUp);
         login = new JButton(SignupViewModel.LOGIN_BUTTON_LABEL);
+        login.setBackground(new Color(254,232,210));
         buttons.add(login);
 
         signUp.addActionListener(
@@ -151,13 +172,19 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 }
         );
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
+        right.setBackground(new Color(254,216,177));
 
-        this.add(title);
-        this.add(usernameInfo);
-        this.add(passwordInfo);
-        this.add(repeatPasswordInfo);
-        this.add(buttons);
+        right.add(title);
+
+        right.add(usernameInfo);
+        right.add(passwordInfo);
+        right.add(repeatPasswordInfo);
+        right.add(buttons);
+
+        whole.add(right);
+        entire.add(whole, BorderLayout.CENTER);
+        this.add(entire);
     }
 
     /**

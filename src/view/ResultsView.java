@@ -42,11 +42,13 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         recipePopupViewModel.addPropertyChangeListener(this);
         loggedInViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel("Recipe Flow");
+        ImageIcon titleImage = new ImageIcon("./src/app_pictures/title_logo.png");
+        JLabel title = new JLabel(titleImage);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel buttons = new JPanel();
         back = new JButton(resultViewModel.BACK_BUTTON_LABEL);
+        back.setBackground(new Color(254,232,210));
         buttons.add(back);
 
         back.addActionListener(
@@ -90,7 +92,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
                 System.out.println(recipesList);
                 for (CommonRecipe recipe : recipesList) {
                     ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
-                    recipeImage = new JButton(recipe.getRecipeName(), saveRecipeImage);
+                    recipeImage = new JButton(cutName(recipe.getRecipeName()), saveRecipeImage);
                     //setting position of label of recipe
                     recipeImage.setVerticalTextPosition(SwingConstants.TOP);
                     recipeImage.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -131,6 +133,15 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
                 }
                 this.add(scroll);
             }
+        }
+    }
+
+    public static String cutName(String name) {
+        //Checking if name is longer than 45 chars
+        if (name.length() > 42) {
+            return name.substring(0, 42) + "...";
+        } else {
+            return name;
         }
     }
 

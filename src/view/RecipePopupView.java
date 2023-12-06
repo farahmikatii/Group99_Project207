@@ -78,6 +78,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         whole.add(recName, BorderLayout.PAGE_START);
 
         JButton back = new JButton("Back");
+        back.setBackground(new Color(254,232,210));
         whole.add(back, BorderLayout.PAGE_END);
 
         back.addActionListener(
@@ -117,7 +118,9 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         JPanel saveMake = new JPanel();
         saveMake.setLayout(new FlowLayout());
         JButton save = new JButton("Save");
+        save.setBackground(new Color(254,232,210));
         JButton make = new JButton("Make it");
+        make.setBackground(new Color(254,232,210));
 
         save.addActionListener(
                 new ActionListener() {

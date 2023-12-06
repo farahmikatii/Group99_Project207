@@ -48,18 +48,27 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
         this.loggedInViewModel = loggedInViewModel;
         this.searchViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel("Search");
+        ImageIcon titleImage = new ImageIcon("./src/app_pictures/title_logo.png");
+        JLabel title = new JLabel(titleImage);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JPanel whole = new JPanel();
+        whole.setLayout(new BoxLayout(whole, BoxLayout.Y_AXIS));
+        whole.setSize(new Dimension(300, 500));
+
+        JLabel searchTitle = new JLabel("Search");
+        searchTitle.setFont(new Font("Serif", Font.PLAIN, 25));
 
         LabelTextPanel searchInfo = new LabelTextPanel(
                 new JLabel("Search Here"), searchInputField);
 
-        JPanel searchButton = new JPanel();
-        JPanel backButton = new JPanel();
+        JPanel buttons = new JPanel();
         back = new JButton(SearchViewModel.BACK_BUTTON_LABEL);
-        backButton.add(back);
+        back.setBackground(new Color(254,232,210));
+        buttons.add(back);
         search = new JButton(SearchViewModel.SEARCH_BUTTON_LABEL);
-        searchButton.add(search);
+        search.setBackground(new Color(254,232,210));
+        buttons.add(search);
 
         JPanel dropDown = new JPanel();
         JLabel mealType = new JLabel("Select a meal type");
@@ -253,16 +262,17 @@ public class SearchView extends JPanel implements ActionListener, PropertyChange
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.add(title);
+        whole.add(searchTitle);
         //this.add(filters); see if this is needed for if the filters label is used somewhere else
-        this.add(searchInfo);
-        this.add(dropDown);
-        this.add(dropDown2);
-        this.add(dropDown3);
-        this.add(dropDown4);
-        this.add(dropDown5);
-        this.add(searchButton);
-        this.add(backButton);
+        whole.add(searchInfo);
+        whole.add(dropDown);
+        whole.add(dropDown2);
+        whole.add(dropDown3);
+        whole.add(dropDown4);
+        whole.add(dropDown5);
+        whole.add(buttons);
+        this.add(title);
+        this.add(whole);
     }
 
     public void actionPerformed(ActionEvent evt) {
