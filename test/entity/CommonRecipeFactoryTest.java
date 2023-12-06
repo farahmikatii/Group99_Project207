@@ -1,6 +1,6 @@
 package entity;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.Assert.*;
@@ -15,14 +15,16 @@ public class CommonRecipeFactoryTest {
         String name = "Recipe Name";
         String imagePath = "/path/to/image.jpg";
         String recipeUrl = "https://example.com/recipe";
+        String[] ingredients = {"Ingredient1", "Ingredient2", "Ingredient3"};
 
         // When
-        Recipe createdRecipe = recipeFactory.create(name, imagePath, recipeUrl);
+        Recipe createdRecipe = recipeFactory.create(name, imagePath, recipeUrl, ingredients);
 
         // Then
         assertNotNull(createdRecipe);
         assertEquals(name, createdRecipe.getRecipeName());
         assertEquals(imagePath, createdRecipe.getImage());
         assertEquals(recipeUrl, createdRecipe.getRecipeUrl());
+        assertArrayEquals(ingredients, createdRecipe.getIngredients());
     }
 }
