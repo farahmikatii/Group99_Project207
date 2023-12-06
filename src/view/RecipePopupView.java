@@ -264,6 +264,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         info.add(saveMake, BorderLayout.PAGE_START);
 
         ingredients = new JLabel();
+        ingredients.setFont(new Font("Serif", Font.PLAIN, 14));
 
         info.add(ingredients, BorderLayout.CENTER);
 
