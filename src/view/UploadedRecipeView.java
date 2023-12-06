@@ -65,6 +65,7 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
         whole.setLayout(new BoxLayout(whole, BoxLayout.Y_AXIS));
 
         back = new JButton(uploadingViewModel.BACK_BUTTON_LABEL);
+        back.setBackground(new Color(254,232,210));
         JPanel backPanel = new JPanel();
         backPanel.add(back, BorderLayout.PAGE_END);
 
@@ -93,13 +94,16 @@ public class UploadedRecipeView extends JPanel implements ActionListener, Proper
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(back)){
                             UploadsState uploadsState = uploadsViewModel.getState();
+                            uploadedRecipeState.setUploadedRecipeImage(null);
+                            uploadedRecipeViewModel.firePropertyChanged();
                             uploadsViewModel.setState(uploadsState);
                             //uploadsViewModel.firePropertyChanged();
                             viewManagerModel.setActiveView(uploadsViewModel.getViewName());
                             viewManagerModel.firePropertyChanged();
+
+
                         }
-                        uploadedRecipeState.setUploadedRecipeImage(null);
-                        uploadedRecipeViewModel.firePropertyChanged();
+
                     }
                 }
         );

@@ -70,10 +70,13 @@ public class UploadingView extends JPanel implements ActionListener, PropertyCha
 
         JPanel buttons = new JPanel();
         upload = new JButton(UploadingViewModel.UPLOAD_BUTTON_LABEL);
+        upload.setBackground(new Color(254,232,210));
         buttons.add(upload);
         back = new JButton(UploadingViewModel.BACK_BUTTON_LABEL);
+        back.setBackground(new Color(254,232,210));
         buttons.add(back);
         uploadRecipePhoto = new JButton(UploadingViewModel.RECIPE_PHOTO_LABEL);
+        uploadRecipePhoto.setBackground(new Color(254,232,210));
         buttons.add(uploadRecipePhoto);
 
 

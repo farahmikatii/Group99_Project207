@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.List;
 
@@ -42,11 +43,13 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
     JLabel recName;
     JLabel image;
     JLabel recipeUrl;
+    JLabel ingredients;
 
     private CommonRecipe recipe;
     private String username;
 
     List<CommonRecipe> savedList = new ArrayList<>();
+
 
     public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupViewModel recipePopupViewModel, LoggedInViewModel loggedInViewModel, ResultViewModel resultViewModel, SavedViewModel savedViewModel){
         //this.recipePopupController = recipePopupController;
@@ -75,6 +78,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         whole.add(recName, BorderLayout.PAGE_START);
 
         JButton back = new JButton("Back");
+        back.setBackground(new Color(254,232,210));
         whole.add(back, BorderLayout.PAGE_END);
 
         back.addActionListener(
@@ -105,7 +109,8 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         );
 
         JPanel middle = new JPanel();
-        middle.setLayout(new BorderLayout());
+//        middle.setLayout(new BorderLayout());
+        middle.setLayout(new FlowLayout());
 
         image = new JLabel();
         middle.add(image, BorderLayout.LINE_START);
@@ -113,7 +118,9 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         JPanel saveMake = new JPanel();
         saveMake.setLayout(new FlowLayout());
         JButton save = new JButton("Save");
+        save.setBackground(new Color(254,232,210));
         JButton make = new JButton("Make it");
+        make.setBackground(new Color(254,232,210));
 
         save.addActionListener(
                 new ActionListener() {
@@ -254,11 +261,22 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 
         saveMake.add(save);
         saveMake.add(make);
-        middle.add(saveMake, BorderLayout.LINE_END);
+
+        JPanel info = new JPanel();
+        info.setLayout(new BorderLayout());
+        info.add(saveMake, BorderLayout.PAGE_START);
+
+        ingredients = new JLabel();
+        ingredients.setFont(new Font("Serif", Font.PLAIN, 14));
+
+        info.add(ingredients, BorderLayout.CENTER);
+
+        middle.add(info, BorderLayout.LINE_END);
 
         whole.add(middle, BorderLayout.CENTER);
 
         this.add(whole);
+
     }
 
     @Override
@@ -275,9 +293,11 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
             ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
             image.setIcon(saveRecipeImage);
             recipeUrl.setText(state.getRecipeUrl());
+            ingredients.setText(state.getIngredients());
             this.recipe = state.getRecipe();
             this.username = state.getUsername();
-            System.out.println(state.getUsername()+"YAY");
+
+
         }
 
 

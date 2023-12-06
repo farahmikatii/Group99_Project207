@@ -44,8 +44,26 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.loginViewModel.addPropertyChangeListener(this);
         this.signupViewModel.addPropertyChangeListener(this);
 
+        JPanel entire = new JPanel();
+        entire.setLayout(new BorderLayout());
+        ImageIcon nothing = new ImageIcon("./src/app_pictures/Empty.png");
+        JLabel empty = new JLabel(nothing);
+        entire.add(empty, BorderLayout.PAGE_START);
+
+
+        JPanel whole = new JPanel();
+        whole.setLayout(new FlowLayout());
+
+        ImageIcon recipeFlow = new ImageIcon("./src/app_pictures/fullTitle.png");
+        JLabel pic = new JLabel(recipeFlow);
+        //whole.add(pic);
+
+        JPanel left = new JPanel();
+        left.setPreferredSize(new Dimension(500, 375));
+
         JLabel title = new JLabel("Login");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font("Serif", Font.PLAIN, 25));
 
         LabelTextPanel usernameInfo = new LabelTextPanel(
                 new JLabel("Username"), usernameInputField);
@@ -54,8 +72,10 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
         JPanel buttons = new JPanel();
         login = new JButton(LoginViewModel.LOGIN_BUTTON_LABEL);
+        login.setBackground(new Color(254,232,210));
         buttons.add(login);
         signup = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
+        signup.setBackground(new Color(254,232,210));
         buttons.add(signup);
 
         login.addActionListener(
@@ -134,13 +154,33 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 });
 
+        left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
+        left.setBackground(new Color(254,216,177));
 
-        this.add(title);
-        this.add(usernameInfo);
-        this.add(usernameErrorField);
-        this.add(passwordInfo);
-        this.add(passwordErrorField);
-        this.add(buttons);
+        left.add(title);
+
+        left.add(title);
+        left.add(usernameInfo);
+        left.add(usernameErrorField);
+        left.add(passwordInfo);
+        left.add(passwordErrorField);
+        left.add(buttons);
+
+        whole.add(left);
+        whole.add(pic);
+
+        entire.add(whole, BorderLayout.CENTER);
+        this.add(entire);
+
+
+
+
+//        this.add(title);
+//        this.add(usernameInfo);
+//        this.add(usernameErrorField);
+//        this.add(passwordInfo);
+//        this.add(passwordErrorField);
+//        this.add(buttons);
     }
 
     /**

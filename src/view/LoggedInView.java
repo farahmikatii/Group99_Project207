@@ -86,14 +86,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         ImageIcon titleImage = new ImageIcon("./src/app_pictures/title_logo.png");
         JLabel title = new JLabel(titleImage);
-//        JLabel title = new JLabel("Recipe Flow");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
-
-        //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
-        //String jsonFile = "/Users/duahussain/IdeaProjects/Group99_Project207/response_output.csv";
-        //String jsonFile = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
         String jsonFile = "./response_output.json";
         file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
         final CommonRecipeDataAccessObject[] commonRecipeDAO = {new CommonRecipeDataAccessObject(file)}; // replace jsonFile with the actual JSON file content or path
@@ -101,40 +95,23 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         // Call returnRecipeList method
         final List<CommonRecipe>[][][] recipesList = new List[][][]{new List[][]{new List[]{commonRecipeDAO[0].returnRecipeList(1)}}};
 
-
-
-        //JLabel usernameInfo = new JLabel("Currently Logged in: ");
-        //username = new JLabel();
-
-        //JPanel buttons = new JPanel();
         JPanel searchButton = new JPanel();
         JPanel accountButton = new JPanel();
         JPanel recipes = new JPanel();
         JScrollPane scroll = new JScrollPane(recipes);
-        //JPanel divider = new JPanel();
+
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         search = new JButton(loggedInViewModel.SEARCH_BUTTON_LABEL);
         account = new JButton(loggedInViewModel.ACCOUNT_BUTTON_LABEL);
-        //recipesList.get(0).getImage()
-        //ImageIcon saveRecipeImage = new ImageIcon(recipesList.get(0).getImage());
-        //recipeImage = new JButton(recipesList.get(0).getRecipeName());
+        logOut.setBackground(new Color(254,232,210));
+        search.setBackground(new Color(254,232,210));
+        account.setBackground(new Color(254,232,210));
 
-
-
-        //Panel topRightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        //searchButton.setLayout(null);
-        //accountButton.setLayout(null);
         recipes.setLayout(new GridLayout(0,4,5,5));
-        //recipes.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 
-
-
-        //buttons.add(logOut);
-        searchButton.add(search);
         searchButton.add(account);
+        searchButton.add(search);
         searchButton.add(logOut);
-        //divider.add(logOut);
-        //recipes.add(recipeImage);
 
         for (CommonRecipe recipe : recipesList[0][0][0]){
             ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
@@ -148,19 +125,14 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                         public void actionPerformed(ActionEvent evt) {
                             if (evt.getSource() instanceof JButton sourceButton) {
                                 if (evt.getSource().equals(sourceButton)) {
-
-                                    //recipePopupViewModel.setSelectedRecipeName(selectedRecipeName);
-                                    //recipePopupViewModel.setRecipeLabel(recipe.getRecipeName());
-
                                     RecipePopupState currentPopupState = recipePopupViewModel.getState();
                                     currentPopupState.setRecipe(recipe);
                                     currentPopupState.setRecipeLabel(recipe);
                                     currentPopupState.setImageUrl(recipe);
                                     currentPopupState.setRecipeUrl(recipe);
+                                    currentPopupState.setIngredients(recipe);
                                     currentPopupState.setComingFrom("loggedin");
 
-
-                                   
 
                                     System.out.println(currentPopupState);
 
@@ -173,8 +145,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                                     System.out.println(viewManagerModel.getActiveView());
                                     viewManagerModel.firePropertyChanged();
 
-                                    //loggedInController.execute(recipe.getRecipeName(), recipe.getRecipeUrl());
-
                                 }
 
 
@@ -182,14 +152,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                         }
                     }
             );
-            //recipeImage.setPreferredSize(new Dimension(10, 10));
             recipes.add(recipeImage);
         }
 
         //Lazy loading
-        //scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-
         scroll.getVerticalScrollBar().addAdjustmentListener(
                 new AdjustmentListener() {
                     @Override
@@ -210,8 +176,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                                 JSONObject next = links.getJSONObject("next");
                                 String nextUrl = next.getString("href");
 
-
-                                // WE HAVE TO FIGURE OUT SOMEWHERE TO DELETE IT OR ELSE THERE'S IMAGE ISSUES
                                 System.out.println(nextUrl);
                                 File folder = new File("./src/images");
                                 deleteFolder(folder);
@@ -250,7 +214,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                                 }
 
                                 try {
-                                    //String jsonFile = "C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/response_output.json";
                                     file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
                                 } catch (Exception ex) {
                                     throw new RuntimeException(ex);
@@ -260,7 +223,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
                                 // Call returnRecipeList method
                                 recipesList[0] = new List[][]{new List[]{commonRecipeDAO[0].returnRecipeList(1)}};
-                                //recipesList = new List[][]{new List[]{commonRecipeDAO[0].returnRecipeList(1)}}
 
                                 System.out.println(Arrays.toString(recipesList[0][0]));
 
@@ -327,12 +289,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 }
         );
 
-        //accountButton.add(account);
         accountButton.setLocation(0,0);
-        //buttons.add(account);
-        //search.setBounds(500, 10, 100, 30);
-        //account.setBounds(10, 10, 100, 30);
-        //account.setBounds(10, -20, 100, 30);
 
         logOut.addActionListener(
                 new ActionListener() {
@@ -391,28 +348,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
-        //this.add(usernameInfo);
-        //this.add(username);
-        //this.add(buttons);
         this.add(searchButton);
-        //this.add(accountButton);
-        //this.add(divider);
-        //this.add(recipes);
         this.add(scroll);
 
-//        File folder = new File("C:/Users/rahman/Desktop/Year 2/CSC207 - Software Design/Weekly Activities/Group99_Project207/src/images");
-//        .setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        addWindowListener(new WindowAdapter() {
-//            @Override
-//            public void windowClosing(WindowEvent e) {
-//                // Call method to delete the folder
-//                deleteFolder(folder);
-//            }
-//        });
-
-
         searchButton.setLocation(0,0);
-        //accountButton.setLocation(200,200);
     }
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
@@ -430,23 +369,18 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     }
 
     private static void deleteFolder(File folder) {
-        // Get the list of files and subdirectories in the folder
         File[] files = folder.listFiles();
 
         if (files != null) {
-            // Iterate over each file/directory and delete recursively
             for (File file : files) {
                 if (file.isDirectory()) {
-                    // Recursive call for subdirectories
                     deleteFolder(file);
                 } else {
-                    // Delete the file
                     file.delete();
                 }
             }
         }
 
-        // Delete the empty folder after deleting its contents
         folder.delete();
     }
 
