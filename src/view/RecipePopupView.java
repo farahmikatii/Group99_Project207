@@ -50,6 +50,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 
     List<CommonRecipe> savedList = new ArrayList<>();
 
+
     public RecipePopupView(ViewManagerModel viewManagerModel, RecipePopupViewModel recipePopupViewModel, LoggedInViewModel loggedInViewModel, ResultViewModel resultViewModel, SavedViewModel savedViewModel){
         //this.recipePopupController = recipePopupController;
         this.viewManagerModel = viewManagerModel;
@@ -271,8 +272,9 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
 //
 //        System.out.println(finalString);
 
-        JLabel displayIngredients = new JLabel(String.valueOf(ingredients));
-        info.add(displayIngredients, BorderLayout.CENTER);
+
+        ingredients = new JLabel();
+        info.add(ingredients, BorderLayout.CENTER);
 
         middle.add(info, BorderLayout.LINE_END);
 
@@ -296,10 +298,11 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
             ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
             image.setIcon(saveRecipeImage);
             recipeUrl.setText(state.getRecipeUrl());
+            ingredients.setText(Arrays.toString(state.getIngredients()));
             this.recipe = state.getRecipe();
             this.username = state.getUsername();
-            System.out.println(state.getUsername()+"YAY");
-            System.out.println(Arrays.toString(state.getIngredients()));
+
+
         }
 
 
