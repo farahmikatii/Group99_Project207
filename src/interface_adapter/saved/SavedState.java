@@ -9,11 +9,11 @@ public class SavedState {
 
     private String recipeName = null;
 
-    private String recipeNameError;
+    private String recipeNameError = null;
 
     private String recipeURL = null;
 
-    private String recipeURLError;
+    private String recipeURLError = null;
 
     private String recipeImageURL = null;
 
@@ -22,12 +22,15 @@ public class SavedState {
     private CommonRecipe recipe;
 
 
-    private String recipeImageURLError;
+    private String recipeImageURLError = null;
 
 
     public SavedState(SavedState copy){
 
         recipe = copy.recipe;
+        recipeName = copy.recipeName;
+        recipeURL = copy.recipeURL;
+        recipeImageURL = copy.recipeImageURL;
 
 
     }
@@ -62,7 +65,7 @@ public class SavedState {
     }
 
     public String getRecipeImageURL(){
-        return recipeImageURL;
+        return recipe.getImage();
     }
 
     public String getRecipeImageURLError(){
@@ -77,12 +80,12 @@ public class SavedState {
         this.recipeName = recipe.getRecipeName();
     }
 
-    public void setRecipeURL(String recipeURL){
-        this.recipeURL = recipeURL;
+    public void setRecipeURL(CommonRecipe recipe){
+        this.recipeURL = recipe.getRecipeUrl();
     }
 
-    public void setRecipeImageURL(String recipeImageURL){
-        this.recipeImageURL = recipeImageURL;
+    public void setRecipeImageURL(CommonRecipe recipe){
+        this.recipeImageURL = recipe.getImage();
     }
 
     public void setRecipeNameError(String recipeNameError) {

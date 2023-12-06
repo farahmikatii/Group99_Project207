@@ -1,6 +1,10 @@
 package use_case.saved;
 
 import app.SavingUseCaseFactory;
+import entity.CommonRecipe;
+
+import java.util.List;
+import java.util.Map;
 
 public class SavedInteractor implements SavedInputBoundary {
 
@@ -19,6 +23,16 @@ public class SavedInteractor implements SavedInputBoundary {
 
     @Override
     public void execute(SavedInputData savedInputData){
+
+    }
+
+//    @Override
+//    public List<Map<String, CommonRecipe>> savedRecipes(){
+//        return savedDataAccessInterface.readSavedRecipesFromCSV();
+//    }
+
+    @Override
+    public void executeSavedView(SavedInputData savedInputData){
 
     }
 }
