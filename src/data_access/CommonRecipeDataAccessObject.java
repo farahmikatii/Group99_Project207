@@ -56,11 +56,35 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
                 ingredients[j] = ingredientsJsonArray.getString(j);
             }
 
+            String newIngredients = Arrays.toString(ingredients)
+                    .replace("]", "<html>").replace("[", "<html><br>Ingredients:<br><br>- ")
+                    .replaceAll(", ", "<br>- ");
+
+            String finalString = cut(newIngredients);
+
             // Create a CommonRecipe object
-            CommonRecipe commonRecipe = new CommonRecipe(label, image_path, url, ingredients);
+            CommonRecipe commonRecipe = new CommonRecipe(label, image_path, url, finalString);
             commonRecipeList.add(commonRecipe);
         }
         return commonRecipeList;
+    }
+
+    private String cut(String newIngredients) {
+        //Cuts off after the ~25th line
+        int count = 0;
+        int index = 0;
+
+        while (count < 25 && (index = newIngredients
+                .indexOf("<br>", index + 1)) != -1) {
+            count++;
+        }
+
+        if (index != -1) {
+            return newIngredients.substring(0, index) +
+                    "<br>... Click 'Make it' to see more!<br><html>";
+        }
+
+        return newIngredients;
     }
 
     public static String readFileAsString(String file)throws Exception

@@ -78,6 +78,7 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         if (uploadedRecipeList.size() == 1){
             //viewButton = new JButton(uploadedRecipeList.get(0).get("Name").toString());
             viewButton = new JButton("Hello");
+            viewButton.setBackground(new Color(254,232,210));
             buttons.add(viewButton);
         }
 
@@ -88,6 +89,7 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         back = new JButton(uploadsViewModel.BACK_BUTTON_LABEL);
+        back.setBackground(new Color(254,232,210));
         buttons.add(back);
 
         //this.add(mainPanel);
@@ -138,6 +140,7 @@ public class UploadsView extends JPanel implements ActionListener, PropertyChang
             if (!buttonsList.contains(recipeName)) {
                 buttonsList.add(recipeName);
                 viewButton = new JButton("View " + recipeName + " Recipe");
+                viewButton.setBackground(new Color(254,232,210));
                 viewButton.addActionListener(
                         new ActionListener() {
                             @Override
