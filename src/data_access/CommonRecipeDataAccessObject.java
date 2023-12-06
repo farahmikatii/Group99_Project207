@@ -56,10 +56,6 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
                 ingredients[j] = ingredientsJsonArray.getString(j);
             }
 
-
-
-
-
             // Create a CommonRecipe object
             CommonRecipe commonRecipe = new CommonRecipe(label, image_path, url, ingredients);
             commonRecipeList.add(commonRecipe);
