@@ -49,17 +49,19 @@ public class CommonRecipeDataAccessObject implements LoggedInDataAccessInterface
             //String image_path = recipeJson.getString("image");
 
 
-            // Assuming ingredients is an array, extract it
-//            JSONArray ingredientsJsonArray = recipeJson.getJSONArray("ingredients");
-//            String[] ingredients = new String[ingredientsJsonArray.length()];
-//            for (int j = 0; j < ingredientsJsonArray.length(); j++) {
-//                ingredients[j] = ingredientsJsonArray.getString(j);
-//            }
+            //Assuming ingredients is an array, extract it
+            JSONArray ingredientsJsonArray = recipeJson.getJSONArray("ingredientLines");
+            String[] ingredients = new String[ingredientsJsonArray.length()];
+            for (int j = 0; j < ingredientsJsonArray.length(); j++) {
+                ingredients[j] = ingredientsJsonArray.getString(j);
+            }
+
+
 
 
 
             // Create a CommonRecipe object
-            CommonRecipe commonRecipe = new CommonRecipe(label, image_path, url);
+            CommonRecipe commonRecipe = new CommonRecipe(label, image_path, url, ingredients);
             commonRecipeList.add(commonRecipe);
         }
         return commonRecipeList;

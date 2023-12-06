@@ -3,8 +3,10 @@ package view;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.profile.ProfileState;
 import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.recipePopup.RecipePopupState;
 import interface_adapter.saved.SavedState;
 import interface_adapter.saved.SavedViewModel;
+import interface_adapter.uploadedRecipe.UploadedRecipeState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +29,8 @@ public class SavedView extends JPanel implements ActionListener,PropertyChangeLi
         this.profileViewModel = profileViewModel;
         this.savedViewModel = savedViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.savedViewModel.addPropertyChangeListener(this);
+
 
         JLabel title = new JLabel(savedViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -67,6 +71,11 @@ public class SavedView extends JPanel implements ActionListener,PropertyChangeLi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //TODO: implement
+        Object newValue = evt.getNewValue();
+        if (newValue  instanceof SavedState) {
+            SavedState state = (SavedState) evt.getNewValue();
+            System.out.println(state.getRecipeName());
+            System.out.println(state.getUsername());
+        }
     }
 }

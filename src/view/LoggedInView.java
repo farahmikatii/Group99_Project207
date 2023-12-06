@@ -157,6 +157,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                                     currentPopupState.setRecipeLabel(recipe);
                                     currentPopupState.setImageUrl(recipe);
                                     currentPopupState.setRecipeUrl(recipe);
+                                    currentPopupState.setIngredients(recipe);
                                     currentPopupState.setComingFrom("loggedin");
 
 

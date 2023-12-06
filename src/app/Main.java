@@ -25,9 +25,7 @@ import okhttp3.*;
 import okio.BufferedSink;
 import okio.Okio;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -128,7 +126,7 @@ public class Main {
         FileUserDataAccessObject userDataAccessObject;
         try {
 
-            userDataAccessObject = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("./user.csv", new CommonUserFactory());
 
             //userDataAccessObject = new FileUserDataAccessObject("C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/users.csv", new CommonUserFactory());
         } catch (IOException e) {
@@ -156,7 +154,7 @@ public class Main {
 
         //RecipePopupView recipePopupView = RecipePopupUseCaseFactory.create(viewManagerModel,recipePopupViewModel, userDataAccessObject, loggedInViewModel)
 
-        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel, recipePopupViewModel, loggedInViewModel, resultViewModel);
+        RecipePopupView recipePopupView = new RecipePopupView(viewManagerModel, recipePopupViewModel, loggedInViewModel, resultViewModel, savedViewModel);
         views.add(recipePopupView, recipePopupView.viewName);
 
         UploadingView uploadingView = UploadingUseCaseFactory.create(viewManagerModel, uploadingViewModel, profileViewModel, uploadsViewModel, userDataAccessObject);

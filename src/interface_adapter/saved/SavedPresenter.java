@@ -34,7 +34,9 @@ public class SavedPresenter implements SavedOutputBoundary {
     @Override
     public void prepareFailView(String error){
         SavedState savedState = savedViewModel.getState();
-        savedState.setRecipeName(error);
+
+        //savedState.setRecipeName(error);
+
         savedViewModel.firePropertyChanged();
     }
 
