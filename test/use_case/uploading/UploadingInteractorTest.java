@@ -24,7 +24,7 @@ public class UploadingInteractorTest {
     void succesTest() throws IOException {
         UploadingInputData uploadingInputData = new UploadingInputData("Iced Matcha", "Matcha Powder", "Mix", null);
         UserFactory userFactory = new CommonUserFactory();
-        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/new/Group99_Project207/test/user1.csv", userFactory);
+        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("./test/user1.csv", userFactory);
         UploadedRecipeFactory uploadedRecipeFactory = new CommonUploadedRecipeFactory();
         UploadingOutputBoundary uploadingOutputBoundary = new UploadingOutputBoundary() {
             @Override
@@ -54,7 +54,7 @@ public class UploadingInteractorTest {
     void recipeNameFailTest() throws IOException {
         UploadingInputData uploadingInputData = new UploadingInputData("", "Matcha Powder", "Mix", null);
         UserFactory userFactory = new CommonUserFactory();
-        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/new/Group99_Project207/test/user1.csv", userFactory);
+        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("./test/user1.csv", userFactory);
         UploadedRecipeFactory uploadedRecipeFactory = new CommonUploadedRecipeFactory();
 
         UploadingOutputBoundary uploadingOutputBoundary = new UploadingOutputBoundary() {
@@ -81,7 +81,7 @@ public class UploadingInteractorTest {
     void ingredientsFailTest() throws IOException {
         UploadingInputData uploadingInputData = new UploadingInputData("Iced Matcha", "", "Mix", null);
         UserFactory userFactory = new CommonUserFactory();
-        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/test/interactors/user1.csv.csv", userFactory);
+        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("./test/interactors/user1.csv.csv", userFactory);
         UploadedRecipeFactory uploadedRecipeFactory = new CommonUploadedRecipeFactory();
 
         UploadingOutputBoundary uploadingOutputBoundary = new UploadingOutputBoundary() {
@@ -111,7 +111,7 @@ public class UploadingInteractorTest {
     void instructionsFailTest() throws IOException {
         UploadingInputData uploadingInputData = new UploadingInputData("Iced Matcha", "Matcha Powder", "", null);
         UserFactory userFactory = new CommonUserFactory();
-        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/new/Group99_Project207/test/user1.csv", userFactory);
+        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("./test/user1.csv", userFactory);
         UploadedRecipeFactory uploadedRecipeFactory = new CommonUploadedRecipeFactory();
 
         UploadingOutputBoundary uploadingOutputBoundary = new UploadingOutputBoundary() {
@@ -140,7 +140,7 @@ public class UploadingInteractorTest {
     @Test
     void uploadedRecipesTest() throws IOException {
         UserFactory userFactory = new CommonUserFactory();
-        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/new/Group99_Project207/test/user1.csv", userFactory);
+        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("./test/user1.csv", userFactory);
         UploadedRecipeFactory uploadedRecipeFactory = new CommonUploadedRecipeFactory();
 
         UploadingOutputBoundary uploadingOutputBoundary = new UploadingOutputBoundary() {
@@ -168,7 +168,7 @@ public class UploadingInteractorTest {
     void executeRecipeViewTest() throws IOException {
         UploadingInputData uploadingInputData = new UploadingInputData("Iced Matcha", "Matcha Powder", "Mix", null);
         UserFactory userFactory = new CommonUserFactory();
-        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/new/Group99_Project207/test/user1.csv", userFactory);
+        UploadingDataAccessInterface uploadingDataAccessInterface = new FileUserDataAccessObject("./test/user1.csv", userFactory);
         UploadedRecipeFactory uploadedRecipeFactory = new CommonUploadedRecipeFactory();
 
         UploadingOutputBoundary uploadingOutputBoundary = new UploadingOutputBoundary() {
