@@ -216,7 +216,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
             ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
             image.setIcon(saveRecipeImage);
             recipeUrl.setText(state.getRecipeUrl());
-            //ingredients.setText(state.getIngredients());
+            ingredients.setText(state.getIngredients());
             this.recipe = state.getRecipe();
             this.username = state.getUsername();
 
