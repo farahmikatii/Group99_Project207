@@ -14,6 +14,7 @@ import static org.mockito.Mockito.*;
 
 
 public class RecipePopupInteractorTest {
+    //farah: not passing
     @Test
     public void successTest(){
         RecipePopupDataAccessInterface recipePopupDAO = mock(RecipePopupDataAccessInterface.class);
@@ -26,15 +27,6 @@ public class RecipePopupInteractorTest {
 
         when(recipePopupDAO.returnRecipeList(1)).thenReturn(Arrays.asList(mockRecipe));
         when(recipePopupDAO.findRecipe("RecipeLabel", Arrays.asList(mockRecipe))).thenReturn(mockRecipe);
-
-      /*  RecipePopupOutputBoundary recipePopupOutputBoundary = new RecipePopupOutputBoundary() {
-            @Override
-            public void prepareSuccessView(RecipePopupOutputData recipePopupOutputData) {
-                assertEquals(recipePopupOutputData.getRecipeLabel(), "RecipeLabel");
-                assertEquals(recipePopupOutputData.getIngredients(), mockIngredients);
-                assertEquals(recipePopupOutputData.getImageUrl(), "ImageUrl");
-            }
-        };*/
 
         RecipePopupInputBoundary  recipePopupInputBoundary = new RecipePopupInteractor(recipePopupDAO, recipePopupPresenter);
         recipePopupInputBoundary.loadRecipeDisplay(recipePopupInputData);

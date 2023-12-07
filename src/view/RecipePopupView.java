@@ -78,7 +78,6 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         whole.add(recName, BorderLayout.PAGE_START);
 
         JButton back = new JButton("Back");
-        back.setBackground(new Color(254,232,210));
         whole.add(back, BorderLayout.PAGE_END);
 
         back.addActionListener(
@@ -109,8 +108,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         );
 
         JPanel middle = new JPanel();
-//        middle.setLayout(new BorderLayout());
-        middle.setLayout(new FlowLayout());
+        middle.setLayout(new BorderLayout());
 
         image = new JLabel();
         middle.add(image, BorderLayout.LINE_START);
@@ -118,9 +116,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         JPanel saveMake = new JPanel();
         saveMake.setLayout(new FlowLayout());
         JButton save = new JButton("Save");
-        save.setBackground(new Color(254,232,210));
         JButton make = new JButton("Make it");
-        make.setBackground(new Color(254,232,210));
 
         save.addActionListener(
                 new ActionListener() {
@@ -141,12 +137,12 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                             SavedState currentSavedState = savedViewModel.getState();
                             currentSavedState.setRecipe(recipe);
                             currentPopupState.setRecipeLabel(recipe);
-                            currentSavedState.setUsername(username);
+                            currentPopupState.setUsername(username);
                             savedViewModel.setState(currentSavedState);
                             savedViewModel.firePropertyChanged();
-                            currentPopupState.setImageUrl(recipe);
-                            currentPopupState.setRecipeUrl(recipe);
-                            currentPopupState.setComingFrom("loggedin");
+//                            currentPopupState.setImageUrl(recipe);
+//                            currentPopupState.setRecipeUrl(recipe);
+//                            currentPopupState.setComingFrom("loggedin");
 
 
 
@@ -266,9 +262,18 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         info.setLayout(new BorderLayout());
         info.add(saveMake, BorderLayout.PAGE_START);
 
-        ingredients = new JLabel();
-        ingredients.setFont(new Font("Serif", Font.PLAIN, 14));
+        StringBuilder finalStringBuilder = new StringBuilder();
 
+//        for (String ingredient : recipe.getIngredients()) {
+//            finalStringBuilder.append("- ").append(ingredient).append("\n");
+//        }
+//
+//        String finalString = finalStringBuilder.toString();
+//
+//        System.out.println(finalString);
+
+
+        ingredients = new JLabel();
         info.add(ingredients, BorderLayout.CENTER);
 
         middle.add(info, BorderLayout.LINE_END);
@@ -293,15 +298,12 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
             ImageIcon saveRecipeImage = new ImageIcon(state.getImageUrl());
             image.setIcon(saveRecipeImage);
             recipeUrl.setText(state.getRecipeUrl());
-            ingredients.setText(state.getIngredients());
+            ingredients.setText(Arrays.toString(state.getIngredients()));
             this.recipe = state.getRecipe();
             this.username = state.getUsername();
 
 
         }
-
-
-
 
 
 

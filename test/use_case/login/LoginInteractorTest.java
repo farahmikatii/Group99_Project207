@@ -20,7 +20,7 @@ public class LoginInteractorTest {
     void successTest() throws IOException {
         LoginInputData inputData = new LoginInputData("Farah", "password");
         UserFactory userFactory = new CommonUserFactory();
-        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/test/use_case/user1.csv", userFactory);
+        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/new/Group99_Project207/test/user1.csv", userFactory);
 
         LoginOutputBoundary loginPresenter = new LoginOutputBoundary() {
             @Override
@@ -43,7 +43,7 @@ public class LoginInteractorTest {
     void failureAccountDoesNotExistTest() throws IOException {
         LoginInputData inputData = new LoginInputData("Farah", "password");
         UserFactory userFactory = new CommonUserFactory();
-        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/test/use_case/user2.csv", userFactory);
+        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/new/Group99_Project207/test/user2.csv", userFactory);
 
         LoginOutputBoundary failurePresenter = new LoginOutputBoundary() {
             @Override
@@ -66,7 +66,7 @@ public class LoginInteractorTest {
     void incorrectPasswordTest() throws IOException {
         LoginInputData inputData = new LoginInputData("Farah", "password1");
         UserFactory userFactory = new CommonUserFactory();
-        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/Group99_Project207/test/use_case/user1.csv", userFactory);
+        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/new/Group99_Project207/test/user1.csv", userFactory);
 
         LoginOutputBoundary loginOutputBoundary = new LoginOutputBoundary() {
             @Override
@@ -81,6 +81,29 @@ public class LoginInteractorTest {
         };
         LoginInputBoundary interactor = new LoginInteractor(loginUserDataAccessInterface, loginOutputBoundary);
         interactor.execute(inputData);
+    }
+
+    @Test
+    void setUsernameTest() throws IOException {
+        LoginInputData inputData = new LoginInputData("Farah", "password1");
+        UserFactory userFactory = new CommonUserFactory();
+        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/new/Group99_Project207/test/user1.csv", userFactory);
+
+        LoginOutputBoundary loginOutputBoundary = new LoginOutputBoundary() {
+            @Override
+            public void prepareSuccessView(LoginOutputData user) {
+
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+
+            }
+        };
+        LoginInputBoundary interactor = new LoginInteractor(loginUserDataAccessInterface, loginOutputBoundary);
+        interactor.setUsername(inputData);
+
+        assertEquals(loginUserDataAccessInterface.get(inputData.getUsername()).getName(), inputData.getUsername());
     }
 
 }

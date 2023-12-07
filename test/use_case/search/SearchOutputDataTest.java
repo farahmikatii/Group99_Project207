@@ -9,10 +9,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SearchOutputDataTest {
-
+    //farah: not passing
     @Test
     void getRecipesList() throws Exception {
-        String jsonFilePath = "./response_output.json";
+        String jsonFilePath = "/Users/farahmikati/IdeaProjects/new/Group99_Project207/response_output.json";
         CommonRecipeDataAccessObject dao = new CommonRecipeDataAccessObject(CommonRecipeDataAccessObject.readFileAsString(jsonFilePath));
         List<CommonRecipe> recipesList = dao.returnRecipeList(1);
         SearchOutputData outputData = new SearchOutputData(recipesList);

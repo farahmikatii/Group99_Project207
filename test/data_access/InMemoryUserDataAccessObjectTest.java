@@ -1,7 +1,5 @@
-package dataAccessObjects;
+package data_access;
 
-import data_access.InMemoryUserDataAccessObject;
-import entity.CommonUser;
 import entity.CommonUserFactory;
 import entity.User;
 import org.junit.jupiter.api.Test;
