@@ -32,7 +32,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
     private final SignupViewModel signupViewModel;
 
-    private final JButton login;
+    final JButton login;
     private final JButton signup;
 
     public LoginView(LoginController controller, LoginViewModel loginViewModel, SignupViewModel signupViewModel, ViewManagerModel viewManagerModel) {
