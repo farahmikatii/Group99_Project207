@@ -30,6 +30,7 @@ public class SearchInteractor implements SearchInputBoundary{
             file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
         } catch (Exception e) {
             searchPresenter.prepareFailView("The File Doesn't exist and no recipes to display.");
+            return;
         }
 
         CommonRecipeDataAccessObject commonRecipeDAO = new CommonRecipeDataAccessObject(file);

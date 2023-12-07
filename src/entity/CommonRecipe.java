@@ -1,12 +1,10 @@
 package entity;
 
-import java.util.Arrays;
-
 public class CommonRecipe implements Recipe{
     private final String name;
     private final String imagePath;
     private final String recipeUrl;
-    private final String ingredients;
+    private final String[] ingredients;
 
     /**
      * @param name
@@ -14,14 +12,13 @@ public class CommonRecipe implements Recipe{
      * @param recipeUrl
      * @param ingredients
      */
-    public CommonRecipe(String name, String imagePath, String recipeUrl, String ingredients) {
+    public CommonRecipe(String name, String imagePath, String recipeUrl, String[] ingredients) {
         this.name = name;
         this.imagePath = imagePath;
         this.recipeUrl = recipeUrl;
         this.ingredients = ingredients;
     }
-    public String getIngredients() {
-//        return ingredients.replace("]", "").replace("[", "- ").replaceAll(", ", "\n- ");
+    public String[] getIngredients() {
         return ingredients;
     }
 
