@@ -7,6 +7,19 @@ import static org.junit.Assert.*;
 public class LoggedInStateTest {
 
     @Test
+    public void testLoggedInStateCopyConstructor() {
+        // Arrange
+        LoggedInState originalState = new LoggedInState();
+        originalState.setUsername("testUser");
+
+        // Act
+        LoggedInState copyState = new LoggedInState(originalState);
+
+        // Assert
+        assertEquals(originalState.getUsername(), copyState.getUsername());
+    }
+
+    @Test
     public void getUsername() {
         LoggedInState loggedInState = new LoggedInState();
         assertEquals(" ", loggedInState.getUsername());
