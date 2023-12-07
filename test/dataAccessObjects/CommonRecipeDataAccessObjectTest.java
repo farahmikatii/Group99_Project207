@@ -28,7 +28,7 @@ public class CommonRecipeDataAccessObjectTest {
     @Test
     void findRecipe_shouldFindRecipeByName() throws Exception {
         // Arrange
-        String jsonFilePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json";
+        String jsonFilePath = "./response_output.json";
         CommonRecipeDataAccessObject dao = new CommonRecipeDataAccessObject(CommonRecipeDataAccessObject.readFileAsString(jsonFilePath));
 
         // Act

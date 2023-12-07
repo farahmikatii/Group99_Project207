@@ -1,11 +1,5 @@
 package use_case.saved;
 
-import app.SavingUseCaseFactory;
-import entity.CommonRecipe;
-
-import java.util.List;
-import java.util.Map;
-
 public class SavedInteractor implements SavedInputBoundary {
 
     final SavedDataAccessInterface savedDataAccessInterface;
