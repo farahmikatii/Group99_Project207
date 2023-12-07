@@ -15,7 +15,7 @@ public class CommonRecipeFactoryTest {
         String name = "Recipe Name";
         String imagePath = "/path/to/image.jpg";
         String recipeUrl = "https://example.com/recipe";
-        String[] ingredients = {"Ingredient1", "Ingredient2", "Ingredient3"};
+        String ingredients = "Ingredient1";
 
         // When
         Recipe createdRecipe = recipeFactory.create(name, imagePath, recipeUrl, ingredients);
@@ -25,6 +25,6 @@ public class CommonRecipeFactoryTest {
         assertEquals(name, createdRecipe.getRecipeName());
         assertEquals(imagePath, createdRecipe.getImage());
         assertEquals(recipeUrl, createdRecipe.getRecipeUrl());
-        assertArrayEquals(ingredients, createdRecipe.getIngredients());
+        assertEquals(ingredients, createdRecipe.getIngredients());
     }
 }
