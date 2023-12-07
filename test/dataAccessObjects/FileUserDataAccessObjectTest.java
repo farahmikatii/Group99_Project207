@@ -1,4 +1,5 @@
-package data_access;
+package dataAccessObjects;
+import data_access.FileUserDataAccessObject;
 import entity.*;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class FileUserDataAccessObjectTest {
     @Test
     public void existsByName_shouldReturnTrueForExistingUser() {
         // Arrange
-        String csvFilePath = "/Users/duahussain/IdeaProjects/new2/Group99_Project207/test/userdaotest.csv";
+        String csvFilePath = "/user.csv";
 
         FileUserDataAccessObject userDao;
         try {
@@ -31,7 +32,8 @@ public class FileUserDataAccessObjectTest {
 
     @Test
     public void save_shouldAddUserToAccountsList() {
-        String csvFilePath = "/Users/duahussain/IdeaProjects/new2/Group99_Project207/test/userdaotest.csv"; // Provide your test CSV file path
+        // Arrange
+        String csvFilePath = "/user.csv"; // Provide your test CSV file path
         FileUserDataAccessObject userDao;
         try {
             userDao = new FileUserDataAccessObject(csvFilePath, userFactory);
@@ -40,15 +42,17 @@ public class FileUserDataAccessObjectTest {
         }
         User newUser = userFactory.create("newuser", "newpassword");
 
+        // Act
         userDao.save(newUser);
 
+        // Assert
         assertTrue(userDao.existsByName("newuser"), "User should be added to the CSV file");
     }
 
     @Test
     public void saveUploadedRecipe_shouldAddRecipeToUploadedRecipeMap() {
         // Arrange
-        String csvFilePath = "/Users/duahussain/IdeaProjects/new2/Group99_Project207/test/userdaotest.csv";
+        String csvFilePath = "/user.csv"; // Provide your test CSV file path
         FileUserDataAccessObject userDao;
         try {
             userDao = new FileUserDataAccessObject(csvFilePath, userFactory);
