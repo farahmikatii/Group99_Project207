@@ -17,7 +17,7 @@ import view.LoginView;
 
 public class LoginUseCaseFactory {
 
-    private LoginUseCaseFactory(){}
+    LoginUseCaseFactory(){}
 
     public static LoginView create(ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, LoggedInViewModel loggedInViewModel, LoginUserDataAccessInterface userDataAccessObject, SignupViewModel signupViewModel, RecipePopupViewModel recipePopupViewModel){
 
