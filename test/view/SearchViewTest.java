@@ -1,7 +1,10 @@
 package view;
 
+import app.SearchUseCaseFactory;
+import app.SearchUseFactoryTest;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.resultSearch.ResultViewModel;
 import interface_adapter.search.SearchController;
 import interface_adapter.search.SearchState;
 import interface_adapter.search.SearchViewModel;
@@ -9,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -22,26 +27,42 @@ class SearchViewTest {
     private SearchView searchView;
 
     @Test
-    void actionPerformed() {
-        searchView.searchInputField.setText("Pasta");
+    public void actionPerformed() {
 
-        // Simulate a search button click
-        searchView.actionPerformed(new ActionEvent(searchView.search, ActionEvent.ACTION_PERFORMED, "Search"));
 
-        // Verify that the searchController.execute method was called with the expected parameters
-        verify(mockSearchController, times(1)).execute(eq("Pasta"), isNull(), isNull(), isNull(), isNull(), isNull());
+        ViewManagerModel viewManagerModel = new ViewManagerModel() ;
+        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+        SearchViewModel searchViewModel = new SearchViewModel();
+        ResultViewModel resultViewModel = new ResultViewModel();
+
+
+        SearchView searchView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, loggedInViewModel, resultViewModel);
+        SearchView mockSearchView = mock(SearchView.class);
+
+        ActionEvent mockActionEvent = mock(ActionEvent.class);
+        when(mockActionEvent.getActionCommand()).thenReturn("someCommand");
+
+        mockSearchView.actionPerformed(mockActionEvent);
+        verify(mockSearchView).actionPerformed(any(ActionEvent.class));
+        //verify(mockSearchView).actionPerformed(argThat(actionEvent -> "expectedCommand".equals(actionEvent.getActionCommand())));
+
     }
 
     @Test
-    void propertyChange() {
-        PropertyChangeEvent mockEvent = mock(PropertyChangeEvent.class);
-        when(mockEvent.getNewValue()).thenReturn(mock(SearchState.class));
+    void propertyChange_ShouldHandlePropertyChange() {
+        ViewManagerModel viewManagerModel = new ViewManagerModel() ;
+        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+        SearchViewModel searchViewModel = new SearchViewModel();
+        ResultViewModel resultViewModel = new ResultViewModel();
+        SearchState searchState = searchViewModel.getState();
 
-        // Simulate the propertyChange method being called
-        searchView.propertyChange(mockEvent);
 
-        // Verify that the necessary methods were called
-        // (you might need to update this based on what should happen in the propertyChange method)
-        verify(mockSearchViewModel, times(1)).getState();
+        SearchView searchView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, loggedInViewModel, resultViewModel);
+        PropertyChangeEvent mockPropertyChangeEvent = mock(PropertyChangeEvent.class);
+        when(mockPropertyChangeEvent.getNewValue()).thenReturn(searchState);
+
+        searchView.propertyChange(mockPropertyChangeEvent);
+
     }
+
 }

@@ -87,58 +87,8 @@ public class SavedView extends JPanel implements ActionListener,PropertyChangeLi
                 }
         );
 
-        for (String username : savedMap.keySet()) {
-            String recipeName = savedMap.get(username);
-            CommonRecipe recipe = commonRecipeDAO.findRecipe(recipeName, savedList);
-            ImageIcon saveRecipeImage = new ImageIcon(recipe.getImage());
-            recipeImage = new JButton(cutName(recipe.getRecipeName()), saveRecipeImage);
-            //setting position of label of recipe
-            recipeImage.setVerticalTextPosition(SwingConstants.TOP);
-            recipeImage.setHorizontalTextPosition(SwingConstants.CENTER);
-            recipeImage.addActionListener(
-                    // This creates an anonymous subclass of ActionListener and instantiates it.
-                    new ActionListener() {
-                        public void actionPerformed(ActionEvent evt) {
-                            if (evt.getSource() instanceof JButton sourceButton) {
-                                if (evt.getSource().equals(sourceButton)) {
-                                    RecipePopupState currentPopupState = SavedView.this.recipePopupViewModel.getState();
-                                    currentPopupState.setRecipe(recipe);
-                                    currentPopupState.setRecipeLabel(recipe);
-                                    currentPopupState.setImageUrl(recipe);
-                                    currentPopupState.setRecipeUrl(recipe);
-                                    currentPopupState.setIngredients(recipe);
-                                    currentPopupState.setComingFrom("loggedin");
 
-
-                                    System.out.println(currentPopupState);
-
-                                    SavedView.this.recipePopupViewModel.setState(currentPopupState);
-                                    System.out.println(SavedView.this.recipePopupViewModel.getState());
-
-                                    SavedView.this.recipePopupViewModel.firePropertyChanged();
-
-                                    viewManagerModel.setActiveView(SavedView.this.recipePopupViewModel.getViewName());
-                                    System.out.println(viewManagerModel.getActiveView());
-                                    viewManagerModel.firePropertyChanged();
-
-                                }
-
-
-                            }
-                        }
-                    }
-            );
-            recipes.add(recipeImage);
-        }
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-
-
-
-
-
-
-
 
 
       this.add(title);
@@ -234,42 +184,6 @@ public class SavedView extends JPanel implements ActionListener,PropertyChangeLi
             this.add(scroll);
 
         }
-//        List<Map<String, CommonRecipe>> savedList = savedController.savedRecipes();
-//        this.savedRecipeList = savedList;
-//        JPanel mainPanel = new JPanel();
-//
-//        for (Map<String, CommonRecipe> recipe : savedRecipeList){
-//            String recipeName = (String) recipe.get();
 
-//            if (!buttonsList.contains(recipeName)){
-//                buttonsList.add(recipeName);
-//                viewButton = new JButton("View " + recipeName + " Recipe");
-//                viewButton.addActionListener(
-//                        new ActionListener() {
-//                            @Override
-//                            public void actionPerformed(ActionEvent e) {
-//                                if (e.getSource().equals(viewButton)){
-////                                    String recipeName = (String) recipe.get("Name");
-////                                    String recipeURL = (String) recipe.get("RecipeURL");
-////                                    String recipeImageURL = (String) recipe.get("RecipeImageURL");
-////
-////                                    SavedState currentSavedState = SavedViewModel.getState();
-////                                    currentSavedState.setRecipe(recipe);
-////                                    currentSavedState.setRecipeName(recipe);
-////                                    currentSavedState.setRecipeURL(recipeURL);
-////                                    currentSavedState.setRecipeImageURL(recipeImageURL);
-////
-////                                    SavedViewModel.setState(currentSavedState);
-////                                    SavedViewModel.firePropertyChanged();
-////                                    viewManagerModel.setActiveView(SavedViewModel.getViewName());
-////                                    viewManagerModel.firePropertyChanged();
-//                                }
-//                            }
-//                        }
-//                );
-//                mainPanel.add(viewButton);
-//            }
-//        }
-//        this.add(mainPanel);
     }
 }

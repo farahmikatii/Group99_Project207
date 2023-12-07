@@ -296,14 +296,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(logOut)) {
-//                            SignupState currentSignupState = signupViewModel.getState();
-//                            signupViewModel.setState(currentSignupState);
-//                            signupViewModel.firePropertyChanged();
-//                            viewManagerModel.setActiveView(signupViewModel.getViewName());
-//                            viewManagerModel.firePropertyChanged();
-
                             System.exit(0);
-//                            LoggedInOutputBoundary.confirmation("You have been logged out.");
                         }
                     }
                 }
