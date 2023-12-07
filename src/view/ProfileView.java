@@ -46,7 +46,7 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     private final JButton uploadNew;
 
-    private final JButton back;
+    final JButton back;
 
     public ProfileView(UploadingViewModel uploadingViewModel, ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel, SavedViewModel savedViewModel, UploadsViewModel uploadsViewModel, LoggedInViewModel loggedInViewModel, UploadingController uploadingController) {
 
