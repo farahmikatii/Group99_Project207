@@ -9,20 +9,12 @@ import interface_adapter.saved.SavedViewModel;
 import interface_adapter.uploading.UploadingController;
 import interface_adapter.uploading.UploadingPresenter;
 import interface_adapter.uploading.UploadingViewModel;
-import interface_adapter.uploads.UploadsController;
-import interface_adapter.uploads.UploadsPresenter;
 import interface_adapter.uploads.UploadsViewModel;
 import use_case.uploading.UploadingDataAccessInterface;
 import use_case.uploading.UploadingInputBoundary;
 import use_case.uploading.UploadingInteractor;
 import use_case.uploading.UploadingOutputBoundary;
-import use_case.uploads.UploadsDataAccessInterface;
-import use_case.uploads.UploadsInputBoundary;
-import use_case.uploads.UploadsInteractor;
-import use_case.uploads.UploadsOutputBoundary;
 import view.ProfileView;
-import view.UploadingView;
-import view.UploadsView;
 
 public class ProfileUseCaseFactory {
 
