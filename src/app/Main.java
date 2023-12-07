@@ -119,7 +119,6 @@ public class Main {
         UploadedRecipeViewModel uploadedRecipeViewModel = new UploadedRecipeViewModel();
 
         RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
-        RecipePopupState recipePopupState = new RecipePopupState();
 
         UploadedRecipeState uploadedRecipeState = new UploadedRecipeState();
 
