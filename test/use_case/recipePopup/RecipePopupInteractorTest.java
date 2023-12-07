@@ -19,7 +19,7 @@ public class RecipePopupInteractorTest {
     public void successTest(){
         RecipePopupDataAccessInterface recipePopupDAO = mock(RecipePopupDataAccessInterface.class);
         RecipePopupOutputBoundary recipePopupPresenter = mock(RecipePopupOutputBoundary.class);
-        String[] mockIngredients = {"Ingredient1", "Ingredient2"};
+        String mockIngredients = "Ingredient1, Ingredient2";
         CommonRecipeFactory recipeFactory = new CommonRecipeFactory();
         CommonRecipe mockRecipe = recipeFactory.create("MockRecipe", "MockUrl", "MockUrl1",  mockIngredients);
 

@@ -1,6 +1,5 @@
 package use_case.recipePopup;
 
-import app.RecipePopupUseCaseFactory;
 import entity.CommonRecipe;
 
 import java.util.List;

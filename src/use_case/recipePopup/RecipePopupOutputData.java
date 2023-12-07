@@ -6,9 +6,9 @@ public class RecipePopupOutputData {
 
     private String imageUrl;
 
-    private String[] ingredients;
+    private String ingredients;
 
-    public RecipePopupOutputData(String recipeLabel, String imageUrl, String[] ingredients){
+    public RecipePopupOutputData(String recipeLabel, String imageUrl, String ingredients){
         this.recipeLabel = recipeLabel;
         this.imageUrl = imageUrl;
         this.ingredients = ingredients;
@@ -29,7 +29,7 @@ public class RecipePopupOutputData {
         this.imageUrl = imageUrl;
     }
 
-    public String[] getIngredients() {return ingredients;}
+    public String getIngredients() {return ingredients;}
 
-    public void setIngredients(String[] ingredients) {this.ingredients = ingredients;}
+    public void setIngredients(String ingredients) {this.ingredients = ingredients;}
 }
