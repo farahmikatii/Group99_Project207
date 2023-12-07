@@ -9,7 +9,7 @@ public class CommonRecipeTest {
 
     public CommonRecipeTest(){
         this.recipe = new CommonRecipe(
-                "lemonade", "./src", "www.test.com", new String[]{"Ingredient1", "Ingredient2", "Ingredient3"});
+                "lemonade", "./src", "www.test.com", "Ingredient1");
     }
 
 
@@ -29,5 +29,5 @@ public class CommonRecipeTest {
     }
 
     @Test
-    public void getIngredients(){assertArrayEquals(new String[]{"Ingredient1", "Ingredient2", "Ingredient3"}, recipe.getIngredients());}
+    public void getIngredients(){assertEquals("Ingredient1", recipe.getIngredients());}
 }
