@@ -13,7 +13,6 @@ import interface_adapter.uploadedRecipe.UploadedRecipeState;
 import interface_adapter.uploadedRecipe.UploadedRecipeViewModel;
 import interface_adapter.uploading.UploadingViewModel;
 import interface_adapter.uploads.UploadsViewModel;
-import interface_adapter.saved.SavedController;
 
 
 import interface_adapter.recipePopup.RecipePopupViewModel;
@@ -68,7 +67,7 @@ public class Main {
                 //String filePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
                 //String filePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/response_output.json"; // Change the file extension or name as needed
                 //String filePath = "C:/Working/UoFT/Year 2/CSC207/shar2435/Group99_Project207/response_output.json"; // Change the file extension or name as needed
-                String filePath = "/Users/sedakchuckal/IdeaProjects/Group99_Project207/user.csv"; // Change the file extension or name as needed
+                String filePath = "./response_output.json"; // Change the file extension or name as needed
 
                 // Write the response to a file
                 try (BufferedSink sink = Okio.buffer(Okio.sink(new File(filePath))) ) {
@@ -156,11 +155,12 @@ public class Main {
         views.add(profileView, profileView.viewName);
 
         //SavedView savedView = new SavedView(savedViewModel, viewManagerModel, profileViewModel, savedController);
-        //views.add(savedView, savedView.viewName); //needs to be a factory like UploadsView
+        SavedView savedView = new SavedView(savedViewModel, viewManagerModel, profileViewModel, recipePopupViewModel);
+        views.add(savedView, savedView.viewName); //needs to be a factory like UploadsView
 
-        SavedView savedView = SavingUseCaseFactory.create(
-                viewManagerModel, savedViewModel, profileViewModel);
-        views.add(savedView, savedView.viewName);
+//        SavedView savedView = SavingUseCaseFactory.create(
+//                viewManagerModel, savedViewModel, profileViewModel);
+//        views.add(savedView, savedView.viewName);
 
         //RecipePopupView recipePopupView = RecipePopupUseCaseFactory.create(viewManagerModel,recipePopupViewModel, userDataAccessObject, loggedInViewModel)
 
