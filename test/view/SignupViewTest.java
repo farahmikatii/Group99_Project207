@@ -1,55 +1,57 @@
-//package view;
-//import app.SignupUseCaseFactory;
-//import interface_adapter.ViewManagerModel;
-//import interface_adapter.logged_in.LoggedInViewModel;
-//import interface_adapter.login.LoginViewModel;
-//import interface_adapter.search.SearchController;
-//import interface_adapter.search.SearchState;
-//import interface_adapter.search.SearchViewModel;
-//import interface_adapter.signup.SignupController;
-//import interface_adapter.signup.SignupViewModel;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//
-//import javax.swing.*;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.mockito.Mockito.*;
-//
-//class SignupViewTest {
-//    @BeforeEach
-//    void setUp() {
-//        ViewManagerModel viewManagerModel = new ViewManagerModel();
-//        SignupViewModel signupViewModel = new SignupViewModel();
-//        LoginViewModel loginViewModel = new LoginViewModel();
-//
-//        SignupController mockSignupController = mock(SignupController.class);
-//        SignupViewModel mockSignupViewModel = mock(SignupViewModel.class);
-//        LoginViewModel mockLoginViewModel = mock(LoginViewModel.class);
-//        ViewManagerModel mockViewManagerModel = mock(ViewManagerModel.class);
-//
-//        SignupView signupView = new SignupView(mockSignupController, mockSignupViewModel, mockLoginViewModel, mockViewManagerModel);
-//    }
-//
-//    @Test
-//    void actionPerformed() {
-//        ViewManagerModel viewManagerModel = new ViewManagerModel();
-//        SignupViewModel signupViewModel = new SignupViewModel();
-//        LoginViewModel loginViewModel = new LoginViewModel();
-//
-//
-////        JButton signUpButton = signupView.getSignUpButton();
-////
-////        // Act
-////        signUpButton.doClick();  // Simulate a button click
-////
-////        // Assert
-////        verify(mockSignupController, times(1)).execute(any(), any(), any()); // Adjust as per your controller method parameters
-//        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, )
-//    }
-//
-//    @Test
-//    void propertyChange() {
-//    }
-//}
+package view;
+
+import interface_adapter.signup.SignupState;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class SignupViewTest {
+
+
+    @Mock
+    private JOptionPane mockJOptionPane;
+
+    // @InjectMocks
+    // private PropertyChangeListener propertyChangeListener;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void actionPerformedTest() {
+        SignupView mockSignupView = mock(SignupView.class);
+        ActionEvent mockActionEvent = mock(ActionEvent.class);
+        when(mockActionEvent.getActionCommand()).thenReturn("someCommand");
+
+        mockSignupView.actionPerformed(mockActionEvent);
+        verify(mockSignupView).actionPerformed(any(ActionEvent.class));
+
+    }
+
+
+
+/*    @Test
+    void propertyChangeTest() {
+        SignupState signupState = new SignupState();
+        signupState.setUsernameError("Invalid username");
+        PropertyChangeEvent event = new PropertyChangeEvent(this, "signupState", null, signupState);
+
+        propertyChangeListener.propertyChange(event);
+
+        verify(mockJOptionPane);
+        JOptionPane.showMessageDialog((Component) propertyChangeListener, "Invalid username");
+    }*/
+}
