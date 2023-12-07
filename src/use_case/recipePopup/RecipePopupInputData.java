@@ -7,10 +7,10 @@ public class RecipePopupInputData {
 
     private String url;
 
-    private String ingredients;
+    private String[] ingredients;
 
 
-    public RecipePopupInputData(String recipeLabel, String imageUrl, String url, String ingredients){
+    public RecipePopupInputData(String recipeLabel, String imageUrl, String url, String[] ingredients){
         this.recipeLabel = recipeLabel;
         this.imageUrl = imageUrl;
         this.url = url;
@@ -34,7 +34,7 @@ public class RecipePopupInputData {
     public String getUrl() {return url;}
     public void setUrl(String url) {this.url = url;}
 
-    public String getIngredients() {return ingredients;}
+    public String[] getIngredients() {return ingredients;}
 
-    public void setIngredients(String ingredients) {this.ingredients = ingredients;}
+    public void setIngredients(String[] ingredients) {this.ingredients = ingredients;}
 }
