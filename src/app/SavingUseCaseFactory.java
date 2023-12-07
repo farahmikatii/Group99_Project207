@@ -16,29 +16,29 @@ import java.io.IOException;
 
 public class SavingUseCaseFactory {
 
-    public static SavedView create(
-            ViewManagerModel viewManagerModel, SavedViewModel savedViewModel, ProfileViewModel profileViewModel) {
-        try {
-            SavedController savedController = createUserSavedUseCase(viewManagerModel, savedViewModel, profileViewModel);
-            return new SavedView(savedViewModel, viewManagerModel, profileViewModel, savedController);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Could not open.");
-        }
-        return null;
-    }
-
-    private static SavedController createUserSavedUseCase(ViewManagerModel viewManagerModel, SavedViewModel savedViewModel,
-                                                          ProfileViewModel profileViewModel) throws IOException {
-        SavedOutputBoundary savedOutputBoundary = new SavedPresenter(viewManagerModel, savedViewModel, profileViewModel);
-
-        SavingUseCaseFactory savingUseCaseFactory = new SavingUseCaseFactory();
-
-        SavedDataAccessInterface savedDataAccessInterface = new SavedDataAccessInterface() {
-        };
-
-        SavedInputBoundary savedInteractor = new SavedInteractor(savedDataAccessInterface, savedOutputBoundary, savingUseCaseFactory);
-
-        return new SavedController(savedInteractor);
-
-    }
+//    public static SavedView create(
+//            ViewManagerModel viewManagerModel, SavedViewModel savedViewModel, ProfileViewModel profileViewModel) {
+//        try {
+//            SavedController savedController = createUserSavedUseCase(viewManagerModel, savedViewModel, profileViewModel);
+//            return new SavedView(savedViewModel, viewManagerModel, profileViewModel, savedController);
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "Could not open.");
+//        }
+//        return null;
+//    }
+//
+//    private static SavedController createUserSavedUseCase(ViewManagerModel viewManagerModel, SavedViewModel savedViewModel,
+//                                                          ProfileViewModel profileViewModel) throws IOException {
+//        SavedOutputBoundary savedOutputBoundary = new SavedPresenter(viewManagerModel, savedViewModel, profileViewModel);
+//
+//        SavingUseCaseFactory savingUseCaseFactory = new SavingUseCaseFactory();
+//
+//        SavedDataAccessInterface savedDataAccessInterface = new SavedDataAccessInterface() {
+//        };
+//
+//        SavedInputBoundary savedInteractor = new SavedInteractor(savedDataAccessInterface, savedOutputBoundary, savingUseCaseFactory);
+//
+//        return new SavedController(savedInteractor);
+//
+//    }
 }
