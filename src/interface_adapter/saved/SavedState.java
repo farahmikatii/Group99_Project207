@@ -2,6 +2,11 @@ package interface_adapter.saved;
 
 import entity.CommonRecipe;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class SavedState {
 
     private String username;
@@ -17,6 +22,10 @@ public class SavedState {
 
     private String recipeImageURL = null;
 
+    private Map<String, String> savedMap = new HashMap<>();
+
+    private List<CommonRecipe> savedList = new ArrayList<>();
+
 
 
     private CommonRecipe recipe;
@@ -28,9 +37,11 @@ public class SavedState {
     public SavedState(SavedState copy){
 
         recipe = copy.recipe;
-        recipeName = copy.recipeName;
-        recipeURL = copy.recipeURL;
-        recipeImageURL = copy.recipeImageURL;
+//        recipeName = copy.recipeName;
+//        recipeURL = copy.recipeURL;
+//        recipeImageURL = copy.recipeImageURL;
+        savedMap = copy.savedMap;
+        savedList = copy.savedList;
 
 
     }
@@ -99,5 +110,20 @@ public class SavedState {
 
     public void setRecipeImageURLError(String recipeImageURLError){
         this.recipeImageURLError = recipeImageURLError;
+    }
+    public Map<String, String> getSavedMap() {
+        return savedMap;
+    }
+
+    public void setSavedMap(Map<String, String> savedMap) {
+        this.savedMap = savedMap;
+
+    }
+    public List<CommonRecipe> getSavedList() {
+        return savedList;
+    }
+
+    public void setSavedList(List<CommonRecipe> savedList) {
+        this.savedList = savedList;
     }
 }
