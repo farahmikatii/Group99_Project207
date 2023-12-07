@@ -19,7 +19,7 @@ public class UploadsInteractorTest {
     @Test
     void successTest() throws IOException {
         UserFactory userFactory = new CommonUserFactory();
-        UploadsDataAccessInterface uploadsDataAccessInterface = new FileUserDataAccessObject("test/user1.csv", userFactory);
+        UploadsDataAccessInterface uploadsDataAccessInterface = new FileUserDataAccessObject("/Users/farahmikati/IdeaProjects/new/Group99_Project207/test/user1.csv", userFactory);
 
         UploadsOutputBoundary uploadsOutputBoundary = new UploadsOutputBoundary() {
             @Override

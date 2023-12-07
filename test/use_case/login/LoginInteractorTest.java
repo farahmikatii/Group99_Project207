@@ -20,7 +20,7 @@ public class LoginInteractorTest {
     void successTest() throws IOException {
         LoginInputData inputData = new LoginInputData("Farah", "password");
         UserFactory userFactory = new CommonUserFactory();
-        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("test/user1.csv", userFactory);
+        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/duahussain/IdeaProjects/new2/Group99_Project207/test/user1.csv", userFactory);
 
         LoginOutputBoundary loginPresenter = new LoginOutputBoundary() {
             @Override
@@ -43,7 +43,7 @@ public class LoginInteractorTest {
     void failureAccountDoesNotExistTest() throws IOException {
         LoginInputData inputData = new LoginInputData("Farah", "password");
         UserFactory userFactory = new CommonUserFactory();
-        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("test/user2.csv", userFactory);
+        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/duahussain/IdeaProjects/new2/Group99_Project207/test/user1.csv", userFactory);
 
         LoginOutputBoundary failurePresenter = new LoginOutputBoundary() {
             @Override
@@ -66,7 +66,7 @@ public class LoginInteractorTest {
     void incorrectPasswordTest() throws IOException {
         LoginInputData inputData = new LoginInputData("Farah", "password1");
         UserFactory userFactory = new CommonUserFactory();
-        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("test/user1.csv", userFactory);
+        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/duahussain/IdeaProjects/new2/Group99_Project207/test/user1.csv", userFactory);
 
         LoginOutputBoundary loginOutputBoundary = new LoginOutputBoundary() {
             @Override
@@ -87,7 +87,7 @@ public class LoginInteractorTest {
     void setUsernameTest() throws IOException {
         LoginInputData inputData = new LoginInputData("Farah", "password1");
         UserFactory userFactory = new CommonUserFactory();
-        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("test/user1.csv", userFactory);
+        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("/Users/duahussain/IdeaProjects/new2/Group99_Project207/test/user1.csv", userFactory);
 
         LoginOutputBoundary loginOutputBoundary = new LoginOutputBoundary() {
             @Override

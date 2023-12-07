@@ -1,7 +1,5 @@
 package entity;
 
-import java.util.Arrays;
-
 public class CommonRecipe implements Recipe{
     private final String name;
     private final String imagePath;
@@ -21,7 +19,6 @@ public class CommonRecipe implements Recipe{
         this.ingredients = ingredients;
     }
     public String getIngredients() {
-//        return ingredients.replace("]", "").replace("[", "- ").replaceAll(", ", "\n- ");
         return ingredients;
     }
 

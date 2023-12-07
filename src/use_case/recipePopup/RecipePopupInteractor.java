@@ -1,6 +1,5 @@
 package use_case.recipePopup;
 
-import app.RecipePopupUseCaseFactory;
 import entity.CommonRecipe;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class RecipePopupInteractor implements RecipePopupInputBoundary{
     public void loadRecipeDisplay(RecipePopupInputData recipePopupInputData) {
         List<CommonRecipe> commonRecipeList = recipePopupDAO.returnRecipeList(1);
         CommonRecipe recipe = recipePopupDAO.findRecipe(recipePopupInputData.getRecipeLabel(), commonRecipeList);
-        RecipePopupOutputData recipePopupOutputData = new RecipePopupOutputData(recipe.getRecipeName(),recipe.getRecipeUrl());
+        RecipePopupOutputData recipePopupOutputData = new RecipePopupOutputData(recipe.getRecipeName(),recipe.getRecipeUrl(), recipe.getIngredients());
         recipePopupPresenter.prepareSuccessView(recipePopupOutputData);
 
     }
