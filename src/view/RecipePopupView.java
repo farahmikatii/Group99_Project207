@@ -63,11 +63,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
         this.savedViewModel.addPropertyChangeListener(this);
 
 
-        RecipePopupState currentPopupState = recipePopupViewModel.getState();
-        //System.out.println(currentPopupState.getRecipeLabel());
-
         recipeUrl = new JLabel();
-        //JLabel recipeName = new JLabel("hello");
 
         JPanel whole = new JPanel();
         whole.setLayout(new BorderLayout());
@@ -133,7 +129,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                             saved.setVisible(true);
                             savedList.add(recipe);
                             savedMap.put(username,recipe.getRecipeName());
-                            //BufferedWriter writer;
+
                             SavedState currentSavedState = savedViewModel.getState();
                             currentSavedState.setRecipe(recipe);
 
@@ -141,17 +137,10 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
                             currentSavedState.setUsername(username);
                             currentSavedState.setSavedMap(savedMap);
                             currentSavedState.setSavedList(savedList);
-                            //currentSavedState.setSavedList(savedList);
+
                             savedViewModel.setState(currentSavedState);
                             savedViewModel.firePropertyChanged();
-//                            currentPopupState.setImageUrl(recipe);
-//                            currentPopupState.setRecipeUrl(recipe);
-//                            currentPopupState.setComingFrom("loggedin");
 
-//                            saved.setPreferredSize(new Dimension(500, 100));
-//                            JLabel message = new JLabel("Recipe has already been saved.");
-//                            saved.add(message);
-//                            saved.setVisible(true);
 
                         }
                     }
@@ -223,7 +212,7 @@ public class RecipePopupView extends JPanel implements ActionListener, PropertyC
             image.setIcon(saveRecipeImage);
             recipeUrl.setText(state.getRecipeUrl());
 
-            //ingredients.setText(state.getIngredients());
+            ingredients.setText(state.getIngredients());
 
             this.recipe = state.getRecipe();
             this.username = state.getUsername();

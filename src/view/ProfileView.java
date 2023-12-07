@@ -173,11 +173,8 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-//        ProfileState profileState = (ProfileState) evt.getNewValue();
-//        setFields(profileState);
+
 
     }
-//
-//    private void setFields(ProfileState profileState){
-//    }
+
 }

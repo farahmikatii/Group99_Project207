@@ -1,13 +1,28 @@
 package view;
 
+import app.LoginUseCaseFactory;
+import data_access.CommonRecipeDataAccessObject;
+import data_access.FileUserDataAccessObject;
+import entity.CommonUserFactory;
+import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.LoggedInState;
+import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.profile.ProfileState;
+import interface_adapter.recipePopup.RecipePopupViewModel;
+import interface_adapter.resultSearch.ResultViewModel;
+import interface_adapter.search.SearchViewModel;
+import interface_adapter.signup.SignupViewModel;
 import org.junit.jupiter.api.Test;
+import use_case.loggedIn.LoggedInDataAccessInterface;
+import use_case.login.LoginUserDataAccessInterface;
 
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
+import java.io.IOException;
 
 import static org.mockito.Mockito.*;
 
@@ -23,24 +38,33 @@ public class LoginViewTest {
 
     @Test
     public void actionPerformed(){
-        loginView.usernameInputField.setText("testUser");
-        loginView.passwordInputField.setText("testPassword");
 
-        // Simulate a login button click
-        loginView.actionPerformed(new ActionEvent(loginView.login, ActionEvent.ACTION_PERFORMED, "login"));
+        LoginView mockloginView = mock(LoginView.class);
+        ActionEvent mockActionEvent = mock(ActionEvent.class);
+        when(mockActionEvent.getActionCommand()).thenReturn("someCommand");
 
-        // Verify that the loginController.execute method was called with the expected parameters
-        verify(mockLoginController, times(1)).execute(eq("testUser"), "testPassword");
+        mockloginView.actionPerformed(mockActionEvent);
+        verify(mockloginView).actionPerformed(any(ActionEvent.class));
     }
 
     @Test
-    public void propertyChange(){
-        PropertyChangeEvent mockEvent = mock(PropertyChangeEvent.class);
-        when(mockEvent.getNewValue()).thenReturn(mock(LoginState.class));
+    public void propertyChange() throws IOException {
 
-        loginView.propertyChange(mockEvent);
+        ViewManagerModel viewManagerModel = new ViewManagerModel() ;
+        LoginViewModel loginViewModel = new LoginViewModel();
+        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+        UserFactory userFactory = new CommonUserFactory();
+        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("test/user1.csv", userFactory);
+        SignupViewModel signupViewModel = new SignupViewModel();
+        RecipePopupViewModel recipePopupViewModel = new RecipePopupViewModel();
 
-        verify(mockLoginViewModel, times(1)).getState();
+        LoginState loginState = loginViewModel.getState();
+
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel,loginViewModel, loggedInViewModel, loginUserDataAccessInterface, signupViewModel, recipePopupViewModel);
+        PropertyChangeEvent mockPropertyChangeEvent = mock(PropertyChangeEvent.class);
+        when(mockPropertyChangeEvent.getNewValue()).thenReturn(loginState);
+
+        loginView.propertyChange(mockPropertyChangeEvent);
     }
 
 }

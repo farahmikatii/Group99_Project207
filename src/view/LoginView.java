@@ -172,15 +172,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         entire.add(whole, BorderLayout.CENTER);
         this.add(entire);
 
-
-
-
-//        this.add(title);
-//        this.add(usernameInfo);
-//        this.add(usernameErrorField);
-//        this.add(passwordInfo);
-//        this.add(passwordErrorField);
-//        this.add(buttons);
     }
 
     /**

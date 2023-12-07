@@ -296,14 +296,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(logOut)) {
-//                            SignupState currentSignupState = signupViewModel.getState();
-//                            signupViewModel.setState(currentSignupState);
-//                            signupViewModel.firePropertyChanged();
-//                            viewManagerModel.setActiveView(signupViewModel.getViewName());
-//                            viewManagerModel.firePropertyChanged();
-
                             System.exit(0);
-//                            LoggedInOutputBoundary.confirmation("You have been logged out.");
                         }
                     }
                 }
@@ -354,17 +347,13 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         searchButton.setLocation(0,0);
     }
     public void actionPerformed(ActionEvent evt) {
-        System.out.println("Click " + evt.getActionCommand());
+
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
-        Object newValue = evt.getNewValue();
-        if (newValue instanceof LoggedInState) {
-            LoggedInState newState = (LoggedInState) newValue;
-            System.out.println(newState.getUsername());
-        }
+
 
     }
 
