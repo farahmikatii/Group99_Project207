@@ -15,7 +15,7 @@ public class FileUserDataAccessObjectTest {
     @Test
     public void existsByName_shouldReturnTrueForExistingUser() {
         // Arrange
-        String csvFilePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv";
+        String csvFilePath = "/user.csv";
 
         FileUserDataAccessObject userDao;
         try {
@@ -33,7 +33,7 @@ public class FileUserDataAccessObjectTest {
     @Test
     public void save_shouldAddUserToAccountsList() {
         // Arrange
-        String csvFilePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv"; // Provide your test CSV file path
+        String csvFilePath = "/user.csv"; // Provide your test CSV file path
         FileUserDataAccessObject userDao;
         try {
             userDao = new FileUserDataAccessObject(csvFilePath, userFactory);
@@ -52,7 +52,7 @@ public class FileUserDataAccessObjectTest {
     @Test
     public void saveUploadedRecipe_shouldAddRecipeToUploadedRecipeMap() {
         // Arrange
-        String csvFilePath = "/Users/farahmikati/IdeaProjects/Group99_Project207/user.csv"; // Provide your test CSV file path
+        String csvFilePath = "/user.csv"; // Provide your test CSV file path
         FileUserDataAccessObject userDao;
         try {
             userDao = new FileUserDataAccessObject(csvFilePath, userFactory);
