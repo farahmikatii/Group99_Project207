@@ -32,7 +32,8 @@ class LoggedInOutputDataTest {
     @Test
     void setImageUrl() {
         CommonRecipe commonRecipe = new CommonRecipe("Test Recipe", "path/to/image", "www.example.com", "dough, cheese, tomato");
-        LoggedInOutputData outputData = new LoggedInOutputData("Test Recipe", "path/to/image", commonRecipe);
+        LoggedInOutputData outputData = new LoggedInOutputData(null, null, commonRecipe);
+        outputData.setImageUrl("path/to/image");
         assertEquals("path/to/image", outputData.getImageUrl());
     }
 }
