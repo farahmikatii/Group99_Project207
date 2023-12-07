@@ -347,17 +347,13 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         searchButton.setLocation(0,0);
     }
     public void actionPerformed(ActionEvent evt) {
-        System.out.println("Click " + evt.getActionCommand());
+
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
-        Object newValue = evt.getNewValue();
-        if (newValue instanceof LoggedInState) {
-            LoggedInState newState = (LoggedInState) newValue;
-            System.out.println(newState.getUsername());
-        }
+
 
     }
 
