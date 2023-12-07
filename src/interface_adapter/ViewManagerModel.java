@@ -7,7 +7,7 @@ public class ViewManagerModel {
 
     private String activeViewName;
 
-    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+    final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public String getActiveView() {
         return activeViewName;
