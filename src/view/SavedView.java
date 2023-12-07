@@ -44,6 +44,8 @@ public class SavedView extends JPanel implements ActionListener,PropertyChangeLi
     JButton recipeImage;
     private Map<String, String> savedMap = new HashMap<>();
     private List<CommonRecipe> savedList = new ArrayList<>();
+    JPanel recipes = new JPanel();
+    JScrollPane scroll = new JScrollPane(recipes);
 
     public SavedView(SavedViewModel savedViewModel, ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel, RecipePopupViewModel recipePopupViewModel) throws Exception {
         this.profileViewModel = profileViewModel;
@@ -128,6 +130,7 @@ public class SavedView extends JPanel implements ActionListener,PropertyChangeLi
             );
             recipes.add(recipeImage);
         }
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 
 
@@ -165,8 +168,9 @@ public class SavedView extends JPanel implements ActionListener,PropertyChangeLi
     public void propertyChange(PropertyChangeEvent evt) {
         Object newValue = evt.getNewValue();
         if (newValue  instanceof SavedState) {
-            JPanel recipes = new JPanel();
-            JScrollPane scroll = new JScrollPane(recipes);
+
+//            JPanel recipes = new JPanel();
+//            JScrollPane scroll = new JScrollPane(recipes);
             String jsonFile = "./response_output.json";
             try {
                 file = CommonRecipeDataAccessObject.readFileAsString(jsonFile);
