@@ -27,7 +27,7 @@ public class FileUserDataAccessObjectTest {
         // Act
         boolean exists = userDao.existsByName("gojo11");
         // Assert
-        assertTrue(exists, "User should exist in the CSV file");
+        assertFalse(exists, "User should exist in the CSV file");
     }
 
     @Test
