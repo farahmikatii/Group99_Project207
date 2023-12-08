@@ -43,7 +43,7 @@ public class LoginInteractorTest {
     void failureAccountDoesNotExistTest() throws IOException {
         LoginInputData inputData = new LoginInputData("Farah", "password");
         UserFactory userFactory = new CommonUserFactory();
-        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("test/user1.csv", userFactory);
+        LoginUserDataAccessInterface loginUserDataAccessInterface = new FileUserDataAccessObject("test/user2.csv", userFactory);
 
         LoginOutputBoundary failurePresenter = new LoginOutputBoundary() {
             @Override
